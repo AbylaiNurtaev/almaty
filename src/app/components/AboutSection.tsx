@@ -212,52 +212,6 @@ export function AboutSection() {
               </p>
             </div>
 
-            {/* Info chips */}
-            <div className="flex flex-wrap gap-3 mb-10">
-              {[
-                { l: "11–12 апреля", s: "Даты фестиваля" },
-                { l: "Алматы, КЗ",  s: "Место" },
-                { l: "Балуан Шолак", s: "Арена" },
-              ].map((x) => (
-                <div
-                  key={x.l}
-                  className="px-5 py-3.5"
-                  style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.025)" }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "'Barlow Condensed',sans-serif",
-                      fontWeight: 900,
-                      fontSize: "1rem",
-                      color: "white",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.04em",
-                    }}
-                  >
-                    {x.l}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Barlow',sans-serif",
-                      fontSize: "0.6rem",
-                      color: "rgba(255,255,255,0.24)",
-                      letterSpacing: "0.18em",
-                      marginTop: "3px",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {x.s}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <a href="#tickets" className="btn-primary">
-              <span>Получить бесплатный билет</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Instagram, Youtube, MessageCircle, ArrowUpRight, MapPin, Calendar, Users } from "lucide-react";
+import { Instagram, Youtube, MessageCircle, MapPin, Calendar, Users } from "lucide-react";
 
 const COLS = [
   { h: "Фестиваль",     links: [{ l: "О фестивале",       h: "#about" },  { l: "Активности",  h: "#activities" }, { l: "Программа",     h: "#program" },  { l: "Призы",      h: "#prizes" }] },
@@ -79,37 +79,25 @@ export function Footer() {
           ))}
         </div>
 
-        {/* CTA banner */}
-        <div className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-10 mb-10"
-          style={{ border: "1px solid rgba(0,212,245,0.1)", background: "rgba(0,212,245,0.03)" }}>
-          <div className="absolute top-0 left-0 right-0 h-px"
-            style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,245,0.35), transparent)" }} />
-          {["top-2 left-2","top-2 right-2","bottom-2 left-2","bottom-2 right-2"].map((pos) => (
-            <div key={pos} className={`absolute ${pos} w-1 h-1`} style={{ background: "rgba(0,212,245,0.38)" }} />
-          ))}
-          <div>
-            <div className="gh-title text-white" style={{ fontSize: "1.65rem", marginBottom: "5px" }}>Готовы испытать GAMEHUB?</div>
-            <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,0.3)" }}>11–12 апреля 2026 · Арена Балуан Шолак · Алматы, Казахстан</div>
-          </div>
-          <a href="#tickets" className="btn-primary shrink-0">
-            <span>Получить билет</span>
-            <ArrowUpRight size={14} />
-          </a>
-        </div>
-
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 pt-6"
           style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-          <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.14)" }}>
-            © 2026 Фестиваль GAMEHUB. Все права защищены. Алматы, Казахстан.
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+            <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.14)" }}>
+              © 2026 Фестиваль GAMEHUB. Все права защищены. Алматы, Казахстан.
+            </div>
+            <a href="/public-offer" className="text-sm transition-colors duration-200 hover:text-white"
+              style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.3)" }}>
+              Публичная оферта
+            </a>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             {SOCIALS.map(({ Icon, label, href }) => (
               <a key={label} href={href} aria-label={label}
-                className="group w-9 h-9 flex items-center justify-center relative overflow-hidden transition-all duration-200"
+                className="group w-14 h-14 flex items-center justify-center relative overflow-hidden transition-all duration-200"
                 style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
                 <div className="absolute inset-0 bg-[#00D4F5] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                <Icon size={14} style={{ color: "rgba(255,255,255,0.2)" }}
+                <Icon size={24} style={{ color: "rgba(255,255,255,0.2)" }}
                   className="relative z-10 group-hover:text-[#030308] transition-colors duration-200" />
               </a>
             ))}

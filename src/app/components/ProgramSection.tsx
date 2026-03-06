@@ -103,18 +103,12 @@ export function ProgramSection() {
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
         <div className="mb-14">
-          <div className="eyebrow">Полное расписание · 11–12 апреля</div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
-              Двухдневная<br />
-              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>
-                программа
-              </span>
-            </h2>
-            <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", color: "rgba(255,255,255,0.28)", lineHeight: 1.78, maxWidth: "320px", paddingBottom: "8px" }}>
-              16 мероприятий за 2 незабываемых дня на арене Балуан Шолак в Алматы.
-            </p>
-          </div>
+          <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
+            Двухдневная<br />
+            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>
+              программа
+            </span>
+          </h2>
         </div>
 
         <div className="grid md:grid-cols-2 gap-3 mb-5">

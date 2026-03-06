@@ -1,4 +1,4 @@
-import { Monitor, Cpu, Keyboard, Smartphone, Zap, ArrowRight } from "lucide-react";
+import { Monitor, Cpu, Keyboard, Smartphone, Zap } from "lucide-react";
 
 const IMG = "https://images.unsplash.com/photo-1514820720301-4c4790309f46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwdmljdG9yeSUyMGNlbGVicmF0aW9uJTIwY2hhbXBpb24lMjB0cm9waHklMjBhd2FyZCUyMHdpbiUyMHRlYW18ZW58MXx8fHwxNzcyODA1NDU5fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
@@ -67,7 +67,7 @@ export function PrizesSection() {
                 className="group relative overflow-hidden flex flex-col cursor-default transition-all duration-300"
                 style={{ background: "#09091A", minHeight: "260px", padding: "34px 28px" }}>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: `radial-gradient(ellipse at 50% 0%, ${p.color}14 0%, transparent 65%)` }} />
+                  style={{ background: `radial-gradient(ellipse at 100% 0%, ${p.color}14 0%, transparent 65%)` }} />
                 <div className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{ background: `linear-gradient(90deg, transparent, ${p.color}, transparent)` }} />
                 <div className="absolute top-0 left-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-300"
@@ -85,22 +85,6 @@ export function PrizesSection() {
               </div>
             );
           })}
-        </div>
-
-        {/* CTA */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-7 px-9 py-8"
-          style={{ border: "1px solid rgba(0,229,255,0.12)", background: "rgba(0,229,255,0.03)" }}>
-          <div className="flex items-center gap-6">
-            <div className="w-px h-14 shrink-0 opacity-35" style={{ background: "var(--c-cyan,#00E5FF)" }} />
-            <div>
-              <div className="gh-title text-white" style={{ fontSize: "1.7rem" }}>Выигрывайте призы просто посещая</div>
-              <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,0.26)", marginTop: "5px" }}>Владельцы бесплатных билетов участвуют во всех розыгрышах и призовых лотереях</div>
-            </div>
-          </div>
-          <a href="#tickets" className="btn-primary shrink-0">
-            <span>Получить бесплатный билет</span>
-            <ArrowRight size={14} />
-          </a>
         </div>
       </div>
     </section>

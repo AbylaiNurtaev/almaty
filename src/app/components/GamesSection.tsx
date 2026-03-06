@@ -29,34 +29,13 @@ export function GamesSection() {
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
-        {/* Header + switcher */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-14">
-          <div>
-            <div className="eyebrow">Турнирные игры</div>
-            <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
-              Игры<br />
-              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>фестиваля</span>
-            </h2>
-          </div>
-          {/* Tab switcher */}
-          <div className="flex self-start" style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}>
-            {GAMES.map((gm) => (
-              <button key={gm.id} onClick={() => setActive(gm.id)}
-                className="relative px-8 py-4 transition-all duration-280 overflow-hidden"
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "0.85rem", letterSpacing: "0.16em",
-                  background: active === gm.id ? gm.color : "transparent",
-                  color: active === gm.id ? "#040410" : "rgba(255,255,255,0.3)",
-                  textTransform: "uppercase",
-                }}>
-                {gm.short}
-                {active === gm.id && (
-                  <div className="absolute inset-0 opacity-20"
-                    style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0.5), transparent)" }} />
-                )}
-              </button>
-            ))}
-          </div>
+        {/* Header */}
+        <div className="mb-14">
+          <div className="eyebrow">Турнирные игры</div>
+          <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
+            Игры<br />
+            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>фестиваля</span>
+          </h2>
         </div>
 
         {/* Content */}

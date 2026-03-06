@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapPin, Calendar, Zap, Star, ArrowRight, ChevronDown } from "lucide-react";
+import { Zap, Star, ArrowRight } from "lucide-react";
 
 const BG = "https://images.unsplash.com/photo-1614609005636-648d357485c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwYXJlbmElMjBzcGVjdGFjdWxhciUyMGNvbmNlcnQlMjBsaWdodGluZyUyMG1hc3NpdmUlMjBjcm93ZCUyMHN0YWdlfGVufDF8fHx8MTc3MjgwNTQ1M3ww&ixlib=rb-4.1.0&q=80&w=1920";
 
@@ -210,7 +210,7 @@ export function HeroSection() {
 
             {/* ── COUNTDOWN ── */}
             <div className="mb-12 flex flex-col items-center">
-              <div className="eyebrow" style={{ marginBottom: "16px" }}>
+              <div className="eyebrow eyebrow-no-deco" style={{ marginBottom: "16px" }}>
                 <Zap size={9} />
                 Обратный отсчёт
               </div>
@@ -286,62 +286,6 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ════ BOTTOM INFO BAR ════ */}
-      <div
-        className="relative z-20"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          background: "rgba(5,5,8,0.82)",
-          backdropFilter: "blur(24px)",
-        }}
-      >
-        <div
-          style={{ maxWidth: "1380px", margin: "0 auto", padding: "14px var(--sec-px)", position: "relative" }}
-          className="flex flex-wrap items-center justify-center gap-8"
-        >
-            {[
-            { I: Calendar, t: "11–12 апреля 2026" },
-            { I: MapPin,   t: "Арена Балуан Шолак, Алматы" },
-          ].map(({ I, t }) => (
-            <div key={t} className="flex items-center gap-2">
-              <I size={11} style={{ color: "var(--c-cyan,#00E5FF)", opacity: 0.6 }} />
-              <span
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.64rem",
-                  letterSpacing: "0.22em",
-                  color: "rgba(255,255,255,0.28)",
-                  textTransform: "uppercase",
-                }}
-              >
-                {t}
-              </span>
-            </div>
-          ))}
-
-          {/* Right side — scroll indicator */}
-          <div className="hidden md:flex items-center gap-2" style={{ color: "rgba(255,255,255,0.15)" }}>
-            <ChevronDown size={13} className="animate-bounce" />
-            <span
-              style={{
-                fontFamily: "'Barlow Condensed',sans-serif",
-                fontSize: "0.52rem",
-                letterSpacing: "0.34em",
-                textTransform: "uppercase",
-              }}
-              className="animate-bounce"
-            >
-              Прокрутка
-            </span>
-          </div>
-        </div>
-
-        {/* Top neon hairline */}
-        <div
-          className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(0,229,255,0.22), transparent)" }}
-        />
-      </div>
     </section>
   );
 }

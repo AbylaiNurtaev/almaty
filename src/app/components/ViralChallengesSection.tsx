@@ -77,7 +77,7 @@ export function ViralChallengesSection() {
                 className="group relative overflow-hidden flex flex-col cursor-default transition-all duration-300"
                 style={{ background: "#050508", minHeight: "250px", padding: "36px 30px" }}>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: `radial-gradient(ellipse at 50% 0%, ${ch.color}12 0%, transparent 65%)` }} />
+                  style={{ background: `radial-gradient(ellipse at 100% 0%, ${ch.color}12 0%, transparent 65%)` }} />
                 <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{ background: `linear-gradient(90deg, ${ch.color}EE, ${ch.color}33, transparent)` }} />
                 <div className="absolute top-0 left-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-65 transition-opacity duration-300"

@@ -319,25 +319,6 @@ export function StreamersSection() {
             </div>
           </div>
         </div>
-
-        {/* CTA strip */}
-        <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-6 px-8 py-6"
-          style={{ border: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.014)" }}
-        >
-          <p
-            style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.92rem", color: "rgba(255,255,255,0.26)" }}
-          >
-            Встретьте всех 9+ стримеров лично на арене Балуан Шолак — 11–12 апреля 2026
-          </p>
-          <a
-            href="#tickets"
-            className="btn-primary shrink-0"
-            style={{ padding: "12px 26px", fontSize: "0.76rem" }}
-          >
-            <span>Получить билет</span>
-          </a>
-        </div>
       </div>
     </section>
   );

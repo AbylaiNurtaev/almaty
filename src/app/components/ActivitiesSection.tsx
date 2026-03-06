@@ -78,7 +78,7 @@ export function ActivitiesSection() {
                 {/* Hover glow */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: `radial-gradient(ellipse at 50% 0%, ${a.color}18 0%, transparent 70%)` }}
+                  style={{ background: `radial-gradient(ellipse at 100% 0%, ${a.color}18 0%, transparent 70%)` }}
                 />
                 {/* Top accent bar */}
                 <div
@@ -164,49 +164,6 @@ export function ActivitiesSection() {
               </div>
             );
           })}
-        </div>
-
-        {/* ── Summary strip ── */}
-        <div
-          className="mt-px grid grid-cols-3"
-          style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
-        >
-          {[
-            { v: "5", l: "Форматов развлечений" },
-            { v: "2", l: "Дня активности" },
-            { v: "9+", l: "Звёздных стримеров" },
-          ].map((s) => (
-            <div
-              key={s.l}
-              className="flex items-center gap-5 px-8 py-6"
-              style={{ background: "#050508" }}
-            >
-              <div
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontWeight: 900,
-                  fontSize: "2rem",
-                  lineHeight: 1,
-                  color: "var(--c-cyan,#00E5FF)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {s.v}
-              </div>
-              <div
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.68rem",
-                  letterSpacing: "0.18em",
-                  color: "rgba(255,255,255,0.2)",
-                  textTransform: "uppercase",
-                  lineHeight: 1.5,
-                }}
-              >
-                {s.l}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
