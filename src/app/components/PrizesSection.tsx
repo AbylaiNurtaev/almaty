@@ -89,9 +89,9 @@ export function PrizesSection() {
           </div>
         </div>
 
-        {/* Prize cards — узкий блок, справа пустое место */}
+        {/* Prize cards — 3 одинаковых блока */}
         <div
-          className={selectedTag ? "grid grid-cols-1 max-w-xs" : "grid sm:grid-cols-2 lg:grid-cols-3 max-w-3xl"}
+          className={selectedTag ? "grid grid-cols-1 max-w-xs" : "grid grid-cols-3 max-w-3xl"}
           style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
         >
           {filteredPrizes.map((p) => {
@@ -99,7 +99,7 @@ export function PrizesSection() {
             return (
               <div key={p.title}
                 className="group relative overflow-hidden flex flex-col justify-center items-start cursor-default transition-all duration-300"
-                style={{ background: "#09091A", minHeight: "88px", padding: "16px" }}>
+                style={{ background: "#09091A", height: "88px", padding: "16px" }}>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{ background: `radial-gradient(ellipse at 100% 0%, ${p.color}14 0%, transparent 65%)` }} />
                 <div className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"

@@ -62,26 +62,20 @@ export function ClubNetworksSection() {
         style={{ background: "radial-gradient(ellipse at left, rgba(0,229,255,0.05) 0%, transparent 65%)" }} />
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
+        {/* Заголовок секции — как в остальных секциях */}
+        <div className="mb-14">
+          <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
+            Приглашенные<br />
+            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>франшизы</span>
+          </h2>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-20 xl:gap-32 items-center">
+          <div className="order-1 lg:order-1" />
 
-          {/* Image */}
-          <div className="relative order-2 lg:order-1">
-
-
-            {/* Stat badge */}
-            
-          </div>
-
-          {/* Content */}
-          <div className="order-1 lg:order-2">
-            <h2 className="gh-title text-white mb-6" style={{ fontSize: "var(--h2-sec)" }}>
-              Приглашенные<br />
-              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>франшизы</span>
-            </h2>
-            
-
-            {/* Clubs list */}
-            <div style={{ gap: "1px", display: "flex", flexDirection: "column", background: "rgba(255,255,255,0.06)" }}>
+          {/* Справа: список кнопок (узкий) */}
+          <div className="order-2 lg:order-2 flex justify-end lg:justify-end">
+            <div className="w-full max-w-[260px]" style={{ gap: "1px", display: "flex", flexDirection: "column", background: "rgba(255,255,255,0.06)" }}>
               {CLUBS.map((c, i) => {
                 const isSelected = selectedIndex === i;
                 return (
@@ -103,11 +97,6 @@ export function ClubNetworksSection() {
                     <span className="gh-mono text-white flex-1 group-hover:text-white/80 transition-colors duration-200" style={{ fontSize: "1.08rem" }}>
                       {c.name}
                     </span>
-                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.6rem", letterSpacing: "0.16em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase" }}>{c.region}</span>
-                    <div className="shrink-0 px-3 py-1.5"
-                      style={{ border: "1px solid rgba(0,229,255,0.16)", background: "rgba(0,229,255,0.05)" }}>
-                      <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 800, fontSize: "0.85rem", color: "var(--c-cyan,#00E5FF)", letterSpacing: "0.04em" }}>{c.locs}</span>
-                    </div>
                   </button>
                 );
               })}
