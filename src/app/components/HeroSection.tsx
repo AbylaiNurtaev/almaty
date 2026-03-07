@@ -106,7 +106,7 @@ export function HeroSection() {
       <div className="relative z-20 pt-[76px]" style={{ padding: "76px var(--sec-px) 0" }}>
         <div
           style={{ maxWidth: "1380px", margin: "0 auto" }}
-          className="flex flex-wrap items-center justify-between gap-4 pt-8"
+          className="flex flex-wrap items-center justify-center gap-4 pt-8"
         >
           {/* Live badge */}
           <div
@@ -180,7 +180,7 @@ export function HeroSection() {
               style={{
                 fontFamily: "'Barlow',sans-serif",
                 fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
-                color: "rgba(255,255,255,0.44)",
+                color: "white",
                 lineHeight: 1.75,
                 maxWidth: "740px",
                 marginBottom: "48px",
@@ -195,8 +195,16 @@ export function HeroSection() {
 
             {/* ── COUNTDOWN ── */}
             <div className="mb-12 flex flex-col items-center">
-              <div className="eyebrow eyebrow-no-deco" style={{ marginBottom: "16px" }}>
-                <Zap size={9} />
+              <div
+                className="eyebrow eyebrow-no-deco"
+                style={{
+                  marginBottom: "16px",
+                  color: "var(--c-cyan,#00E5FF)",
+                  fontWeight: 700,
+                  fontSize: "clamp(0.75rem, 1.2vw, 0.9rem)",
+                }}
+              >
+                <Zap size={10} />
                 Обратный отсчёт
               </div>
               <div className="flex items-start justify-center gap-2">

@@ -53,7 +53,7 @@ function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
               <span style={{
                 fontFamily:    "'Barlow Condensed', sans-serif",
                 fontWeight:    700,
-                fontSize:      "0.6rem",
+                fontSize:      "clamp(0.8rem, 1.2vw, 1rem)",
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
                 color:         `${accent}65`,

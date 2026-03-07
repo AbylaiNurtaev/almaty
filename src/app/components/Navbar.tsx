@@ -53,7 +53,7 @@ export function Navbar() {
           {LINKS.map((l) => (
             <a key={l.label} href={l.href}
               style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "0.68rem", letterSpacing: "0.2em" }}
-              className="relative uppercase text-white/35 hover:text-white transition-colors duration-200 group py-1">
+              className="relative uppercase text-white hover:text-white/90 transition-colors duration-200 group py-1">
               {l.label}
               <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--c-cyan,#00D4F5)] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-280" />
             </a>
@@ -67,7 +67,7 @@ export function Navbar() {
             <span>Получить билет</span>
           </a>
           <button onClick={() => setOpen(!open)} aria-label="Меню"
-            className="lg:hidden w-9 h-9 flex items-center justify-center text-white/50 hover:text-white transition-colors"
+            className="lg:hidden w-9 h-9 flex items-center justify-center text-white hover:text-white/90 transition-colors"
             style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
             {open ? <X size={16} /> : <Menu size={16} />}
           </button>
@@ -79,7 +79,7 @@ export function Navbar() {
         <div className="lg:hidden border-t" style={{ background: "rgba(7,7,14,0.99)", borderColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(32px)" }}>
           {LINKS.map((l) => (
             <a key={l.label} href={l.href} onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-6 py-3.5 border-b text-white/40 hover:text-white transition-colors"
+              className="flex items-center gap-3 px-6 py-3.5 border-b text-white hover:text-white/90 transition-colors"
               style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "0.18em", borderColor: "rgba(255,255,255,0.04)" }}>
               <span className="w-2 h-px bg-[var(--c-cyan,#00D4F5)] opacity-50" />
               <span className="uppercase">{l.label}</span>
