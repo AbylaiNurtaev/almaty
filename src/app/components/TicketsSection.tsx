@@ -259,6 +259,16 @@ export function TicketsSection() {
               tabIndex={0}
               onKeyDown={(e) => e.key === "Enter" && openBenefitModal("general")}
             >
+              {/* Бегущая строка в блоке Генеральный спонсор */}
+              <div className="ticker-wrap-ltr py-2 mb-6 overflow-hidden" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                <div className="ticker-track-ltr" style={{ gap: "1.5rem" }}>
+                  {[...Array(4)].flatMap((_, i) =>
+                    ["Генеральный спонсор", "Партнёрство GAMEHUB 2026", "Главный партнёр фестиваля"].map((l, j) => (
+                      <span key={`${i}-${j}`} className="shrink-0" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.65rem", letterSpacing: "0.28em", color: "rgba(255,255,255,0.5)" }}>{l} ·</span>
+                    ))
+                  )}
+                </div>
+              </div>
               <div className="eyebrow">Партнёрство</div>
               <h3 className="gh-title text-white mb-6 group-hover:text-[var(--c-cyan,#00E5FF)] transition-colors duration-200" style={{ fontSize: "clamp(2rem,4.5vw,3.5rem)" }}>
                 Генеральный спонсор<br />
@@ -276,7 +286,7 @@ export function TicketsSection() {
             </div>
 
             <div className="p-12 md:p-14">
-              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.52rem", letterSpacing: "0.32em", color: "rgba(255,255,255,0.16)", textTransform: "uppercase", marginBottom: "20px" }}>Преимущества для спонсоров</div>
+              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.52rem", letterSpacing: "0.32em", color: "rgba(255,255,255,1)", textTransform: "uppercase", marginBottom: "20px" }}>Преимущества для спонсоров</div>
               <div className="grid grid-cols-2 gap-2.5 mb-8">
                 {SPONSOR_BENEFITS.map((b) => (
                   <button
@@ -287,7 +297,7 @@ export function TicketsSection() {
                     style={{ background: "rgba(0,229,255,0.02)" }}
                   >
                     <div className="w-1 h-1 rounded-full mt-2.5 shrink-0" style={{ background: "var(--c-cyan,#00E5FF)", boxShadow: "0 0 6px rgba(0,229,255,0.6)" }} />
-                    <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.84rem", color: "rgba(255,255,255,0.36)", lineHeight: 1.5 }}>{b.title}</span>
+                    <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.84rem", color: "rgba(255,255,255,1)", lineHeight: 1.5 }}>{b.title}</span>
                   </button>
                 ))}
               </div>
