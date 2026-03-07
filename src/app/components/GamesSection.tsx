@@ -137,7 +137,7 @@ export function GamesSection() {
 
           {/* Main panel */}
           <div className="lg:col-span-7 relative overflow-hidden"
-            style={{ border: `1px solid ${g.color}38`, clipPath: "polygon(0 0,100% 0,100% 94%,97% 100%,0 100%)", minHeight: "480px" }}>
+            style={{ border: `1px solid ${g.color}38`, minHeight: "480px" }}>
             {isCs2 ? (
               <div className="absolute inset-0 overflow-hidden">
                 <div
@@ -256,7 +256,7 @@ export function GamesSection() {
 
                   <div className="relative z-10 flex items-center gap-5 p-6">
                     <div className="w-11 h-11 flex items-center justify-center shrink-0"
-                      style={{ background: isA ? `${gm.color}1E` : "rgba(255,255,255,0.04)", border: `1px solid ${isA ? gm.color + "42" : "rgba(255,255,255,0.07)"}`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)", transition: "all .32s ease" }}>
+                      style={{ background: isA ? `${gm.color}1E` : "rgba(255,255,255,0.04)", border: `1px solid ${isA ? gm.color + "42" : "rgba(255,255,255,0.07)"}`, transition: "all .32s ease" }}>
                       <GI size={16} style={{ color: isA ? gm.color : "rgba(255,255,255,0.2)", transition: "color .32s ease" }} />
                     </div>
                     <div>
@@ -269,7 +269,7 @@ export function GamesSection() {
             })}
 
             <a href="#tickets" className="btn-outline w-full justify-center mt-3"
-              style={{ borderColor: `${g.color}55`, color: g.color, fontSize: "0.76rem" }}>
+              style={{ borderColor: `${g.color}55`, color: g.color, fontSize: "0.76rem", clipPath: "none" }}>
               <Trophy size={13} />
               <span>Зарегистрироваться на турнир</span>
               <ChevronRight size={13} />
