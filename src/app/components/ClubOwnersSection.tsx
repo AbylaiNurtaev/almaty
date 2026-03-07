@@ -63,30 +63,34 @@ export function ClubOwnersSection() {
                 const isAction = "isAction" in b && b.isAction;
                 const cardContent = (
                   <>
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-300"
-                      style={{ background: b.color }} />
+                    <div
+                      className={isAction ? "absolute left-0 top-0 bottom-0 w-[3px] opacity-100" : "absolute left-0 top-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-300"}
+                      style={{ background: b.color }}
+                    />
                     <div className="flex items-center justify-center shrink-0 transition-all duration-350 group-hover:scale-110"
-                      style={{ width: "52px", height: "52px", background: `${b.color}12`, border: `1px solid ${b.color}32`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
-                      <Icon size={20} style={{ color: b.color }} />
+                      style={{ width: isAction ? "56px" : "52px", height: isAction ? "56px" : "52px", background: `${b.color}${isAction ? "18" : "12"}`, border: `1px solid ${b.color}${isAction ? "48" : "32"}`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
+                      <Icon size={isAction ? 22 : 20} style={{ color: b.color }} />
                     </div>
                     <div className="relative z-10 flex-1 flex items-center justify-between gap-4">
                       <div>
-                        <h3 className="gh-title text-white mb-3" style={{ fontSize: "1.35rem" }}>{b.title}</h3>
+                        <h3 className="gh-title text-white mb-3" style={{ fontSize: isAction ? "1.5rem" : "1.35rem" }}>{b.title}</h3>
                         <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.36)", lineHeight: 1.72 }}>{b.desc}</p>
                       </div>
-                      {isAction && <ArrowRight size={20} style={{ color: b.color }} className="shrink-0" />}
+                      {isAction && <ArrowRight size={22} style={{ color: b.color }} className="shrink-0" />}
                     </div>
                   </>
                 );
-                const cardClass = "group relative flex items-start gap-7 p-10 md:p-12 hover:bg-white/[0.015] transition-all duration-200";
-                const cardStyle = { borderTop: i > 0 ? "1px solid rgba(255,255,255,0.05)" : "none" };
+                const cardClass = "group relative flex items-start gap-7 p-10 md:p-12 transition-all duration-200 " + (isAction ? "hover:bg-[rgba(0,229,255,0.06)]" : "hover:bg-white/[0.015]");
+                const cardStyle = isAction
+                  ? { borderTop: "1px solid rgba(255,255,255,0.05)", borderLeft: "1px solid rgba(0,229,255,0.25)", borderRight: "1px solid rgba(0,229,255,0.25)", borderBottom: "1px solid rgba(0,229,255,0.25)", background: "rgba(0,229,255,0.04)", margin: "12px", boxShadow: "0 0 24px rgba(0,229,255,0.06)" }
+                  : { borderTop: i > 0 ? "1px solid rgba(255,255,255,0.05)" : "none" };
                 return isAction ? (
                   <button
                     key={b.title}
                     type="button"
                     onClick={() => setClubModalOpen(true)}
                     className={cardClass}
-                    style={{ ...cardStyle, width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer" }}
+                    style={{ ...cardStyle, width: "100%", textAlign: "left", cursor: "pointer" }}
                   >
                     {cardContent}
                   </button>
