@@ -42,18 +42,6 @@ export function ActivitiesSection() {
               <span style={{ color: "var(--c-cyan,#00E5FF)" }}>активности</span>
             </h2>
           </div>
-          <p
-            style={{
-              fontFamily: "'Barlow',sans-serif",
-              fontSize: "1rem",
-              color: "rgba(255,255,255,0.32)",
-              lineHeight: 1.78,
-              maxWidth: "360px",
-              paddingBottom: "8px",
-            }}
-          >
-            Пять мировых форматов развлечений в два незабываемых дня на арене Балуан Шолак в Алматы.
-          </p>
         </div>
 
         {/* ── Центр: контент выбранной активности (зона под фото/фон) ── */}
@@ -72,17 +60,6 @@ export function ActivitiesSection() {
                 style={{ background: `${active.color}22`, border: `1px solid ${active.color}44`, color: active.color }}
               >
                 {active.tag}
-              </span>
-              <span
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.28em",
-                  color: `${active.color}99`,
-                  textTransform: "uppercase",
-                }}
-              >
-                {active.n}
               </span>
             </div>
             <div className="flex items-center gap-5 mb-6">
@@ -175,17 +152,6 @@ export function ActivitiesSection() {
                     }}
                   >
                     {a.tag}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "'Barlow Condensed',sans-serif",
-                      fontSize: "0.5rem",
-                      letterSpacing: "0.28em",
-                      color: isActive ? `${a.color}cc` : "rgba(255,255,255,0.2)",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {a.n}
                   </span>
                 </div>
 
