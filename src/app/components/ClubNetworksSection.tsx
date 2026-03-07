@@ -26,29 +26,33 @@ const CLUBS = [
 ];
 
 export function ClubNetworksSection() {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(0); // COLIZEUM по умолчанию
 
   const bgImage = selectedIndex !== null && CLUB_IMAGES[CLUBS[selectedIndex].name]
     ? CLUB_IMAGES[CLUBS[selectedIndex].name]
     : IMG;
 
+  const isClubPhoto = selectedIndex !== null && CLUB_IMAGES[CLUBS[selectedIndex].name];
+
   return (
     <section id="networks" className="relative overflow-hidden"
       style={{ padding: "var(--sec-py) var(--sec-px)" }}>
 
-      {/* Full-bleed background: image + dark overlay, smooth transition */}
+      {/* Full-bleed background: image + dark overlay, smooth transition; club photos in original */}
       <div key={bgImage} className="absolute inset-0 club-bg-fade-in">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url(${bgImage})`,
-            filter: "brightness(0.35) saturate(0.9) contrast(1.05)",
+            filter: isClubPhoto ? "none" : "brightness(0.35) saturate(0.9) contrast(1.05)",
           }}
         />
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(180deg, rgba(9,9,26,0.82) 0%, rgba(9,9,26,0.72) 50%, rgba(9,9,26,0.88) 100%)",
+            background: isClubPhoto
+              ? "linear-gradient(180deg, rgba(9,9,26,0.35) 0%, rgba(9,9,26,0.25) 50%, rgba(9,9,26,0.5) 100%)"
+              : "linear-gradient(180deg, rgba(9,9,26,0.82) 0%, rgba(9,9,26,0.72) 50%, rgba(9,9,26,0.88) 100%)",
           }}
         />
       </div>
@@ -63,40 +67,19 @@ export function ClubNetworksSection() {
 
           {/* Image */}
           <div className="relative order-2 lg:order-1">
-            <div className="absolute pointer-events-none z-20" style={{ top: "-18px", right: "-18px", width: "42px", height: "42px" }}>
-              <div className="absolute top-0 right-0 w-full h-px" style={{ background: "var(--c-cyan,#00E5FF)" }} />
-              <div className="absolute top-0 right-0 h-full w-px" style={{ background: "var(--c-cyan,#00E5FF)" }} />
-            </div>
-            <div className="absolute pointer-events-none z-20" style={{ bottom: "-18px", left: "-18px", width: "42px", height: "42px" }}>
-              <div className="absolute bottom-0 left-0 w-full h-px" style={{ background: "var(--c-cyan,#00E5FF)" }} />
-              <div className="absolute bottom-0 left-0 h-full w-px" style={{ background: "var(--c-cyan,#00E5FF)" }} />
-            </div>
 
-            <div className="clip-tl relative overflow-hidden" style={{ height: "clamp(360px,50vh,540px)" }}>
-              <img src={IMG} alt="Компьютерный игровой клуб" className="w-full h-full object-cover"
-                style={{ filter: "brightness(0.48) saturate(0.75)" }} />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(9,9,26,0.9) 0%, transparent 60%)" }} />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to left, rgba(9,9,26,0.45) 0%, transparent 60%)" }} />
-            </div>
 
             {/* Stat badge */}
-            <div className="absolute bottom-6 right-6 z-10 p-5"
-              style={{ background: "rgba(5,5,8,0.95)", border: "1px solid rgba(0,229,255,0.2)", backdropFilter: "blur(20px)" }}>
-              <div className="gh-title text-white" style={{ fontSize: "3rem", letterSpacing: "-0.03em" }}>145+</div>
-              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.58rem", letterSpacing: "0.24em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", marginTop: "5px" }}>Локаций клубов</div>
-            </div>
+            
           </div>
 
           {/* Content */}
           <div className="order-1 lg:order-2">
-            <div className="eyebrow">Лидеры индустрии</div>
             <h2 className="gh-title text-white mb-6" style={{ fontSize: "var(--h2-sec)" }}>
-              Сети компьютерных<br />
-              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>клубов</span>
+              Приглашенные<br />
+              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>франшизы</span>
             </h2>
-            <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", color: "rgba(255,255,255,0.36)", lineHeight: 1.78, marginBottom: "36px" }}>
-              Лучшие франшизные сети компьютерных клубов Казахстана в одном месте. Общайтесь, партнёрствуйте и развивайте бизнес на GAMEHUB.
-            </p>
+            
 
             {/* Clubs list */}
             <div style={{ gap: "1px", display: "flex", flexDirection: "column", background: "rgba(255,255,255,0.06)" }}>

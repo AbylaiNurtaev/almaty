@@ -1,26 +1,11 @@
 import { Trophy, Swords, Gamepad2, Cake, MicVocal } from "lucide-react";
 
 const ACTS = [
-  {
-    n: "01", icon: Trophy,   title: "Турниры",        tag: "Соревнования",  color: "#00E5FF",
-    desc: "Соревнования по CS2, PUBG и Dota 2. Лучшие игроки сражаются за славу и чемпионские титулы два незабываемых дня.",
-  },
-  {
-    n: "02", icon: Swords,   title: "Шоу-матчи",       tag: "Развлечения",color: "#7C3AED",
-    desc: "Эпичные шоу-матчи с участием лучших стримеров Казахстана на главной сцене перед тысячами зрителей.",
-  },
-  {
-    n: "03", icon: Gamepad2, title: "Игровые конкурсы",    tag: "Интерактив",  color: "#F0B429",
-    desc: "Открытые конкурсы для всех посетителей. Покажите свои навыки, соревнуйтесь в реальном времени и выигрывайте призы на месте.",
-  },
-  {
-    n: "04", icon: Cake,     title: "Вирусные челленджи",   tag: "Главный хедлайнер", color: "#F03558",
-    desc: "Легендарный Cake Challenge и другие вирусные моменты на сцене. Любой из толпы может выйти.",
-  },
-  {
-    n: "05", icon: MicVocal, title: "Автограф-сессии", tag: "Эксклюзив",    color: "#00D97E",
-    desc: "Встречайтесь с любимыми стримерами на автограф- и фотосессиях — ограниченное количество мест.",
-  },
+  { n: "01", icon: Trophy,   title: "Турниры",               tag: "Соревнования",  color: "#00E5FF" },
+  { n: "02", icon: Swords,   title: "Шоу-матчи",             tag: "Развлечения",  color: "#7C3AED" },
+  { n: "03", icon: Gamepad2, title: "Игровые конкурсы",      tag: "Интерактив",   color: "#F0B429" },
+  { n: "04", icon: Cake,     title: "Вирусные челленджи",    tag: "Главный хедлайнер", color: "#F03558" },
+  { n: "05", icon: MicVocal, title: "Автограф-сессии",       tag: "Эксклюзив",    color: "#00D97E" },
 ];
 
 export function ActivitiesSection() {
@@ -73,7 +58,7 @@ export function ActivitiesSection() {
               <div
                 key={a.title}
                 className="group relative overflow-hidden flex flex-col cursor-default transition-all duration-350"
-                style={{ background: "#050508", minHeight: "320px", padding: "32px 24px" }}
+                style={{ background: "#050508", minHeight: "180px", padding: "28px 24px" }}
               >
                 {/* Hover glow */}
                 <div
@@ -105,62 +90,47 @@ export function ActivitiesSection() {
                   {a.n}
                 </div>
 
-                {/* Tag */}
-                <span
-                  className="tag-angled mb-7 w-fit"
-                  style={{ background: `${a.color}12`, border: `1px solid ${a.color}28`, color: a.color }}
-                >
-                  {a.tag}
-                </span>
-
-                {/* Icon */}
-                <div
-                  className="w-14 h-14 flex items-center justify-center mb-6 transition-all duration-350 group-hover:scale-110"
-                  style={{
-                    background: `${a.color}10`,
-                    border: `1px solid ${a.color}28`,
-                    clipPath: "polygon(12% 0,100% 0,88% 100%,0 100%)",
-                    boxShadow: `0 0 0 0 ${a.color}`,
-                    transition: "all 0.35s ease",
-                  }}
-                >
-                  <Icon size={20} style={{ color: a.color }} />
+                {/* Категория + нумерация в один ряд */}
+                <div className="flex items-center gap-3 mb-5 relative z-10">
+                  <span
+                    className="tag-angled w-fit"
+                    style={{ background: `${a.color}12`, border: `1px solid ${a.color}28`, color: a.color }}
+                  >
+                    {a.tag}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Barlow Condensed',sans-serif",
+                      fontSize: "0.54rem",
+                      letterSpacing: "0.28em",
+                      color: `${a.color}50`,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {a.n}
+                  </span>
                 </div>
 
-                {/* Number label */}
-                <div
-                  style={{
-                    fontFamily: "'Barlow Condensed',sans-serif",
-                    fontSize: "0.54rem",
-                    letterSpacing: "0.28em",
-                    color: `${a.color}50`,
-                    textTransform: "uppercase",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {a.n}
+                {/* Title + Icon в один ряд */}
+                <div className="flex items-center gap-4 relative z-10">
+                  <div
+                    className="w-14 h-14 flex-shrink-0 flex items-center justify-center transition-all duration-350 group-hover:scale-110"
+                    style={{
+                      background: `${a.color}10`,
+                      border: `1px solid ${a.color}28`,
+                      clipPath: "polygon(12% 0,100% 0,88% 100%,0 100%)",
+                      transition: "all 0.35s ease",
+                    }}
+                  >
+                    <Icon size={20} style={{ color: a.color }} />
+                  </div>
+                  <h3
+                    className="gh-title text-white"
+                    style={{ fontSize: "1.75rem" }}
+                  >
+                    {a.title}
+                  </h3>
                 </div>
-
-                {/* Title */}
-                <h3
-                  className="gh-title text-white relative z-10"
-                  style={{ fontSize: "1.75rem", marginBottom: "14px" }}
-                >
-                  {a.title}
-                </h3>
-
-                {/* Description */}
-                <p
-                  className="relative z-10 flex-1"
-                  style={{
-                    fontFamily: "'Barlow',sans-serif",
-                    fontSize: "0.88rem",
-                    color: "rgba(255,255,255,0.32)",
-                    lineHeight: 1.75,
-                  }}
-                >
-                  {a.desc}
-                </p>
               </div>
             );
           })}

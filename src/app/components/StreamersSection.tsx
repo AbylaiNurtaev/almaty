@@ -21,10 +21,71 @@ const STREAMERS = [
 
 const PLAT_COLOR: Record<string, string> = { Twitch: "#9147FF", YouTube: "#FF0000" };
 
+const LEFT_INDICES = [0, 1, 2, 3, 4, 5];   // 6 стримеров слева (3×2)
+const RIGHT_INDICES = [6, 7, 8];            // 3 стримера справа + ячейка «ещё»
+
 export function StreamersSection() {
-  const [hov, setHov] = useState<string | null>(null);
-  const feat = STREAMERS[0];
-  const rest = STREAMERS.slice(1);
+  const [selectedId, setSelectedId] = useState(0);
+  const selected = STREAMERS[selectedId];
+
+  const renderStreamerCard = (s: typeof STREAMERS[0], index: number, isSelected: boolean) => (
+    <button
+      type="button"
+      key={s.name}
+      className="streamer-card w-full text-left"
+      style={{
+        border: isSelected ? `1px solid ${s.color}55` : "1px solid rgba(255,255,255,0.06)",
+        minHeight: "200px",
+      }}
+      onClick={() => setSelectedId(index)}
+    >
+      <img
+        src={PORTRAITS[s.img]}
+        alt={s.name}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{
+          filter: isSelected ? "brightness(0.4) saturate(0.7)" : "brightness(0.2) saturate(0.35)",
+          transition: "filter 0.35s ease",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(to top, rgba(5,5,8,0.98) 0%, rgba(5,5,8,0.25) 55%, transparent 100%)" }}
+      />
+      {isSelected && (
+        <div
+          className="absolute inset-0"
+          style={{ background: `linear-gradient(to top, ${s.color}18 0%, transparent 60%)` }}
+        />
+      )}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px transition-opacity duration-300"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${s.color}, transparent)`,
+          opacity: isSelected ? 1 : 0,
+        }}
+      />
+      <div
+        className="absolute top-0 left-0 bottom-0 w-[2px] transition-opacity duration-300"
+        style={{ background: s.color, opacity: isSelected ? 0.9 : 0 }}
+      />
+      <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+        <div
+          style={{
+            fontFamily: "'Barlow Condensed',sans-serif",
+            fontSize: "0.55rem",
+            letterSpacing: "0.26em",
+            color: isSelected ? s.color : "rgba(255,255,255,0.25)",
+            textTransform: "uppercase",
+            marginBottom: "6px",
+          }}
+        >
+          {s.role}
+        </div>
+        <div className="gh-mono text-white" style={{ fontSize: "1.1rem" }}>{s.name}</div>
+      </div>
+    </button>
+  );
 
   return (
     <section
@@ -88,235 +149,157 @@ export function StreamersSection() {
           </div>
         </div>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-12 gap-3 mb-3">
+        {/* Layout на всю ширину: слева стримеры | центр видеобращение | справа стримеры */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-6 items-stretch">
+          {/* Слева — стримеры (3×2) */}
+          <div className="grid grid-cols-2 grid-rows-3 gap-3 order-1 min-w-0">
+            {LEFT_INDICES.map((i) => renderStreamerCard(STREAMERS[i], i, selectedId === i))}
+          </div>
 
-          {/* Featured large card */}
-          <div
-            className="md:col-span-4 streamer-card"
-            style={{
-              minHeight: "520px",
-              clipPath: "polygon(0 0,100% 0,100% 94%,95% 100%,0 100%)",
-              border: `1px solid ${feat.color}22`,
-            }}
-          >
+          {/* По центру — видеобращение (9:16), увеличенный блок */}
+          <div className="flex justify-center order-2 min-h-[360px] min-w-0">
+            <div
+              className="streamer-card w-full max-w-[320px] lg:max-w-[380px] flex flex-col justify-end"
+              style={{
+                aspectRatio: "9/16",
+                clipPath: "polygon(0 0,100% 0,100% 96%,96% 100%,0 100%)",
+                border: `1px solid ${selected.color}22`,
+              }}
+            >
             <img
-              src={PORTRAITS[feat.img]}
-              alt={feat.name}
+              src={PORTRAITS[selected.img]}
+              alt={selected.name}
               className="absolute inset-0 w-full h-full object-cover object-top"
-              style={{ filter: "brightness(0.38) saturate(0.75)" }}
+              style={{ filter: "brightness(0.35) saturate(0.7)" }}
             />
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(to top, rgba(5,5,8,0.99) 0%, rgba(5,5,8,0.42) 45%, ${feat.color}0A 100%)`,
+                background: `linear-gradient(to top, rgba(5,5,8,0.98) 0%, rgba(5,5,8,0.4) 50%, ${selected.color}0A 100%)`,
               }}
             />
-            {/* Left color bar */}
             <div
               className="absolute top-0 left-0 bottom-0 w-[3px]"
-              style={{ background: `linear-gradient(to bottom, ${feat.color}, ${feat.color}33)` }}
+              style={{ background: `linear-gradient(to bottom, ${selected.color}, ${selected.color}33)` }}
             />
-            {/* Top line */}
             <div
               className="absolute top-0 left-0 right-0 h-px"
-              style={{ background: `linear-gradient(90deg, ${feat.color}, transparent 60%)` }}
+              style={{ background: `linear-gradient(90deg, ${selected.color}, transparent 60%)` }}
             />
-
-            {/* Featured badge */}
+            {/* Плейсхолдер «видеобращение» */}
             <div
-              className="absolute top-5 right-5 flex items-center gap-2 px-3.5 py-2"
-              style={{
-                background: "rgba(5,5,8,0.9)",
-                border: `1px solid ${feat.color}40`,
-                backdropFilter: "blur(16px)",
-              }}
+              className="absolute inset-0 flex items-center justify-center z-10"
+              style={{ background: "rgba(0,0,0,0.25)" }}
             >
-              <span
-                className="dot-live rounded-full shrink-0"
-                style={{ width: "6px", height: "6px", background: feat.color, display: "inline-block" }}
-              />
-              <span
+              <div
+                className="flex flex-col items-center justify-center gap-3 px-6 py-4 rounded-lg"
                 style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.52rem",
-                  letterSpacing: "0.28em",
-                  color: feat.color,
-                  textTransform: "uppercase",
+                  background: "rgba(5,5,8,0.85)",
+                  border: `1px solid ${selected.color}40`,
+                  backdropFilter: "blur(12px)",
                 }}
               >
-                Избранный
-              </span>
-            </div>
-
-            {/* Content */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
-              <span
-                className="tag-angled mb-5 inline-block"
-                style={{ background: feat.color, color: "#040410", fontSize: "0.5rem", letterSpacing: "0.3em" }}
-              >
-                {feat.role}
-              </span>
-              <div
-                className="gh-title text-white mb-4"
-                style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
-              >
-                {feat.name}
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center"
+                  style={{ background: `${selected.color}22`, border: `2px solid ${selected.color}` }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ color: selected.color, marginLeft: "4px" }}>
+                    <path d="M8 5v14l11-7L8 5z" fill="currentColor" />
+                  </svg>
+                </div>
+                <span
+                  style={{
+                    fontFamily: "'Barlow Condensed',sans-serif",
+                    fontSize: "0.6rem",
+                    letterSpacing: "0.25em",
+                    color: "rgba(255,255,255,0.7)",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Видеобращение
+                </span>
               </div>
-              <div className="flex items-center gap-5">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full" style={{ background: PLAT_COLOR[feat.platform] }} />
-                  <span
-                    style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.34)" }}
-                  >
-                    {feat.platform}
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-5 z-20">
+              <span
+                className="tag-angled mb-2 inline-block"
+                style={{ background: selected.color, color: "#040410", fontSize: "0.5rem", letterSpacing: "0.25em" }}
+              >
+                {selected.role}
+              </span>
+              <div className="gh-title text-white mb-2" style={{ fontSize: "clamp(1.15rem, 3.5vw, 1.6rem)" }}>
+                {selected.name}
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full" style={{ background: PLAT_COLOR[selected.platform] }} />
+                  <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.7rem", color: "rgba(255,255,255,0.4)" }}>
+                    {selected.platform}
                   </span>
                 </div>
                 <span
                   style={{
                     fontFamily: "'Barlow Condensed',sans-serif",
-                    fontSize: "0.75rem",
-                    color: "rgba(255,255,255,0.2)",
-                    letterSpacing: "0.06em",
+                    fontSize: "0.65rem",
+                    color: "rgba(255,255,255,0.25)",
+                    letterSpacing: "0.05em",
                   }}
                 >
-                  {feat.followers} подписчиков
+                  {selected.followers}
                 </span>
               </div>
             </div>
+            </div>
           </div>
 
-          {/* Rest of streamers */}
-          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {rest.map((s, i) => {
-              const isHov = hov === s.name;
-              return (
-                <div
-                  key={s.name}
-                  className="streamer-card"
-                  style={{ border: "1px solid rgba(255,255,255,0.06)", minHeight: "220px" }}
-                  onMouseEnter={() => setHov(s.name)}
-                  onMouseLeave={() => setHov(null)}
-                >
-                  <img
-                    src={PORTRAITS[s.img]}
-                    alt={s.name}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    style={{
-                      filter: isHov
-                        ? "brightness(0.35) saturate(0.65)"
-                        : "brightness(0.16) saturate(0.2)",
-                      transition: "filter 0.55s ease",
-                    }}
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{ background: "linear-gradient(to top, rgba(5,5,8,0.98) 0%, rgba(5,5,8,0.3) 60%, transparent 100%)" }}
-                  />
-                  {isHov && (
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: `linear-gradient(to top, ${s.color}20 0%, transparent 65%)` }}
-                    />
-                  )}
-                  {/* Bottom neon line */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-px transition-opacity duration-350"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, ${s.color}, transparent)`,
-                      opacity: isHov ? 1 : 0,
-                    }}
-                  />
-                  {/* Left bar */}
-                  <div
-                    className="absolute top-0 left-0 bottom-0 w-[2px] transition-opacity duration-350"
-                    style={{ background: s.color, opacity: isHov ? 0.85 : 0 }}
-                  />
-                  {/* Index watermark */}
-                  <div
-                    className="absolute top-3 right-3 select-none"
-                    style={{
-                      fontFamily: "'Barlow Condensed',sans-serif",
-                      fontWeight: 900,
-                      fontSize: "2rem",
-                      lineHeight: 1,
-                      color: isHov ? `${s.color}22` : "rgba(255,255,255,0.04)",
-                      transition: "color 0.3s",
-                    }}
-                  >
-                    {String(i + 2).padStart(2, "0")}
-                  </div>
-
-                  {/* Name + meta */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-                    <div
-                      style={{
-                        fontFamily: "'Barlow Condensed',sans-serif",
-                        fontSize: "0.5rem",
-                        letterSpacing: "0.3em",
-                        color: isHov ? s.color : "rgba(255,255,255,0.2)",
-                        textTransform: "uppercase",
-                        marginBottom: "6px",
-                        transition: "color 0.3s",
-                      }}
-                    >
-                      {s.role}
-                    </div>
-                    <div className="gh-mono text-white" style={{ fontSize: "1rem" }}>{s.name}</div>
-                    <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: PLAT_COLOR[s.platform] }} />
-                        <span
-                          style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.64rem", color: "rgba(255,255,255,0.2)" }}
-                        >
-                          {s.platform}
-                        </span>
-                      </div>
-                      <span
-                        style={{
-                          fontFamily: "'Barlow Condensed',sans-serif",
-                          fontSize: "0.6rem",
-                          color: "rgba(255,255,255,0.18)",
-                          letterSpacing: "0.06em",
-                        }}
-                      >
-                        {s.followers}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-
-            {/* TBA slot */}
+          {/* Справа — стримеры + «ещё» + заглушки (3×2) */}
+          <div className="grid grid-cols-2 grid-rows-3 gap-3 order-3 min-w-0">
+            {RIGHT_INDICES.map((i) => renderStreamerCard(STREAMERS[i], i, selectedId === i))}
+            {/* Ячейка «ещё» */}
             <div
               className="flex flex-col items-center justify-center relative overflow-hidden"
               style={{
-                border: "1px dashed rgba(255,255,255,0.07)",
-                background: "rgba(255,255,255,0.012)",
-                minHeight: "220px",
+                border: "1px dashed rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.02)",
+                minHeight: "200px",
               }}
             >
-              <div className="absolute inset-0 bg-dots opacity-25 pointer-events-none" />
-              <div
-                className="gh-title relative z-10"
-                style={{ fontSize: "2rem", color: "rgba(255,255,255,0.07)" }}
-              >
-                +MORE
-              </div>
+              <div className="absolute inset-0 bg-dots opacity-20 pointer-events-none" />
+              <span className="gh-title relative z-10" style={{ fontSize: "1.5rem", color: "rgba(255,255,255,0.2)" }}>
+                ещё
+              </span>
               <span
+                className="relative z-10 mt-1"
                 style={{
                   fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.5rem",
-                  letterSpacing: "0.35em",
-                  color: "rgba(255,255,255,0.1)",
+                  fontSize: "0.45rem",
+                  letterSpacing: "0.3em",
+                  color: "rgba(255,255,255,0.12)",
                   textTransform: "uppercase",
                 }}
-                className="relative z-10 mt-2"
               >
-                TBA
+                скоро
               </span>
             </div>
+            {/* Две заглушки */}
+            {[1, 2].map((n) => (
+              <div
+                key={n}
+                className="flex flex-col items-center justify-center relative overflow-hidden"
+                style={{
+                  border: "1px dashed rgba(255,255,255,0.06)",
+                  background: "rgba(255,255,255,0.015)",
+                  minHeight: "200px",
+                }}
+              >
+                <span
+                  className="gh-title"
+                  style={{ fontSize: "0.9rem", color: "rgba(255,255,255,0.08)" }}
+                >
+                  TBA
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -134,22 +134,6 @@ export function HeroSection() {
             </span>
           </div>
 
-          {/* Game pills */}
-          <div className="hidden md:flex gap-2">
-            {[["CS2", "#FF6500"], ["PUBG", "#F5B800"], ["Dota 2", "#C62828"]].map(([g, c]) => (
-              <span
-                key={g}
-                className="tag-angled"
-                style={{
-                  background: `${c}14`,
-                  border: `1px solid ${c}30`,
-                  color: `${c}DD`,
-                }}
-              >
-                {g}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
 

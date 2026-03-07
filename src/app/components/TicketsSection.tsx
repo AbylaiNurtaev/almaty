@@ -43,6 +43,9 @@ const TICKETS = [
   },
 ];
 
+/** Фиксированная высота тела карточки: все три ровные, VIP выступает ровно на 44px за счёт жёлтой полосы. */
+const TICKET_CARD_HEIGHT = "670px";
+
 const SPONSOR_BENEFITS: { id: string; title: string; description: string }[] = [
   {
     id: "general",
@@ -199,18 +202,18 @@ export function TicketsSection() {
             if (t.featured) {
               return (
                 <div key={t.id} className="flex flex-col">
-                  {/* Полоса снаружи — над карточкой, в потоке */}
+                  {/* Полоса снаружи — над карточкой, ровно 44px */}
                   <div
-                    className="py-2.5 text-center shrink-0"
-                    style={{ background: `linear-gradient(90deg, ${t.color}C0, ${t.color})` }}
+                    className="flex items-center justify-center text-center shrink-0 w-full"
+                    style={{ height: "44px", background: `linear-gradient(90deg, ${t.color}C0, ${t.color})` }}
                   >
                     <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "0.6rem", letterSpacing: "0.42em", color: "#040410", textTransform: "uppercase" }}>
                       ✦ Самый популярный ✦
                     </span>
                   </div>
                   <div
-                    className={`relative flex flex-col flex-1 ticket-shimmer holo-card overflow-hidden`}
-                    style={{ background: t.bg, border: `1px solid ${t.border}`, borderTopWidth: 0, minHeight: "480px" }}
+                    className="relative flex flex-col ticket-shimmer holo-card overflow-hidden"
+                    style={{ background: t.bg, border: `1px solid ${t.border}`, borderTopWidth: 0, height: TICKET_CARD_HEIGHT }}
                   >
                     {cardInner}
                   </div>
@@ -221,7 +224,7 @@ export function TicketsSection() {
             return (
               <div key={t.id}
                 className={`relative overflow-hidden flex flex-col ticket-shimmer`}
-                style={{ background: t.bg, border: `1px solid ${t.border}` }}
+                style={{ background: t.bg, border: `1px solid ${t.border}`, height: TICKET_CARD_HEIGHT }}
               >
                 {cardInner}
               </div>

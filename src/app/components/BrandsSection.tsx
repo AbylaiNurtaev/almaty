@@ -1,12 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ArrowRight } from "lucide-react";
 import { PARTNER_CATEGORIES } from "@/app/data/partnersCategories";
 import { ExhibitorApplicationModal } from "./ExhibitorApplicationModal";
 
+type FilterKind = "expo" | "franchise" | "partners";
+
+const FILTER_TABS: { id: FilterKind; label: string }[] = [
+  { id: "expo", label: "Експо" },
+  { id: "franchise", label: "Франшиза" },
+  { id: "partners", label: "Партнеры" },
+];
+
 export function BrandsSection() {
   const [exhibitorModalOpen, setExhibitorModalOpen] = useState(false);
+  const [filter, setFilter] = useState<FilterKind>("expo");
+
+  const filteredCategories = useMemo(() => {
+    if (filter === "expo") return PARTNER_CATEGORIES;
+    if (filter === "franchise") return PARTNER_CATEGORIES.filter((c) => c.id === "franchise");
+    return PARTNER_CATEGORIES.filter((c) => c.id !== "franchise");
+  }, [filter]);
+
   return (
     <section id="brands" className="relative overflow-hidden"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
@@ -40,9 +56,37 @@ export function BrandsSection() {
           </div>
         </div>
 
+        {/* Filter tabs — как в header: Франшиза, Експо, Партнеры */}
+        <div className="flex flex-wrap gap-1 mb-8" style={{ background: "rgba(255,255,255,0.06)", padding: "4px", maxWidth: "fit-content" }}>
+          {FILTER_TABS.map((tab) => {
+            const isActive = filter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setFilter(tab.id)}
+                className="transition-all duration-200"
+                style={{
+                  fontFamily: "'Barlow Condensed',sans-serif",
+                  fontWeight: 700,
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  padding: "10px 20px",
+                  background: isActive ? "var(--c-cyan,#00E5FF)" : "transparent",
+                  color: isActive ? "#050508" : "rgba(255,255,255,0.5)",
+                  border: "1px solid " + (isActive ? "var(--c-cyan,#00E5FF)" : "rgba(255,255,255,0.1)"),
+                }}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Category rows */}
         <div className="space-y-px mb-6" style={{ background: "rgba(255,255,255,0.06)" }}>
-          {PARTNER_CATEGORIES.map((cat) => (
+          {filteredCategories.map((cat) => (
             <div key={cat.id}
               className="group flex flex-col md:flex-row md:items-center gap-6 md:gap-10 relative overflow-hidden transition-all duration-280 cursor-default"
               style={{ background: "#050508", padding: "28px 36px" }}>

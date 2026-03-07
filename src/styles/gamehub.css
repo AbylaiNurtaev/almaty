@@ -217,14 +217,14 @@ body {
 
 @keyframes ticker-scroll {
   0% {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(0);
   }
 }
 
-/* Бегущая строка слева направо */
+/* Дубликат для секции партнёрства — тоже слева направо */
 .ticker-wrap-ltr {
   overflow: hidden;
   white-space: nowrap;
@@ -232,17 +232,8 @@ body {
 
 .ticker-track-ltr {
   display: inline-flex;
-  animation: ticker-scroll-ltr 40s linear infinite;
+  animation: ticker-scroll 40s linear infinite;
   will-change: transform;
-}
-
-@keyframes ticker-scroll-ltr {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -373,8 +364,8 @@ body {
   font-family: var(--font-d);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: -0.06em;
-  line-height: 0.88;
+  letter-spacing: 0.02em;
+  line-height: 1;
   color: rgba(255, 255, 255, 0.016);
   pointer-events: none;
   user-select: none;
@@ -453,6 +444,9 @@ body {
 }
 .streamer-card:hover {
   transform: translateY(-2px);
+}
+button.streamer-card {
+  cursor: pointer;
 }
 
 /* ════════════════════════════════════════════════════════════
