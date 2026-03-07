@@ -136,9 +136,6 @@ export function TicketsSection() {
             Выберите свой<br />
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>билет</span>
           </h2>
-          <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", color: "rgba(255,255,255,0.28)", lineHeight: 1.72, marginTop: "20px", maxWidth: "520px", marginLeft: "auto", marginRight: "auto" }}>
-            11–12 апреля 2026 · Арена Балуан Шолак, Алматы, Казахстан
-          </p>
         </div>
 
         {/* Ticket cards — средний блок выровнен по низу, поэтому выше и чуть выше по высоте */}
