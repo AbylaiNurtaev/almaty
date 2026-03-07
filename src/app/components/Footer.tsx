@@ -43,14 +43,14 @@ export function Footer() {
                 <span style={{ color: "var(--c-cyan,#00E5FF)" }}>HUB</span>
               </span>
             </div>
-            <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.85rem", color: "rgba(255,255,255,0.2)", lineHeight: 1.72, marginBottom: "22px" }}>
+            <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.85rem", color: "rgba(255,255,255,1)", lineHeight: 1.72, marginBottom: "22px" }}>
               Крупнейший игровой и компьютерный клубный фестиваль Казахстана. 11–12 апреля на арене Балуан Шолак, Алматы.
             </p>
             <div className="space-y-2.5">
               {[{ I: Calendar, t: "11–12 апреля 2026" }, { I: MapPin, t: "Арена Балуан Шолак" }, { I: Users, t: "7 000+ посетителей" }].map(({ I, t }) => (
                 <div key={t} className="flex items-center gap-2.5">
                   <I size={11} style={{ color: "#00D4F5", opacity: 0.5 }} />
-                  <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.6rem", letterSpacing: "0.18em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase" }}>{t}</span>
+                  <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.6rem", letterSpacing: "0.18em", color: "rgba(255,255,255,1)", textTransform: "uppercase" }}>{t}</span>
                 </div>
               ))}
             </div>
@@ -59,7 +59,7 @@ export function Footer() {
           {/* Link columns */}
           {COLS.map((col) => (
             <div key={col.h}>
-              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.55rem", letterSpacing: "0.32em", color: "rgba(255,255,255,0.14)", textTransform: "uppercase", marginBottom: "18px", display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.55rem", letterSpacing: "0.32em", color: "rgba(255,255,255,1)", textTransform: "uppercase", marginBottom: "18px", display: "flex", alignItems: "center", gap: "8px" }}>
                 <span style={{ width: "14px", height: "1px", background: "rgba(255,255,255,0.12)", display: "inline-block" }} />
                 {col.h}
               </div>
@@ -68,7 +68,7 @@ export function Footer() {
                   <li key={link.l}>
                     <a href={link.h}
                       className="group inline-flex items-center gap-2 transition-colors duration-200"
-                      style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,0.26)" }}>
+                      style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,1)" }}>
                       <span className="w-3 h-px" style={{ background: "rgba(255,255,255,0.14)", display: "inline-block" }} />
                       <span className="group-hover:text-white transition-colors duration-200">{link.l}</span>
                     </a>
@@ -83,11 +83,11 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 pt-6"
           style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
-            <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.14)" }}>
+            <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,1)" }}>
               © 2026 Фестиваль GAMEHUB. Все права защищены. Алматы, Казахстан.
             </div>
             <a href="/public-offer" className="text-sm transition-colors duration-200 hover:text-white"
-              style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.3)" }}>
+              style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,1)" }}>
               Публичная оферта
             </a>
           </div>
@@ -97,7 +97,7 @@ export function Footer() {
                 className="group w-14 h-14 flex items-center justify-center relative overflow-hidden transition-all duration-200"
                 style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
                 <div className="absolute inset-0 bg-[#00D4F5] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                <Icon size={24} style={{ color: "rgba(255,255,255,0.2)" }}
+                <Icon size={24} style={{ color: "rgba(255,255,255,1)" }}
                   className="relative z-10 group-hover:text-[#030308] transition-colors duration-200" />
               </a>
             ))}
