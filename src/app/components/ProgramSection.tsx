@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { DoorOpen, Mic, Swords, Store, Cake, Star, Trophy, Gift, Award, Gamepad2, Zap, Clock, X } from "lucide-react";
+
+const TYPING_SPEED_MS = 50;
+const CURSOR_OFFSET = 16;
 
 type Ev = { time: string; title: string; desc: string; modalText: string; Icon: React.ElementType; hot?: boolean };
 
@@ -25,18 +28,26 @@ const D2: Ev[] = [
   { time: "20:30", title: "Закрытие фестиваля",  desc: "До следующего года — GAMEHUB 2027",  modalText: "Официальное закрытие GAMEHUB 2026. Итоги двух дней и анонс GAMEHUB 2027. До встречи на следующем фестивале.", Icon: Zap },
 ];
 
-function DayCard({ label, date, color, events, onEventClick }: { label: string; date: string; color: string; events: Ev[]; onEventClick: (ev: Ev, color: string) => void }) {
+function DayCard({
+  label,
+  date,
+  color,
+  events,
+  onEventClick,
+  onRowHover,
+}: {
+  label: string;
+  date: string;
+  color: string;
+  events: Ev[];
+  onEventClick: (ev: Ev, color: string) => void;
+  onRowHover: (ev: Ev | null, color: string, e?: React.MouseEvent) => void;
+}) {
   return (
     <div className="relative overflow-hidden" style={{ border: `1px solid ${color}18`, background: `${color}03` }}>
       {/* Top neon accent */}
       <div className="absolute top-0 left-0 right-0 h-0.5"
         style={{ background: `linear-gradient(90deg, ${color}, ${color}25, transparent)` }} />
-      {/* Giant watermark */}
-      <div className="absolute right-0 bottom-0 select-none pointer-events-none"
-        style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "clamp(7rem,14vw,10rem)", lineHeight: 0.85, color: `${color}03`, letterSpacing: "-0.06em", textTransform: "uppercase" }}>
-        {label.split(" ")[1]}
-      </div>
-
       {/* Header */}
       <div className="flex items-center gap-4 px-7 py-5" style={{ borderBottom: `1px solid ${color}10` }}>
         <div className="w-11 h-11 flex items-center justify-center shrink-0"
@@ -64,6 +75,9 @@ function DayCard({ label, date, color, events, onEventClick }: { label: string; 
               type="button"
               onClick={() => onEventClick(ev, color)}
               className="flex gap-3.5 group w-full text-left cursor-pointer hover:opacity-90 transition-opacity"
+              onMouseEnter={(e) => onRowHover(ev, color, e)}
+              onMouseLeave={() => onRowHover(null, color)}
+              onMouseMove={(e) => onRowHover(ev, color, e)}
             >
               {/* Spine */}
               <div className="flex flex-col items-center w-5 shrink-0">
@@ -99,10 +113,81 @@ function DayCard({ label, date, color, events, onEventClick }: { label: string; 
 
 export function ProgramSection() {
   const [modal, setModal] = useState<{ ev: Ev; color: string } | null>(null);
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const [hoveredRow, setHoveredRow] = useState<{ ev: Ev; color: string } | null>(null);
+  const [typedLen, setTypedLen] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const handleRowHover = (ev: Ev | null, color: string, e?: React.MouseEvent) => {
+    if (e) setCursor({ x: e.clientX, y: e.clientY });
+    setHoveredRow(ev ? { ev, color } : null);
+  };
+
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    if (!hoveredRow) {
+      setTypedLen(0);
+      return;
+    }
+    const text = hoveredRow.ev.title;
+    setTypedLen(1);
+    let index = 1;
+    const id = setInterval(() => {
+      index += 1;
+      if (index > text.length) {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        intervalRef.current = null;
+        return;
+      }
+      setTypedLen(index);
+    }, TYPING_SPEED_MS);
+    intervalRef.current = id;
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    };
+  }, [hoveredRow?.ev.title]);
 
   return (
     <section id="program" className="relative overflow-hidden"
       style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}>
+
+      {/* Подсказка у курсора с эффектом печати */}
+      {hoveredRow && (
+        <div
+          className="fixed pointer-events-none z-[9999]"
+          style={{ left: cursor.x + CURSOR_OFFSET, top: cursor.y + CURSOR_OFFSET }}
+        >
+          <div
+            className="flex items-center gap-2 px-3 py-2 rounded-full whitespace-nowrap shadow-lg"
+            style={{
+              background: "rgba(5,5,8,0.95)",
+              border: `1px solid ${hoveredRow.color}40`,
+              boxShadow: `0 0 20px ${hoveredRow.color}20`,
+            }}
+          >
+            <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: hoveredRow.color }} />
+            <span
+              style={{
+                fontFamily: "'Barlow Condensed',sans-serif",
+                fontSize: "0.7rem",
+                letterSpacing: "0.08em",
+                color: hoveredRow.color,
+                textTransform: "uppercase",
+              }}
+            >
+              {hoveredRow.ev.time} — {hoveredRow.ev.title.slice(0, typedLen)}
+              <span
+                className="animate-typing-cursor inline-block w-[2px] ml-0.5 align-baseline"
+                style={{ background: hoveredRow.color, height: "1em", verticalAlign: "text-bottom" }}
+              />
+            </span>
+          </div>
+        </div>
+      )}
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none"
@@ -119,8 +204,8 @@ export function ProgramSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-3 mb-5">
-          <DayCard label="День первый" date="11 апреля 2026" color="#00E5FF" events={D1} onEventClick={(ev, color) => setModal({ ev, color })} />
-          <DayCard label="День второй" date="12 апреля 2026" color="#7C3AED" events={D2} onEventClick={(ev, color) => setModal({ ev, color })} />
+          <DayCard label="День первый" date="11 апреля 2026" color="#00E5FF" events={D1} onEventClick={(ev, color) => setModal({ ev, color })} onRowHover={handleRowHover} />
+          <DayCard label="День второй" date="12 апреля 2026" color="#7C3AED" events={D2} onEventClick={(ev, color) => setModal({ ev, color })} onRowHover={handleRowHover} />
         </div>
 
         {/* Модалка события */}
