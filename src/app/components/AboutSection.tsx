@@ -24,14 +24,6 @@ export function AboutSection() {
         }}
       />
 
-      {/* Watermark */}
-      <div
-        className="wm"
-        style={{ fontSize: "clamp(10rem,20vw,18rem)" }}
-      >
-        01
-      </div>
-
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
         <div className="grid lg:grid-cols-2 gap-20 xl:gap-32 items-center">
 

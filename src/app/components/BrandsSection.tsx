@@ -28,7 +28,6 @@ export function BrandsSection() {
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>07</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 

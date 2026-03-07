@@ -20,7 +20,6 @@ export function PrizesSection() {
         style={{ background: "radial-gradient(ellipse at left bottom, rgba(124,58,237,0.07) 0%, transparent 65%)" }} />
       <div className="absolute top-0 right-0 w-1/2 h-2/3 pointer-events-none"
         style={{ background: "radial-gradient(ellipse at right top, rgba(0,229,255,0.05) 0%, transparent 65%)" }} />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>06</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 

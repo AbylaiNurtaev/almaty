@@ -99,7 +99,6 @@ export function StreamersSection() {
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 65% 55% at 95% 30%, rgba(0,229,255,0.055) 0%, transparent 70%)" }}
       />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>03</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
@@ -129,7 +128,7 @@ export function StreamersSection() {
               className="streamer-card w-full max-w-[320px] lg:max-w-[380px] flex flex-col justify-end"
               style={{
                 aspectRatio: "9/16",
-                clipPath: "polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%)",
+                clipPath: "polygon(0 0, 100% 0, 100% 90%, 85% 100%, 0 100%)",
                 border: `1px solid ${selected.color}22`,
               }}
             >
@@ -176,16 +175,16 @@ export function StreamersSection() {
               </div>
               <div className="flex items-center gap-2 flex-wrap">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full" style={{ background: PLAT_COLOR[selected.platform] }} />
-                  <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.7rem", color: "rgba(255,255,255,0.4)" }}>
+                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: PLAT_COLOR[selected.platform] }} />
+                  <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.5)" }}>
                     {selected.platform}
                   </span>
                 </div>
                 <span
                   style={{
                     fontFamily: "'Barlow Condensed',sans-serif",
-                    fontSize: "0.65rem",
-                    color: "rgba(255,255,255,0.25)",
+                    fontSize: "0.85rem",
+                    color: "rgba(255,255,255,0.35)",
                     letterSpacing: "0.05em",
                   }}
                 >

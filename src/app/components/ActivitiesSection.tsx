@@ -29,7 +29,6 @@ export function ActivitiesSection() {
         }}
       />
       <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none transition-opacity duration-500" />
-      <div className="wm pointer-events-none" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>02</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10, flex: 1, display: "flex", flexDirection: "column" }}>
 
