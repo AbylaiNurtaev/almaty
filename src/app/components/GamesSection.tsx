@@ -208,32 +208,18 @@ export function GamesSection() {
               {g.short}
             </div>
 
-            <div className="relative z-10 p-12 md:p-14 h-full flex flex-col justify-end">
-              {/* Genre */}
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: g.color, boxShadow: `0 0 12px ${g.color}` }} />
-                <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "0.65rem", letterSpacing: "0.38em", color: g.color, textTransform: "uppercase" }}>{g.genre}</span>
-              </div>
+            <div className="relative z-10 p-12 md:p-14 h-full flex flex-col justify-between">
+              <p className="max-w-[500px]" style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.42)", lineHeight: 1.78, fontSize: "0.96rem" }}>{g.desc}</p>
 
-              <h3 className="gh-title text-white mb-5" style={{ fontSize: "clamp(2.6rem,5.5vw,4.5rem)" }}>{g.name}</h3>
-              <p className="mb-10" style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.42)", lineHeight: 1.78, fontSize: "0.96rem", maxWidth: "500px" }}>{g.desc}</p>
-
-              {/* Mini stats */}
-              <div className="flex mb-10" style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}>
+              {/* Mini stats — в ряд, слева, без фона */}
+              <div className="flex flex-wrap justify-start gap-4">
                 {g.stats.map(([l, v]) => (
-                  <div key={l} className="px-6 py-4" style={{ background: "rgba(5,5,8,0.9)" }}>
-                    <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.55rem", lineHeight: 1, color: g.color, letterSpacing: "-0.02em" }}>{v}</div>
-                    <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.52rem", letterSpacing: "0.24em", color: "rgba(255,255,255,0.24)", textTransform: "uppercase", marginTop: "5px" }}>{l}</div>
+                  <div key={l} className="flex items-baseline gap-2">
+                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.15rem", lineHeight: 1, color: g.color, letterSpacing: "-0.02em" }}>{v}</span>
+                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.48rem", letterSpacing: "0.2em", color: "rgba(255,255,255,0.24)", textTransform: "uppercase" }}>{l}</span>
                   </div>
                 ))}
               </div>
-
-              <a href="#tickets" className="btn-outline w-fit"
-                style={{ borderColor: `${g.color}55`, color: g.color, fontSize: "0.76rem" }}>
-                <Trophy size={13} />
-                <span>Зарегистрироваться на турнир</span>
-                <ChevronRight size={13} />
-              </a>
             </div>
           </div>
 
@@ -282,16 +268,12 @@ export function GamesSection() {
               );
             })}
 
-            {/* Footer tag */}
-            <div className="p-5" style={{ border: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.012)" }}>
-              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.52rem", letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", marginBottom: "12px" }}>Все турниры включают</div>
-              <div className="flex flex-wrap gap-2">
-                {["Шоу-матчи","Про-игроки","Прямая трансляция","Призовой фонд"].map((t) => (
-                  <span key={t} className="tag-angled"
-                    style={{ background: "rgba(0,229,255,0.04)", border: "1px solid rgba(0,229,255,0.12)", color: "rgba(255,255,255,0.28)", fontSize: "0.56rem" }}>{t}</span>
-                ))}
-              </div>
-            </div>
+            <a href="#tickets" className="btn-outline w-full justify-center mt-3"
+              style={{ borderColor: `${g.color}55`, color: g.color, fontSize: "0.76rem" }}>
+              <Trophy size={13} />
+              <span>Зарегистрироваться на турнир</span>
+              <ChevronRight size={13} />
+            </a>
           </div>
         </div>
       </div>

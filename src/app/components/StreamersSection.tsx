@@ -36,7 +36,6 @@ export function StreamersSection() {
       style={{
         border: isSelected ? `1px solid ${s.color}55` : "1px solid rgba(255,255,255,0.06)",
         minHeight: "200px",
-        clipPath: "polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%)",
       }}
       onClick={() => setSelectedId(index)}
     >
@@ -128,7 +127,6 @@ export function StreamersSection() {
               className="streamer-card w-full max-w-[320px] lg:max-w-[380px] flex flex-col justify-end"
               style={{
                 aspectRatio: "9/16",
-                clipPath: "polygon(0 0, 100% 0, 100% 90%, 85% 100%, 0 100%)",
                 border: `1px solid ${selected.color}22`,
               }}
             >
