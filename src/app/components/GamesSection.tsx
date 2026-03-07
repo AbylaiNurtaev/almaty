@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Trophy, ChevronRight, Target, Shield, Sword } from "lucide-react";
 
+import cs1 from "../../assets/cs1.webp";
+import cs2 from "../../assets/cs2.webp";
+import cs3 from "../../assets/cs3.webp";
+import pubg1 from "../../assets/pubg1.webp";
+import pubg2 from "../../assets/pubg2.webp";
+import pubg3 from "../../assets/pubg3.jpg";
+import dota2Social from "../../assets/dota2_social.jpg";
+import dota2 from "../../assets/dota2.jpg";
+import dota2Webp from "../../assets/dota2.webp";
+
+const CS2_SLIDER_IMGS = [cs1, cs2, cs3];
+const CS2_TRACK = [cs1, cs2, cs3, cs1];
+
+const PUBG_SLIDER_IMGS = [pubg1, pubg2, pubg3];
+const PUBG_TRACK = [pubg1, pubg2, pubg3, pubg1];
+
+const DOTA_SLIDER_IMGS = [dota2Social, dota2, dota2Webp];
+const DOTA_TRACK = [dota2Social, dota2, dota2Webp, dota2Social];
+
 const IMGS = {
-  cs2:  "https://images.unsplash.com/photo-1639069422496-03416b5daa28?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudGVyJTIwc3RyaWtlJTIwRlBTJTIwY29tcGV0aXRpdmUlMjBnYW1pbmclMjBkYXJrJTIwdGFjdGljYWx8ZW58MXx8fHwxNzcyODAzOTE4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-  pubg: "https://images.unsplash.com/photo-1689691849957-1ce9f9315e91?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1pbmclMjBQQyUyMHNldHVwJTIwUkdCJTIwZGFyayUyMHJvb20lMjBwcm9mZXNzaW9uYWwlMjBkZXNrdG9wfGVufDF8fHx8MTc3MjgwNTQ1NHww&ixlib=rb-4.1.0&q=80&w=1080",
-  dota: "https://images.unsplash.com/photo-1635268559211-1ee1a849cda0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1pbmclMjBrZXlib2FyZCUyMG1vdXNlJTIwcGVyaXBoZXJhbCUyMFJHQiUyMGNsb3NlJTIwdXAlMjBkYXJrfGVufDF8fHx8MTc3MjgwNTQ2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+  cs2:  CS2_SLIDER_IMGS[0],
+  pubg: PUBG_SLIDER_IMGS[0],
+  dota: DOTA_SLIDER_IMGS[0],
 };
 
 const GAMES = [
@@ -15,7 +34,83 @@ const GAMES = [
 
 export function GamesSection() {
   const [active, setActive] = useState("cs2");
+  const [cs2SlideIndex, setCs2SlideIndex] = useState(0);
+  const [cs2NoTransition, setCs2NoTransition] = useState(false);
+  const [pubgSlideIndex, setPubgSlideIndex] = useState(0);
+  const [pubgNoTransition, setPubgNoTransition] = useState(false);
+  const [dotaSlideIndex, setDotaSlideIndex] = useState(0);
+  const [dotaNoTransition, setDotaNoTransition] = useState(false);
   const g = GAMES.find((x) => x.id === active)!;
+
+  const isCs2 = active === "cs2";
+  const isPubg = active === "pubg";
+  const isDota = active === "dota";
+
+  useEffect(() => {
+    if (!isCs2) setCs2SlideIndex(0);
+  }, [isCs2]);
+  useEffect(() => {
+    if (!isPubg) setPubgSlideIndex(0);
+  }, [isPubg]);
+  useEffect(() => {
+    if (!isDota) setDotaSlideIndex(0);
+  }, [isDota]);
+
+  useEffect(() => {
+    if (!isCs2) return;
+    const t = setInterval(() => {
+      setCs2SlideIndex((i) => {
+        if (i === CS2_TRACK.length - 1) {
+          setCs2NoTransition(true);
+          return 0;
+        }
+        return i + 1;
+      });
+    }, 4500);
+    return () => clearInterval(t);
+  }, [isCs2]);
+  useEffect(() => {
+    if (!isPubg) return;
+    const t = setInterval(() => {
+      setPubgSlideIndex((i) => {
+        if (i === PUBG_TRACK.length - 1) {
+          setPubgNoTransition(true);
+          return 0;
+        }
+        return i + 1;
+      });
+    }, 4500);
+    return () => clearInterval(t);
+  }, [isPubg]);
+  useEffect(() => {
+    if (!isDota) return;
+    const t = setInterval(() => {
+      setDotaSlideIndex((i) => {
+        if (i === DOTA_TRACK.length - 1) {
+          setDotaNoTransition(true);
+          return 0;
+        }
+        return i + 1;
+      });
+    }, 4500);
+    return () => clearInterval(t);
+  }, [isDota]);
+
+  useEffect(() => {
+    if (!cs2NoTransition) return;
+    const id = requestAnimationFrame(() => setCs2NoTransition(false));
+    return () => cancelAnimationFrame(id);
+  }, [cs2NoTransition]);
+  useEffect(() => {
+    if (!pubgNoTransition) return;
+    const id = requestAnimationFrame(() => setPubgNoTransition(false));
+    return () => cancelAnimationFrame(id);
+  }, [pubgNoTransition]);
+  useEffect(() => {
+    if (!dotaNoTransition) return;
+    const id = requestAnimationFrame(() => setDotaNoTransition(false));
+    return () => cancelAnimationFrame(id);
+  }, [dotaNoTransition]);
 
   return (
     <section id="games" className="relative overflow-hidden"
@@ -44,10 +139,66 @@ export function GamesSection() {
           {/* Main panel */}
           <div className="lg:col-span-7 relative overflow-hidden"
             style={{ border: `1px solid ${g.color}38`, clipPath: "polygon(0 0,100% 0,100% 94%,97% 100%,0 100%)", minHeight: "480px" }}>
-            <img src={IMGS[g.id as keyof typeof IMGS]} alt={g.name}
-              className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-              style={{ filter: "brightness(0.14) saturate(0.4)" }} />
-            <div className="absolute inset-0 transition-all duration-600"
+            {isCs2 ? (
+              <div className="absolute inset-0 overflow-hidden">
+                <div
+                  className="flex h-full ease-out"
+                  style={{
+                    width: `${CS2_TRACK.length * 100}%`,
+                    transform: `translateX(-${(100 / CS2_TRACK.length) * cs2SlideIndex}%)`,
+                    transition: cs2NoTransition ? "none" : "transform 700ms ease-out",
+                  }}
+                >
+                  {CS2_TRACK.map((src, i) => (
+                    <div key={i} className="flex-[0_0_25%] h-full">
+                      <img src={src} alt="" className="w-full h-full object-cover"
+                        style={{ filter: "brightness(0.14) saturate(0.4)" }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : isPubg ? (
+              <div className="absolute inset-0 overflow-hidden">
+                <div
+                  className="flex h-full ease-out"
+                  style={{
+                    width: `${PUBG_TRACK.length * 100}%`,
+                    transform: `translateX(-${(100 / PUBG_TRACK.length) * pubgSlideIndex}%)`,
+                    transition: pubgNoTransition ? "none" : "transform 700ms ease-out",
+                  }}
+                >
+                  {PUBG_TRACK.map((src, i) => (
+                    <div key={i} className="flex-[0_0_25%] h-full">
+                      <img src={src} alt="" className="w-full h-full object-cover"
+                        style={{ filter: "brightness(0.14) saturate(0.4)" }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : isDota ? (
+              <div className="absolute inset-0 overflow-hidden">
+                <div
+                  className="flex h-full ease-out"
+                  style={{
+                    width: `${DOTA_TRACK.length * 100}%`,
+                    transform: `translateX(-${(100 / DOTA_TRACK.length) * dotaSlideIndex}%)`,
+                    transition: dotaNoTransition ? "none" : "transform 700ms ease-out",
+                  }}
+                >
+                  {DOTA_TRACK.map((src, i) => (
+                    <div key={i} className="flex-[0_0_25%] h-full">
+                      <img src={src} alt="" className="w-full h-full object-cover"
+                        style={{ filter: "brightness(0.14) saturate(0.4)" }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <img src={IMGS[g.id as keyof typeof IMGS]} alt={g.name}
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+                style={{ filter: "brightness(0.14) saturate(0.4)" }} />
+            )}
+            <div className="absolute inset-0 transition-all duration-600 pointer-events-none"
               style={{ background: `linear-gradient(135deg, rgba(5,5,8,0.97) 0%, ${g.color}0F 65%, rgba(5,5,8,0.72) 100%)` }} />
             {/* Top accent */}
             <div className="absolute top-0 left-0 right-0 h-[2px]"
@@ -96,7 +247,18 @@ export function GamesSection() {
                 <button key={gm.id} onClick={() => setActive(gm.id)}
                   className="group text-left overflow-hidden relative flex-1"
                   style={{ border: isA ? `1px solid ${gm.color}45` : "1px solid rgba(255,255,255,0.06)", minHeight: "128px", transition: "all .32s ease" }}>
-                  <img src={IMGS[gm.id as keyof typeof IMGS]} alt="" className="absolute inset-0 w-full h-full object-cover"
+                  <img
+                    src={
+                      gm.id === "cs2" && isA
+                        ? CS2_SLIDER_IMGS[cs2SlideIndex % CS2_SLIDER_IMGS.length]
+                        : gm.id === "pubg" && isA
+                          ? PUBG_SLIDER_IMGS[pubgSlideIndex % PUBG_SLIDER_IMGS.length]
+                          : gm.id === "dota" && isA
+                            ? DOTA_SLIDER_IMGS[dotaSlideIndex % DOTA_SLIDER_IMGS.length]
+                            : IMGS[gm.id as keyof typeof IMGS]
+                    }
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: isA ? "brightness(0.22) saturate(0.5)" : "brightness(0.07) saturate(0.15)", transition: "filter .45s ease" }} />
                   <div className="absolute inset-0"
                     style={{ background: isA ? `linear-gradient(to right, rgba(5,5,8,0.95) 40%, ${gm.color}0F)` : "rgba(5,5,8,0.88)", transition: "background .45s ease" }} />
