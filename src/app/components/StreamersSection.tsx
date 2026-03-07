@@ -35,7 +35,7 @@ export function StreamersSection() {
       className="streamer-card w-full text-left"
       style={{
         border: isSelected ? `1px solid ${s.color}55` : "1px solid rgba(255,255,255,0.06)",
-        minHeight: "200px",п
+        minHeight: "200px",
       }}
       onClick={() => setSelectedId(index)}
     >
