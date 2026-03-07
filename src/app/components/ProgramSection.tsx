@@ -129,12 +129,12 @@ export function ProgramSection() {
           const EvIcon = ev.Icon;
           return (
             <div
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              className="program-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4"
               style={{ background: "rgba(5,5,8,0.85)", backdropFilter: "blur(8px)" }}
               onClick={() => setModal(null)}
             >
               <div
-                className="relative max-w-lg w-full p-8"
+                className="program-modal-panel relative max-w-lg w-full p-8"
                 style={{
                   background: "var(--c-bg2,#09091A)",
                   border: `1px solid ${modalColor}40`,
