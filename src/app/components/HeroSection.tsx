@@ -182,13 +182,14 @@ export function HeroSection() {
                 fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
                 color: "rgba(255,255,255,0.44)",
                 lineHeight: 1.75,
-                maxWidth: "540px",
+                maxWidth: "740px",
                 marginBottom: "48px",
                 marginLeft: "auto",
                 marginRight: "auto",
+                fontWeight: 700,
               }}
             >
-              Турниры, выставки брендов, шоу-матчи и вирусные челленджи на сцене —
+              Турниры, выставки брендов, шоу-матчи, франшизы и вирусные челленджи на сцене —
               два незабываемых дня, определяющих игровую сцену Казахстана.
             </p>
 
