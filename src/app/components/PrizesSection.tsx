@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { Monitor, Cpu, Keyboard } from "lucide-react";
+import { Cpu, Monitor, Keyboard } from "lucide-react";
 
 const IMG = "https://images.unsplash.com/photo-1514820720301-4c4790309f46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwdmljdG9yeSUyMGNlbGVicmF0aW9uJTIwY2hhbXBpb24lMjB0cm9waHklMjBhd2FyZCUyMHdpbiUyMHRlYW18ZW58MXx8fHwxNzcyODA1NDU5fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
 const PRIZES = [
-  { Icon: Cpu,      title: "Игровые ПК",   desc: "Высокопроизводительные сборки от топовых брендов для чемпионов.",   color: "#00D4F5", tag: "Главный приз" },
-  { Icon: Monitor,  title: "4K Мониторы",  desc: "4K дисплеи с высокой частотой обновления для гейминга нового уровня.", color: "#6B21E8", tag: "Железо" },
-  { Icon: Keyboard, title: "Периферия",    desc: "Клавиатуры, мыши, наушники и премиум игровые аксессуары.",        color: "#E8A800", tag: "Экипировка" },
+  { Icon: Cpu,      title: "Игровые ПК",   color: "#00D4F5" },
+  { Icon: Monitor,  title: "Мониторы",    color: "#6B21E8" },
+  { Icon: Keyboard, title: "Периферия",    color: "#E8A800" },
 ];
 
-const TAGS = ["Игровые ПК", "4K Мониторы", "Наушники"] as const;
-const TAG_TO_TITLE: Record<string, string> = { "Игровые ПК": "Игровые ПК", "4K Мониторы": "4K Мониторы", "Наушники": "Периферия" };
+const TAGS = ["Игровые ПК", "Мониторы", "Наушники"] as const;
+const TAG_TO_TITLE: Record<string, string> = { "Игровые ПК": "Игровые ПК", "Мониторы": "Мониторы", "Наушники": "Периферия" };
 
-const TAG_TO_COLOR: Record<string, string> = { "Игровые ПК": "#00D4F5", "4K Мониторы": "#6B21E8", "Наушники": "#E8A800" };
+const TAG_TO_COLOR: Record<string, string> = { "Игровые ПК": "#00D4F5", "Мониторы": "#6B21E8", "Наушники": "#E8A800" };
 const DEFAULT_GLOW = "#00E5FF";
 
 export function PrizesSection() {
@@ -24,7 +24,7 @@ export function PrizesSection() {
 
   return (
     <section id="prizes" className="relative overflow-hidden"
-      style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}>
+      style={{ background: "#09091A", paddingTop: "var(--sec-py)", paddingBottom: "calc(var(--sec-py) * 0.65)", paddingLeft: "var(--sec-px)", paddingRight: "var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/2 h-2/3 pointer-events-none"
@@ -35,7 +35,7 @@ export function PrizesSection() {
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
         {/* Header + hero image */}
-        <div className="grid md:grid-cols-2 gap-16 items-center mb-14">
+        <div className="grid md:grid-cols-2 gap-16 items-center mb-10">
           <div>
             <div className="eyebrow">Выигрывайте крупно</div>
             <h2 className="gh-title text-white mb-7" style={{ fontSize: "var(--h2-sec)" }}>
@@ -89,17 +89,17 @@ export function PrizesSection() {
           </div>
         </div>
 
-        {/* Prize cards */}
+        {/* Prize cards — узкий блок, справа пустое место */}
         <div
-          className={selectedTag ? "grid grid-cols-1 max-w-md mb-px" : "grid sm:grid-cols-2 lg:grid-cols-3 mb-px"}
+          className={selectedTag ? "grid grid-cols-1 max-w-xs" : "grid sm:grid-cols-2 lg:grid-cols-3 max-w-3xl"}
           style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
         >
           {filteredPrizes.map((p) => {
             const Icon = p.Icon;
             return (
               <div key={p.title}
-                className="group relative overflow-hidden flex flex-col cursor-default transition-all duration-300"
-                style={{ background: "#09091A", minHeight: "260px", padding: "34px 28px" }}>
+                className="group relative overflow-hidden flex flex-col justify-center items-start cursor-default transition-all duration-300"
+                style={{ background: "#09091A", minHeight: "88px", padding: "16px" }}>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{ background: `radial-gradient(ellipse at 100% 0%, ${p.color}14 0%, transparent 65%)` }} />
                 <div className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -107,15 +107,13 @@ export function PrizesSection() {
                 <div className="absolute top-0 left-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-300"
                   style={{ background: p.color }} />
 
-                <span className="tag-angled mb-6 w-fit" style={{ background: `${p.color}10`, border: `1px solid ${p.color}28`, color: p.color }}>{p.tag}</span>
-                <div className="flex flex-row items-center gap-4 mb-6 transition-all duration-350 group-hover:opacity-90">
+                <div className="flex flex-row items-center gap-3 transition-all duration-350 group-hover:opacity-90">
                   <div className="flex shrink-0 items-center justify-center transition-transform duration-350 group-hover:scale-110"
-                    style={{ width: "52px", height: "52px", background: `${p.color}10`, border: `1px solid ${p.color}28`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
-                    <Icon size={18} style={{ color: p.color }} />
+                    style={{ width: "40px", height: "40px", background: `${p.color}10`, border: `1px solid ${p.color}28`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
+                    <Icon size={14} style={{ color: p.color }} />
                   </div>
-                  <h3 className="gh-title text-white relative z-10" style={{ fontSize: "1.6rem" }}>{p.title}</h3>
+                  <h3 className="gh-title text-white relative z-10" style={{ fontSize: "1.25rem" }}>{p.title}</h3>
                 </div>
-                <p className="relative z-10 flex-1" style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,0.28)", lineHeight: 1.72 }}>{p.desc}</p>
               </div>
             );
           })}

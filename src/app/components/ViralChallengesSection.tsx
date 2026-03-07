@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Play, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const CHALS = [
   { title: "Торт в лицо",   tag: "Главный",    color: "#E8284A" },
@@ -124,13 +124,7 @@ export function ViralChallengesSection() {
                 <div className="absolute top-0 left-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-65 transition-opacity duration-300"
                   style={{ background: ch.color }} />
 
-                <div className="flex items-center gap-4 mb-4">
-                  <h3 className="gh-title text-white relative z-10 flex-1" style={{ fontSize: "1.35rem" }}>{ch.title}</h3>
-                  <div className="w-11 h-11 flex items-center justify-center shrink-0 transition-all duration-350 group-hover:scale-110"
-                    style={{ background: `${ch.color}18`, border: `1px solid ${ch.color}40`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
-                    <Play size={14} style={{ color: ch.color }} fill={ch.color} />
-                  </div>
-                </div>
+                <h3 className="gh-title text-white relative z-10 mb-4" style={{ fontSize: "1.35rem" }}>{ch.title}</h3>
 
                 <a
                   href="#tickets"
