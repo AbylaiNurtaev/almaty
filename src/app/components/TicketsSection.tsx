@@ -240,7 +240,7 @@ export function TicketsSection() {
               {(() => {
                 const labels = ["Партнёрство", "Генеральный спонсор", "Брендинг главной сцены", "Шоу-матчи", "Рекламные щиты", "Медиа-освещение", "VIP-доступ", "GAMEHUB 2026"];
                 const tag = (l: string, i: number) => (
-                  <span key={`${l}-${i}`} className="shrink-0 tag-angled" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.7rem", letterSpacing: "0.2em", color: "rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "6px 16px" }}>{l}</span>
+                  <span key={`${l}-${i}`} className="shrink-0 tag-angled" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.7rem", letterSpacing: "0.2em", color: "rgba(255,255,255,1)", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", padding: "6px 16px" }}>{l}</span>
                 );
                 return [...labels.map((l, i) => tag(l, i)), ...labels.map((l, i) => tag(l, labels.length + i))];
               })()}
@@ -259,16 +259,6 @@ export function TicketsSection() {
               tabIndex={0}
               onKeyDown={(e) => e.key === "Enter" && openBenefitModal("general")}
             >
-              {/* Бегущая строка в блоке Генеральный спонсор */}
-              <div className="ticker-wrap-ltr py-2 mb-6 overflow-hidden" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                <div className="ticker-track-ltr" style={{ gap: "1.5rem" }}>
-                  {[...Array(4)].flatMap((_, i) =>
-                    ["Генеральный спонсор", "Партнёрство GAMEHUB 2026", "Главный партнёр фестиваля"].map((l, j) => (
-                      <span key={`${i}-${j}`} className="shrink-0" style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.65rem", letterSpacing: "0.28em", color: "rgba(255,255,255,0.5)" }}>{l} ·</span>
-                    ))
-                  )}
-                </div>
-              </div>
               <div className="eyebrow">Партнёрство</div>
               <h3 className="gh-title text-white mb-6 group-hover:text-[var(--c-cyan,#00E5FF)] transition-colors duration-200" style={{ fontSize: "clamp(2rem,4.5vw,3.5rem)" }}>
                 Генеральный спонсор<br />
