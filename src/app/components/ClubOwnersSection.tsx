@@ -19,7 +19,7 @@ export function ClubOwnersSection() {
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 70% 55% at 50% 55%, rgba(0,229,255,0.045) 0%, transparent 65%)" }} />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)", right: "-2rem", top: "-1rem" }}>09</div>
+      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>09</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
         <div className="relative overflow-hidden"

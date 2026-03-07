@@ -25,7 +25,7 @@ export function ViralChallengesSection() {
         style={{ background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(240,53,88,0.09) 0%, transparent 65%)" }} />
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 60% 35% at 50% 100%, rgba(240,53,88,0.05) 0%, transparent 70%)" }} />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)", right: "-2rem", top: "-1rem", color: "rgba(240,53,88,0.022)" }}>VRL</div>
+      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)", right: 0, top: 0, color: "rgba(240,53,88,0.022)" }}>VRL</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 

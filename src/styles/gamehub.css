@@ -365,6 +365,8 @@ body {
 
 .wm {
   position: absolute;
+  top: calc(-0.5 * var(--sec-py, 0));
+  right: 0;
   font-family: var(--font-d);
   font-weight: 900;
   text-transform: uppercase;
@@ -422,7 +424,7 @@ body {
   font-size: 0.58rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--c-cyan, #00E5FF);
+  color: var(--c-cyan, #00e5ff);
   opacity: 0.9;
   margin-top: 8px;
 }
@@ -431,7 +433,7 @@ body {
   font-family: var(--font-d);
   font-weight: 900;
   font-size: 2.4rem;
-  color: var(--c-cyan, #00E5FF);
+  color: var(--c-cyan, #00e5ff);
   opacity: 0.85;
   align-self: flex-start;
   padding-top: 16px;

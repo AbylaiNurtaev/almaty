@@ -36,6 +36,7 @@ export function StreamersSection() {
       style={{
         border: isSelected ? `1px solid ${s.color}55` : "1px solid rgba(255,255,255,0.06)",
         minHeight: "200px",
+        clipPath: "polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%)",
       }}
       onClick={() => setSelectedId(index)}
     >
@@ -70,18 +71,18 @@ export function StreamersSection() {
         style={{ background: s.color, opacity: isSelected ? 0.9 : 0 }}
       />
       <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-        <div
+        <span
+          className="tag-angled mb-2 inline-block"
           style={{
-            fontFamily: "'Barlow Condensed',sans-serif",
-            fontSize: "0.55rem",
-            letterSpacing: "0.26em",
-            color: isSelected ? s.color : "rgba(255,255,255,0.25)",
-            textTransform: "uppercase",
-            marginBottom: "6px",
+            background: isSelected ? s.color : "rgba(255,255,255,0.06)",
+            color: isSelected ? "#040410" : "rgba(255,255,255,0.4)",
+            border: isSelected ? undefined : "1px solid rgba(255,255,255,0.1)",
+            fontSize: "0.5rem",
+            letterSpacing: "0.25em",
           }}
         >
           {s.role}
-        </div>
+        </span>
         <div className="gh-mono text-white" style={{ fontSize: "1.1rem" }}>{s.name}</div>
       </div>
     </button>
@@ -98,7 +99,7 @@ export function StreamersSection() {
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 65% 55% at 95% 30%, rgba(0,229,255,0.055) 0%, transparent 70%)" }}
       />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)", right: "-2rem", top: "-1rem" }}>03</div>
+      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>03</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
@@ -112,40 +113,6 @@ export function StreamersSection() {
                 инфлюенсеры
               </span>
             </h2>
-          </div>
-          <div style={{ paddingBottom: "8px" }}>
-            <p
-              style={{
-                fontFamily: "'Barlow',sans-serif",
-                fontSize: "1rem",
-                color: "rgba(255,255,255,0.34)",
-                lineHeight: 1.78,
-                maxWidth: "360px",
-                marginBottom: "16px",
-              }}
-            >
-              Смотрите шоу-матчи, получайте автографы и встречайтесь с любимыми контент-мейкерами лично на арене.
-            </p>
-            <div
-              className="flex items-center gap-3 px-4 py-2.5 w-fit"
-              style={{ background: "rgba(0,229,255,0.05)", border: "1px solid rgba(0,229,255,0.2)" }}
-            >
-              <span
-                className="dot-live rounded-full shrink-0"
-                style={{ width: "7px", height: "7px", background: "var(--c-cyan,#00E5FF)", display: "inline-block" }}
-              />
-              <span
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.26em",
-                  color: "var(--c-cyan,#00E5FF)",
-                  textTransform: "uppercase",
-                }}
-              >
-                9 подтверждено + ещё будут объявлены
-              </span>
-            </div>
           </div>
         </div>
 
@@ -162,7 +129,7 @@ export function StreamersSection() {
               className="streamer-card w-full max-w-[320px] lg:max-w-[380px] flex flex-col justify-end"
               style={{
                 aspectRatio: "9/16",
-                clipPath: "polygon(0 0,100% 0,100% 96%,96% 100%,0 100%)",
+                clipPath: "polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%)",
                 border: `1px solid ${selected.color}22`,
               }}
             >
@@ -186,38 +153,15 @@ export function StreamersSection() {
               className="absolute top-0 left-0 right-0 h-px"
               style={{ background: `linear-gradient(90deg, ${selected.color}, transparent 60%)` }}
             />
-            {/* Плейсхолдер «видеобращение» */}
-            <div
-              className="absolute inset-0 flex items-center justify-center z-10"
-              style={{ background: "rgba(0,0,0,0.25)" }}
-            >
+            {/* Кнопка play */}
+            <div className="absolute inset-0 flex items-center justify-center z-10">
               <div
-                className="flex flex-col items-center justify-center gap-3 px-6 py-4 rounded-lg"
-                style={{
-                  background: "rgba(5,5,8,0.85)",
-                  border: `1px solid ${selected.color}40`,
-                  backdropFilter: "blur(12px)",
-                }}
+                className="w-14 h-14 rounded-full flex items-center justify-center"
+                style={{ background: `${selected.color}22`, border: `2px solid ${selected.color}` }}
               >
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center"
-                  style={{ background: `${selected.color}22`, border: `2px solid ${selected.color}` }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ color: selected.color, marginLeft: "4px" }}>
-                    <path d="M8 5v14l11-7L8 5z" fill="currentColor" />
-                  </svg>
-                </div>
-                <span
-                  style={{
-                    fontFamily: "'Barlow Condensed',sans-serif",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.25em",
-                    color: "rgba(255,255,255,0.7)",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Видеобращение
-                </span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ color: selected.color }}>
+                  <path d="M8.5 7v10l10.5-5L8.5 7z" fill="currentColor" />
+                </svg>
               </div>
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-5 z-20">

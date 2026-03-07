@@ -120,7 +120,7 @@ export function GamesSection() {
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"
         style={{ background: `radial-gradient(ellipse 65% 50% at 75% 55%, ${g.color}0D 0%, transparent 70%)` }} />
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)", right: "-2rem", top: "-1rem" }}>04</div>
+      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>04</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 

@@ -126,7 +126,7 @@ export function TicketsSection() {
         style={{ background: "radial-gradient(ellipse at right top, rgba(240,180,41,0.06) 0%, transparent 65%)" }} />
       <div className="absolute bottom-0 left-0 w-1/2 h-1/2 pointer-events-none"
         style={{ background: "radial-gradient(ellipse at left bottom, rgba(124,58,237,0.06) 0%, transparent 65%)" }} />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)", right: "-2rem", top: "-1rem" }}>10</div>
+      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>10</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 

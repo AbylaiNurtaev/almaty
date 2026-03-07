@@ -60,7 +60,7 @@ export function ClubNetworksSection() {
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div className="absolute left-0 inset-y-0 w-1/3 pointer-events-none"
         style={{ background: "radial-gradient(ellipse at left, rgba(0,229,255,0.05) 0%, transparent 65%)" }} />
-      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)", right: "-2rem", top: "-1rem" }}>08</div>
+      <div className="wm" style={{ fontSize: "clamp(10rem,20vw,18rem)" }}>08</div>
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
         <div className="grid lg:grid-cols-2 gap-20 xl:gap-32 items-center">

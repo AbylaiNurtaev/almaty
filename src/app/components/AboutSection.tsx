@@ -27,7 +27,7 @@ export function AboutSection() {
       {/* Watermark */}
       <div
         className="wm"
-        style={{ fontSize: "clamp(10rem,20vw,18rem)", right: "-2rem", top: "-1rem" }}
+        style={{ fontSize: "clamp(10rem,20vw,18rem)" }}
       >
         01
       </div>
