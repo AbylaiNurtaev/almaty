@@ -22,6 +22,7 @@ const TICKER_ITEMS = [
 ];
 
 function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
+  /* Дублируем элементы дважды — при сдвиге на -50% вторая копия занимает место первой, цикл бесконечный */
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
     <div

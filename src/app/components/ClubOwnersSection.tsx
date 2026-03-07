@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import { Users, Handshake, Star, ArrowRight } from "lucide-react";
+import { ClubRegistrationModal } from "./ClubRegistrationModal";
 
 const BENEFITS = [
   { Icon: Users,     n: "01", title: "3 бесплатных пропуска",  color: "#00D4F5", desc: "Каждый зарегистрированный владелец компьютерного клуба получает 3 бесплатных пропуска на фестиваль для своей команды — без условий." },
@@ -7,6 +11,7 @@ const BENEFITS = [
 ];
 
 export function ClubOwnersSection() {
+  const [clubModalOpen, setClubModalOpen] = useState(false);
   return (
     <section id="clubs" className="relative overflow-hidden"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
@@ -51,11 +56,6 @@ export function ClubOwnersSection() {
                   <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.82rem", color: "rgba(255,255,255,0.34)", marginTop: "4px" }}>На каждый зарегистрированный клуб</div>
                 </div>
               </div>
-
-              <a href="#tickets" className="btn-primary">
-                <span>Зарегистрировать клуб</span>
-                <ArrowRight size={15} />
-              </a>
             </div>
 
             {/* Right: benefits */}
@@ -82,10 +82,17 @@ export function ClubOwnersSection() {
                   </div>
                 );
               })}
+              <div className="flex justify-end p-10 md:p-12 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+                <button type="button" onClick={() => setClubModalOpen(true)} className="btn-primary">
+                  <span>Зарегистрировать клуб</span>
+                  <ArrowRight size={15} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <ClubRegistrationModal open={clubModalOpen} onOpenChange={setClubModalOpen} />
     </section>
   );
 }

@@ -110,31 +110,3 @@ export const PARTNER_CATEGORIES: PartnerCategory[] = [
     brands: ["—"],
   },
 ];
-
-/** Один партнёр (компания) для отображения отдельным блоком */
-export interface PartnerBlock {
-  id: string;
-  name: string;
-  categoryId: string;
-  cat: string;
-  color: string;
-  count: string;
-}
-
-/** Плоский список: каждая компания — отдельный элемент для одного блока */
-export function getPartnersFlat(): PartnerBlock[] {
-  const list: PartnerBlock[] = [];
-  PARTNER_CATEGORIES.forEach((c) => {
-    c.brands.forEach((name, i) => {
-      list.push({
-        id: `${c.id}-${i}-${name}`,
-        name,
-        categoryId: c.id,
-        cat: c.cat,
-        color: c.color,
-        count: c.count,
-      });
-    });
-  });
-  return list;
-}

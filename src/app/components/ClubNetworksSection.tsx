@@ -1,4 +1,19 @@
+import { useState } from "react";
 const IMG = "https://images.unsplash.com/photo-1558324190-c940eb141401?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMGdhbWluZyUyMGNsdWIlMjByb29tJTIwZGFyayUyMG5lb24lMjByb3dzJTIwc2V0dXB8ZW58MXx8fHwxNzcyODAzOTE5fDA&ixlib=rb-4.1.0&q=80&w=1080";
+
+import broArenaImg from "@/assets/clubs/BRO Arena.jpg";
+import colizeumImg from "@/assets/clubs/COLIZEUM.png";
+import cybershokeImg from "@/assets/clubs/CYBERSHOKE.jpg";
+import cyberxImg from "@/assets/clubs/CYBERX.jpg";
+import trueGamersImg from "@/assets/clubs/TrueGamers.png";
+
+const CLUB_IMAGES: Record<string, string> = {
+  "COLIZEUM": colizeumImg,
+  "CYBERX": cyberxImg,
+  "CYBERSHOKE": cybershokeImg,
+  "TrueGamers": trueGamersImg,
+  "BRO Arena": broArenaImg,
+};
 
 const CLUBS = [
   { name: "COLIZEUM",     locs: "50+", region: "Nationwide" },
@@ -11,9 +26,32 @@ const CLUBS = [
 ];
 
 export function ClubNetworksSection() {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const bgImage = selectedIndex !== null && CLUB_IMAGES[CLUBS[selectedIndex].name]
+    ? CLUB_IMAGES[CLUBS[selectedIndex].name]
+    : IMG;
+
   return (
     <section id="networks" className="relative overflow-hidden"
-      style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}>
+      style={{ padding: "var(--sec-py) var(--sec-px)" }}>
+
+      {/* Full-bleed background: image + dark overlay, smooth transition */}
+      <div key={bgImage} className="absolute inset-0 club-bg-fade-in">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            filter: "brightness(0.35) saturate(0.9) contrast(1.05)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(180deg, rgba(9,9,26,0.82) 0%, rgba(9,9,26,0.72) 50%, rgba(9,9,26,0.88) 100%)",
+          }}
+        />
+      </div>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div className="absolute left-0 inset-y-0 w-1/3 pointer-events-none"
@@ -62,24 +100,35 @@ export function ClubNetworksSection() {
 
             {/* Clubs list */}
             <div style={{ gap: "1px", display: "flex", flexDirection: "column", background: "rgba(255,255,255,0.06)" }}>
-              {CLUBS.map((c, i) => (
-                <div key={c.name}
-                  className="group flex items-center gap-5 transition-all duration-200 cursor-default"
-                  style={{ background: "#09091A", padding: "16px 22px" }}>
-                  <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "0.68rem", color: "rgba(0,229,255,0.22)", letterSpacing: "0.1em", minWidth: "24px" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="w-px h-5 shrink-0" style={{ background: "rgba(255,255,255,0.08)" }} />
-                  <span className="gh-mono text-white flex-1 group-hover:text-white/70 transition-colors duration-200" style={{ fontSize: "1.08rem" }}>
-                    {c.name}
-                  </span>
-                  <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.6rem", letterSpacing: "0.16em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase" }}>{c.region}</span>
-                  <div className="shrink-0 px-3 py-1.5"
-                    style={{ border: "1px solid rgba(0,229,255,0.16)", background: "rgba(0,229,255,0.05)" }}>
-                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 800, fontSize: "0.85rem", color: "var(--c-cyan,#00E5FF)", letterSpacing: "0.04em" }}>{c.locs}</span>
-                  </div>
-                </div>
-              ))}
+              {CLUBS.map((c, i) => {
+                const isSelected = selectedIndex === i;
+                return (
+                  <button
+                    key={c.name}
+                    type="button"
+                    onClick={() => setSelectedIndex(i)}
+                    className="group flex items-center gap-5 transition-all duration-300 cursor-pointer text-left w-full border-l-2"
+                    style={{
+                      background: isSelected ? "rgba(0,229,255,0.08)" : "#09091A",
+                      padding: "16px 22px",
+                      borderLeftColor: isSelected ? "var(--c-cyan,#00E5FF)" : "transparent",
+                    }}
+                  >
+                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "0.68rem", color: "rgba(0,229,255,0.22)", letterSpacing: "0.1em", minWidth: "24px" }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="w-px h-5 shrink-0" style={{ background: "rgba(255,255,255,0.08)" }} />
+                    <span className="gh-mono text-white flex-1 group-hover:text-white/80 transition-colors duration-200" style={{ fontSize: "1.08rem" }}>
+                      {c.name}
+                    </span>
+                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.6rem", letterSpacing: "0.16em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase" }}>{c.region}</span>
+                    <div className="shrink-0 px-3 py-1.5"
+                      style={{ border: "1px solid rgba(0,229,255,0.16)", background: "rgba(0,229,255,0.05)" }}>
+                      <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 800, fontSize: "0.85rem", color: "var(--c-cyan,#00E5FF)", letterSpacing: "0.04em" }}>{c.locs}</span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
