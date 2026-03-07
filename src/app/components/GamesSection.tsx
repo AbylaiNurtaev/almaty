@@ -202,17 +202,18 @@ export function GamesSection() {
             {/* Top accent */}
             <div className="absolute top-0 left-0 right-0 h-[2px]"
               style={{ background: `linear-gradient(90deg, ${g.color}, ${g.color}22, transparent)` }} />
-            {/* Giant watermark */}
-            <div className="absolute right-0 bottom-0 select-none pointer-events-none"
-              style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "clamp(7rem,16vw,14rem)", lineHeight: 0.82, color: `${g.color}06`, letterSpacing: "-0.06em", textTransform: "uppercase" }}>
-              {g.short}
-            </div>
 
-            <div className="relative z-10 p-12 md:p-14 h-full flex flex-col justify-between">
-              <p className="max-w-[500px]" style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.42)", lineHeight: 1.78, fontSize: "0.96rem" }}>{g.desc}</p>
+            <div className="relative z-10 p-12 md:p-14 h-full flex flex-col">
+              <p className="max-w-[500px] flex-1" style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.42)", lineHeight: 1.78, fontSize: "0.96rem" }}>{g.desc}</p>
 
-              {/* Mini stats — в ряд, слева, без фона */}
-              <div className="flex flex-wrap justify-start gap-4">
+              {/* Mini stats — стеклянный эффект, прижато к низу */}
+              <div
+                className="absolute bottom-0 left-0 right-0 flex flex-wrap justify-start gap-4 p-4 md:p-5"
+                style={{
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                }}
+              >
                 {g.stats.map(([l, v]) => (
                   <div key={l} className="flex items-baseline gap-2">
                     <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.15rem", lineHeight: 1, color: g.color, letterSpacing: "-0.02em" }}>{v}</span>
@@ -249,10 +250,6 @@ export function GamesSection() {
                     style={{ background: isA ? `linear-gradient(to right, rgba(5,5,8,0.95) 40%, ${gm.color}0F)` : "rgba(5,5,8,0.88)", transition: "background .45s ease" }} />
                   <div className="absolute top-0 left-0 bottom-0 w-[3px]"
                     style={{ background: isA ? gm.color : "rgba(255,255,255,0.06)", transition: "background .32s ease" }} />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 select-none pointer-events-none"
-                    style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "4rem", lineHeight: 1, color: isA ? `${gm.color}18` : "rgba(255,255,255,0.03)", textTransform: "uppercase", transition: "color .32s ease" }}>
-                    {gm.short}
-                  </div>
 
                   <div className="relative z-10 flex items-center gap-5 p-6">
                     <div className="w-11 h-11 flex items-center justify-center shrink-0"
@@ -260,8 +257,7 @@ export function GamesSection() {
                       <GI size={16} style={{ color: isA ? gm.color : "rgba(255,255,255,0.2)", transition: "color .32s ease" }} />
                     </div>
                     <div>
-                      <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.58rem", letterSpacing: "0.3em", color: isA ? gm.color : "rgba(255,255,255,0.2)", textTransform: "uppercase", marginBottom: "6px", transition: "color .32s ease" }}>{gm.genre}</div>
-                      <div className="gh-title text-white" style={{ fontSize: "1.45rem" }}>{gm.name}</div>
+                      <div className="gh-title text-white" style={{ fontSize: "clamp(1.5rem, 2.5vw, 1.85rem)" }}>{gm.name}</div>
                     </div>
                   </div>
                 </button>
