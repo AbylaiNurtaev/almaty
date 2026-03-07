@@ -132,7 +132,13 @@ export function ViralChallengesSection() {
                   </div>
                 </div>
 
-                <a href="#tickets" className="btn-primary w-fit mt-auto relative z-10" style={{ background: ch.color, padding: "10px 18px", fontSize: "0.8rem" }}>
+                <a
+                  href="#tickets"
+                  className="btn-primary w-fit mt-auto relative z-10"
+                  style={{ background: ch.color, padding: "10px 18px", fontSize: "0.8rem" }}
+                  onMouseEnter={() => setHoveredCard(null)}
+                  onMouseLeave={() => setHoveredCard({ title: ch.title, color: ch.color })}
+                >
                   <span>Получить билет</span>
                   <ArrowRight size={12} />
                 </a>
