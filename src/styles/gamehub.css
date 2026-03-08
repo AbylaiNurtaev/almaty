@@ -68,8 +68,14 @@ body {
 
 /* Typing cursor blink */
 @keyframes typing-cursor {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 .animate-typing-cursor {
   animation: typing-cursor 0.9s step-end infinite;
@@ -117,7 +123,7 @@ body {
   font-family: var(--font-d);
   font-weight: 900;
   text-transform: uppercase;
-  line-height: 0.86;
+  line-height: 1.08;
   letter-spacing: -0.025em;
 }
 
@@ -586,8 +592,12 @@ button.streamer-card {
    ═══════════════════════════════════════════════════════════ */
 
 @keyframes program-modal-backdrop-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes program-modal-panel-in {
@@ -606,6 +616,7 @@ button.streamer-card {
 }
 
 .program-modal-panel {
-  animation: program-modal-panel-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.03s forwards;
+  animation: program-modal-panel-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.03s
+    forwards;
   opacity: 0;
 }

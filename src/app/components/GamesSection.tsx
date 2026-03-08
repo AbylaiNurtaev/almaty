@@ -113,8 +113,8 @@ export function GamesSection() {
   }, [dotaNoTransition]);
 
   return (
-    <section id="games" className="relative overflow-hidden"
-      style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
+    <section id="games" className="relative overflow-hidden flex flex-col"
+      style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)", minHeight: "100vh" }}>
 
       {/* Dynamic bg tint */}
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"

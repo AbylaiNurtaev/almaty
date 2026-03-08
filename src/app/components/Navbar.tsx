@@ -4,8 +4,8 @@ import { Menu, X } from "lucide-react";
 const LINKS = [
   { label: "О фестивале", href: "#about" },
   { label: "Активности", href: "#activities" },
-  { label: "Игры", href: "#games" },
   { label: "Стримеры", href: "#streamers" },
+  { label: "Игры", href: "#games" },
   { label: "Программа", href: "#program" },
   { label: "Челленджи", href: "#challenges" },
   { label: "Призы", href: "#prizes" },
@@ -20,13 +20,19 @@ export function Navbar() {
 
   useEffect(() => {
     const updateActive = () => {
-      const viewportMiddle = window.scrollY + window.innerHeight * 0.35;
+      const viewportMiddle = window.scrollY + window.innerHeight * 0.4;
       let current: string | null = null;
       for (const id of SECTION_IDS) {
         const el = document.getElementById(id);
         if (!el) continue;
-        const top = el.getBoundingClientRect().top + window.scrollY;
-        if (top <= viewportMiddle) current = id;
+        const rect = el.getBoundingClientRect();
+        const sectionTop = rect.top + window.scrollY;
+        const sectionBottom = sectionTop + rect.height;
+        if (viewportMiddle >= sectionTop && viewportMiddle <= sectionBottom) {
+          current = id;
+          break;
+        }
+        if (sectionTop <= viewportMiddle) current = id;
       }
       setActiveId(current || SECTION_IDS[0]);
     };

@@ -33,7 +33,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5 mb-6">
               <div className="w-px h-7 opacity-50" style={{ background: "var(--c-cyan,#00E5FF)" }} />
-              <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.7rem", lineHeight: 1, letterSpacing: "0.04em" }}>
+              <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.7rem", lineHeight: 1, letterSpacing: "0.1em" }}>
                 <span className="text-white">GAME</span>
                 <span style={{ color: "var(--c-cyan,#00E5FF)" }}>HUB</span>
               </span>

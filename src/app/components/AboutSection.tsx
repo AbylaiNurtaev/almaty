@@ -172,7 +172,7 @@ export function AboutSection() {
               style={{ fontSize: "var(--h2-sec)", marginBottom: "32px" }}
             >
               Что такое<br />
-              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>
+              <span style={{ color: "var(--c-cyan,#00E5FF)", letterSpacing: "0.08em" }}>
                 GAMEHUB?
               </span>
             </h2>

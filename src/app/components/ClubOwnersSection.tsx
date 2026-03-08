@@ -31,9 +31,9 @@ export function ClubOwnersSection() {
             {/* Left: text */}
             <div className="p-12 md:p-16 lg:border-r" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
               <div className="eyebrow">Специальная программа</div>
-              <h2 className="gh-title text-white mb-6" style={{ fontSize: "var(--h2-sec)" }}>
-                Для владельцев<br />
-                <span style={{ color: "var(--c-cyan,#00E5FF)" }}>компьютерных клубов</span>
+              <h2 className="gh-title text-white mb-6" style={{ fontSize: "clamp(2rem, 3.4vw, 3.4rem)" }}>
+                Для<br />
+                <span style={{ color: "var(--c-cyan,#00E5FF)" }}>владельцев компьютерных клубов</span>
               </h2>
               <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", color: "rgba(255,255,255,0.42)", lineHeight: 1.82, width: "100%", maxWidth: "100%", marginBottom: "36px" }}>
                 GAMEHUB предлагает специальную программу для владельцев компьютерных клубов по всему Казахстану. Зарегистрируйте свой клуб и получите{" "}

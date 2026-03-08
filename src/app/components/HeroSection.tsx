@@ -37,8 +37,8 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen flex flex-col overflow-hidden"
-      style={{ background: "#050508" }}
+      className="relative w-full flex flex-col overflow-hidden"
+      style={{ background: "#050508", minHeight: "100vh", height: "100vh" }}
     >
       {/* ════ BACKGROUND STACK ════ */}
       <div className="absolute inset-0">
@@ -103,7 +103,7 @@ export function HeroSection() {
       </div>
 
       {/* ════ TOP META BAR ════ */}
-      <div className="relative z-20 pt-[76px]" style={{ padding: "76px var(--sec-px) 0" }}>
+      <div className="relative z-20" style={{ padding: "32px var(--sec-px) 0" }}>
         <div
           style={{ maxWidth: "1380px", margin: "0 auto" }}
           className="flex flex-wrap items-center justify-center gap-4 pt-8"
@@ -154,7 +154,7 @@ export function HeroSection() {
                 fontFamily: "'Barlow Condensed',sans-serif",
                 fontWeight: 900,
                 textTransform: "uppercase",
-                letterSpacing: "-0.045em",
+                letterSpacing: "0.08em",
                 lineHeight: 0.80,
                 fontSize: "clamp(3.5rem, 10vw, 8rem)",
                 color: "white",

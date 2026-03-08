@@ -82,7 +82,7 @@ export function BrandsSection() {
             style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "10rem", lineHeight: 0.88, color: "rgba(255,255,255,0.007)", letterSpacing: "-0.06em" }}>EXPO</div>
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-7 p-10 md:p-12">
             <div>
-              <div className="gh-title text-white" style={{ fontSize: "1.85rem", marginBottom: "6px" }}>Хотите выставиться на GAMEHUB?</div>
+              <div className="gh-title text-white" style={{ fontSize: "1.85rem", marginBottom: "6px" }}>Хотите выставиться на <span style={{ letterSpacing: "0.08em" }}>GAMEHUB</span>?</div>
               <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.92rem", color: "rgba(255,255,255,0.3)" }}>
                 Представьте свой бренд 7–8 тысячам увлечённых геймеров и профессионалам индустрии.
               </div>
