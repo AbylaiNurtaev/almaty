@@ -118,8 +118,8 @@ export function TicketsSection() {
     setSponsorModalOpen(true);
   };
   return (
-    <section id="tickets" className="relative overflow-hidden"
-      style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}>
+    <section id="tickets" className="sec-fullscreen relative overflow-hidden"
+      style={{ background: "#09091A", padding: "clamp(28px, 3.5vw, 44px) var(--sec-px) var(--sec-py) var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div className="absolute top-0 right-0 w-1/2 h-1/2 pointer-events-none"
@@ -130,8 +130,8 @@ export function TicketsSection() {
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
         {/* Header */}
-        <div className="text-center mb-20">
-          <div className="eyebrow justify-center">Присоединяйтесь к фестивалю</div>
+        <div className="text-center mb-6">
+
           <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
             Выберите свой<br />
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>билет</span>
@@ -161,12 +161,12 @@ export function TicketsSection() {
 
                   {/* Name display */}
                   <div className="gh-title mb-3"
-                    style={{ fontSize: t.id === "star" ? "2.7rem" : "3.8rem", color: t.color, letterSpacing: "-0.03em" }}>
+                    style={{ fontSize: t.id === "star" ? "2.7rem" : t.id === "free" ? "2.4rem" : "3.8rem", color: t.color, letterSpacing: "-0.03em" }}>
                     {t.display}
                   </div>
-                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.28)", marginBottom: "22px" }}>{t.priceSub}</div>
+                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.28)", marginBottom: "22px" }}>{t.priceSub}</div>
 
-                  <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.36)", lineHeight: 1.7, marginBottom: "28px" }}>{t.desc}</p>
+                  <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.36)", lineHeight: 1.7, marginBottom: "28px" }}>{t.desc}</p>
 
                   {/* Perforated separator + perks */}
                   <div className="perf-edge perf-top pt-6 pb-2">
@@ -174,7 +174,7 @@ export function TicketsSection() {
                       {t.perks.map((p) => (
                         <li key={p} className="flex items-start gap-3">
                           <Check size={12} style={{ color: t.color, marginTop: "3px", flexShrink: 0 }} />
-                          <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>{p}</span>
+                          <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.4)", lineHeight: 1.5 }}>{p}</span>
                         </li>
                       ))}
                     </ul>
@@ -264,7 +264,7 @@ export function TicketsSection() {
                 Генеральный спонсор<br />
                 <span style={{ color: "rgba(255,255,255,0.1)" }}>возможности</span>
               </h3>
-              <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.96rem", color: "rgba(255,255,255,0.36)", lineHeight: 1.78, maxWidth: "400px", marginBottom: "24px" }}>
+              <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.96rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.36)", lineHeight: 1.78, maxWidth: "400px", marginBottom: "24px" }}>
                 Станьте партнёром GAMEHUB и представьте свой бренд 7 000–8 000 увлечённым геймерам, владельцам клубов и профессионалам индустрии.
               </p>
               <div className="flex flex-wrap gap-2 mb-9">
@@ -287,7 +287,7 @@ export function TicketsSection() {
                     style={{ background: "rgba(0,229,255,0.02)" }}
                   >
                     <div className="w-1 h-1 rounded-full mt-2.5 shrink-0" style={{ background: "var(--c-cyan,#00E5FF)", boxShadow: "0 0 6px rgba(0,229,255,0.6)" }} />
-                    <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.84rem", color: "rgba(255,255,255,1)", lineHeight: 1.5 }}>{b.title}</span>
+                    <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.84rem", letterSpacing: "0.03em", color: "rgba(255,255,255,1)", lineHeight: 1.5 }}>{b.title}</span>
                   </button>
                 ))}
               </div>
@@ -311,7 +311,7 @@ export function TicketsSection() {
               "max-h-[90dvh] w-[calc(100%-2rem)] sm:max-w-[520px] md:max-w-[560px]",
               "rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.6)] overflow-y-auto"
             )}
-            style={{ fontFamily: "'Barlow', sans-serif" }}
+            style={{ fontFamily: "'Barlow', sans-serif", letterSpacing: "0.03em" }}
           >
             <div className="absolute inset-0 bg-dots opacity-10 pointer-events-none rounded-lg" />
             <div className="relative z-10 p-6 pt-12 pr-12 sm:p-8 sm:pt-12 sm:pr-14">

@@ -91,7 +91,7 @@ export function ClubRegistrationModal({
           "max-h-[90dvh] w-[calc(100%-2rem)] sm:max-w-[420px]",
           "rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.6)] overflow-y-auto"
         )}
-        style={{ fontFamily: "'Barlow', sans-serif" }}
+        style={{ fontFamily: "'Barlow', sans-serif", letterSpacing: "0.03em" }}
       >
         <div className="absolute inset-0 bg-dots opacity-10 pointer-events-none rounded-lg" />
         <div className="relative z-10 p-6 pt-12 pr-12 sm:p-8 sm:pt-12 sm:pr-14">

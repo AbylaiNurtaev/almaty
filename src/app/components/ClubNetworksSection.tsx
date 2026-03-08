@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 const IMG = "https://images.unsplash.com/photo-1558324190-c940eb141401?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMGdhbWluZyUyMGNsdWIlMjByb29tJTIwZGFyayUyMG5lb24lMjByb3dzJTIwc2V0dXB8ZW58MXx8fHwxNzcyODAzOTE5fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
 import broArenaImg from "@/assets/clubs/BRO Arena.jpg";
@@ -35,7 +35,7 @@ export function ClubNetworksSection() {
   const isClubPhoto = selectedIndex !== null && CLUB_IMAGES[CLUBS[selectedIndex].name];
 
   return (
-    <section id="networks" className="relative overflow-hidden"
+    <section id="networks" className="sec-fullscreen relative overflow-hidden"
       style={{ padding: "var(--sec-py) var(--sec-px)" }}>
 
       {/* Full-bleed background: image + dark overlay, smooth transition; club photos in original */}

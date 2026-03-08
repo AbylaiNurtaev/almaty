@@ -113,6 +113,7 @@ export function ExhibitorApplicationModal({
         )}
         style={{
           fontFamily: "'Barlow', sans-serif",
+          letterSpacing: "0.03em",
         }}
       >
         <div className="absolute inset-0 bg-dots opacity-10 pointer-events-none rounded-lg" />

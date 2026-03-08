@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 const PORTRAITS = [
   "https://images.unsplash.com/photo-1634651754953-1565eca58d5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1lciUyMHN0cmVhbWVyJTIwY29udGVudCUyMGNyZWF0b3IlMjBicm9hZGNhc3RpbmclMjBsaXZlJTIwbmVvbiUyMGRhcmt8ZW58MXx8fHwxNzcyODA1NDU5fDA&ixlib=rb-4.1.0&q=80&w=800",
@@ -90,8 +90,8 @@ export function StreamersSection() {
   return (
     <section
       id="streamers"
-      className="relative overflow-hidden"
-      style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}
+      className="sec-fullscreen relative overflow-hidden"
+      style={{ background: "#09091A", padding: "clamp(28px, 3.5vw, 44px) var(--sec-px) var(--sec-py) var(--sec-px)" }}
     >
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div
@@ -102,7 +102,7 @@ export function StreamersSection() {
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-14">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-6">
           <div>
             <div className="eyebrow">Специальные гости</div>
             <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
@@ -174,7 +174,7 @@ export function StreamersSection() {
               <div className="flex items-center gap-2 flex-wrap">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: PLAT_COLOR[selected.platform] }} />
-                  <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.5)" }}>
+                  <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.5)" }}>
                     {selected.platform}
                   </span>
                 </div>

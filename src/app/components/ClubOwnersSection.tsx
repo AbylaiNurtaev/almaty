@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { Users, Handshake, Star, UserPlus, ArrowRight } from "lucide-react";
 import { ClubRegistrationModal } from "./ClubRegistrationModal";
 
@@ -14,7 +12,7 @@ const BENEFITS = [
 export function ClubOwnersSection() {
   const [clubModalOpen, setClubModalOpen] = useState(false);
   return (
-    <section id="clubs" className="relative overflow-hidden"
+    <section id="clubs" className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
@@ -35,7 +33,7 @@ export function ClubOwnersSection() {
                 Для<br />
                 <span style={{ color: "var(--c-cyan,#00E5FF)" }}>владельцев компьютерных клубов</span>
               </h2>
-              <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", color: "rgba(255,255,255,0.42)", lineHeight: 1.82, width: "100%", maxWidth: "100%", marginBottom: "36px" }}>
+              <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.42)", lineHeight: 1.82, width: "100%", maxWidth: "100%", marginBottom: "36px" }}>
                 GAMEHUB предлагает специальную программу для владельцев компьютерных клубов по всему Казахстану. Зарегистрируйте свой клуб и получите{" "}
                 <span style={{ color: "rgba(255,255,255,0.86)" }}>3 бесплатных пропуска</span>, эксклюзивные нетворкинг-мероприятия и прямые возможности партнёрства с брендами.
               </p>
@@ -51,7 +49,7 @@ export function ClubOwnersSection() {
                   <div className="gh-title text-white" style={{ fontSize: "2rem" }}>
                     <span style={{ color: "var(--c-cyan,#00E5FF)" }}>3 бесплатных</span> пропуска
                   </div>
-                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.82rem", color: "rgba(255,255,255,0.34)", marginTop: "4px" }}>На каждый зарегистрированный клуб</div>
+                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.82rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.34)", marginTop: "4px" }}>На каждый зарегистрированный клуб</div>
                 </div>
               </div>
             </div>
@@ -74,7 +72,7 @@ export function ClubOwnersSection() {
                     <div className="relative z-10 flex-1 flex items-center justify-between gap-4">
                       <div>
                         <h3 className="gh-title text-white mb-3" style={{ fontSize: isAction ? "1.5rem" : "1.35rem" }}>{b.title}</h3>
-                        <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.36)", lineHeight: 1.72 }}>{b.desc}</p>
+                        <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.36)", lineHeight: 1.72 }}>{b.desc}</p>
                       </div>
                       {isAction && <ArrowRight size={22} style={{ color: b.color }} className="shrink-0" />}
                     </div>

@@ -101,7 +101,7 @@ function DayCard({
                   <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: ev.hot ? "0.88rem" : "0.82rem", color: ev.hot ? "white" : "rgba(255,255,255,0.62)", textTransform: "uppercase", letterSpacing: "0.06em" }}>{ev.title}</span>
                   {ev.hot && <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: color, boxShadow: `0 0 5px ${color}`, marginTop: "2px" }} />}
                 </div>
-                <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.66rem", color: "rgba(255,255,255,0.2)", lineHeight: 1.5, marginTop: "2px", paddingLeft: "50px" }}>{ev.desc}</p>
+                <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.66rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.2)", lineHeight: 1.5, marginTop: "2px", paddingLeft: "50px" }}>{ev.desc}</p>
               </div>
             </button>
           );
@@ -152,7 +152,7 @@ export function ProgramSection() {
   }, [hoveredRow?.ev.title]);
 
   return (
-    <section id="program" className="relative overflow-hidden"
+    <section id="program" className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}>
 
       {/* Подсказка у курсора с эффектом печати */}
@@ -244,7 +244,7 @@ export function ProgramSection() {
                     <h3 className="gh-title text-white mt-0.5" style={{ fontSize: "1.35rem" }}>{ev.title}</h3>
                   </div>
                 </div>
-                <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.7)", lineHeight: 1.7 }}>{ev.modalText}</p>
+                <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.7)", lineHeight: 1.7 }}>{ev.modalText}</p>
               </div>
             </div>
           );

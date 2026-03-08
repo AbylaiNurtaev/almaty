@@ -48,7 +48,7 @@ export function ViralChallengesSection() {
   }, [hoveredCard?.title]);
 
   return (
-    <section id="challenges" className="relative overflow-hidden"
+    <section id="challenges" className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
 
       {/* Tooltip у курсора с эффектом печати */}

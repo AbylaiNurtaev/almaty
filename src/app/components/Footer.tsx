@@ -1,3 +1,4 @@
+import React from "react";
 import { Instagram, Youtube, MessageCircle, MapPin, Calendar, Users } from "lucide-react";
 
 const COLS = [
@@ -14,7 +15,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden"
+    <footer className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#030308", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-8 pointer-events-none" />
@@ -38,7 +39,7 @@ export function Footer() {
                 <span style={{ color: "var(--c-cyan,#00E5FF)" }}>HUB</span>
               </span>
             </div>
-            <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.85rem", color: "rgba(255,255,255,1)", lineHeight: 1.72, marginBottom: "22px" }}>
+            <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.85rem", letterSpacing: "0.03em", color: "rgba(255,255,255,1)", lineHeight: 1.72, marginBottom: "22px" }}>
               Крупнейший игровой и компьютерный клубный фестиваль Казахстана. 11–12 апреля на арене Балуан Шолак, Алматы.
             </p>
             <div className="space-y-2.5">
@@ -63,7 +64,7 @@ export function Footer() {
                   <li key={link.l}>
                     <a href={link.h}
                       className="group inline-flex items-center gap-2 transition-colors duration-200"
-                      style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,1)" }}>
+                      style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.88rem", letterSpacing: "0.03em", color: "rgba(255,255,255,1)" }}>
                       <span className="w-3 h-px" style={{ background: "rgba(255,255,255,0.14)", display: "inline-block" }} />
                       <span className="group-hover:text-white transition-colors duration-200">{link.l}</span>
                     </a>
@@ -78,11 +79,11 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 pt-6"
           style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
-            <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,1)" }}>
+            <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em", color: "rgba(255,255,255,1)" }}>
               © 2026 Фестиваль GAMEHUB. Все права защищены. Алматы, Казахстан.
             </div>
             <a href="/public-offer" className="text-sm transition-colors duration-200 hover:text-white"
-              style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,1)" }}>
+              style={{ fontFamily: "'Barlow',sans-serif", letterSpacing: "0.03em", color: "rgba(255,255,255,1)" }}>
               Публичная оферта
             </a>
           </div>

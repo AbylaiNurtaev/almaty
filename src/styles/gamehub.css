@@ -4,6 +4,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 *,
 *::before,
@@ -50,6 +51,32 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* Немного больше межбуквенного интервала для шрифта Barlow (не Condensed / не GAMEHUB) */
+[style*="'Barlow', sans-serif"],
+[style*="'Barlow',sans-serif"],
+[style*="Barlow\", sans-serif"],
+[style*="Barlow\",sans-serif"],
+[style*='"Barlow", sans-serif'],
+[style*='"Barlow",sans-serif'] {
+  letter-spacing: 0.03em;
+}
+
+/* То же для элементов, где Barlow задан через переменную или класс */
+.font-barlow,
+.barlow-text,
+[class*="font-barlow"] {
+  letter-spacing: 0.03em;
+}
+
+/* Каждый раздел = ровно 100vh по высоте, scroll-snap к началу при переходе по якорям */
+.sec-fullscreen {
+  min-height: 100vh;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  box-sizing: border-box;
 }
 
 /* Opacity helpers (non-standard TW steps) */
@@ -366,6 +393,7 @@ body {
   padding: 6px 14px;
   font-family: var(--font-b);
   font-size: 0.85rem;
+  letter-spacing: 0.03em;
   color: rgba(255, 255, 255, 0.52);
   border: 1px solid transparent;
   transition: color 0.2s;
@@ -417,6 +445,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   padding: 16px 20px;
+  margin: 0 6px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   width: 5.5rem;
@@ -430,7 +459,7 @@ body {
   font-size: clamp(2.6rem, 5.5vw, 4.2rem);
   line-height: 1;
   color: white;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.06em;
 }
 
 .cd-lbl {
@@ -452,6 +481,7 @@ body {
   opacity: 0.85;
   align-self: flex-start;
   padding-top: 16px;
+  margin: 0 2px;
   line-height: 1;
 }
 

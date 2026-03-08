@@ -16,7 +16,7 @@ export function ActivitiesSection() {
   return (
     <section
       id="activities"
-      className="relative overflow-hidden min-h-screen flex flex-col"
+      className="sec-fullscreen relative overflow-hidden flex flex-col"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}
     >
       {/* Фон: плавно меняется в зависимости от выбранной активности */}
@@ -80,6 +80,7 @@ export function ActivitiesSection() {
               className="transition-opacity duration-500"
               style={{
                 fontFamily: "'Barlow',sans-serif",
+                letterSpacing: "0.03em",
                 fontSize: "1.05rem",
                 color: "rgba(255,255,255,0.78)",
                 lineHeight: 1.8,

@@ -23,7 +23,7 @@ export function PrizesSection() {
   const glowColor = selectedTag ? TAG_TO_COLOR[selectedTag] ?? DEFAULT_GLOW : DEFAULT_GLOW;
 
   return (
-    <section id="prizes" className="relative overflow-hidden"
+    <section id="prizes" className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#09091A", paddingTop: "var(--sec-py)", paddingBottom: "calc(var(--sec-py) * 0.65)", paddingLeft: "var(--sec-px)", paddingRight: "var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
@@ -42,7 +42,7 @@ export function PrizesSection() {
               Призы<br />
               <span style={{ color: "var(--c-cyan,#00E5FF)" }}>фестиваля</span>
             </h2>
-            <p className="mb-9" style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", color: "rgba(255,255,255,0.38)", lineHeight: 1.78, maxWidth: "440px" }}>
+            <p className="mb-9" style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.38)", lineHeight: 1.78, maxWidth: "440px" }}>
               Тысячи долларов в призах: игровые ПК, мониторы, периферия и эксклюзивная техника — ждут чемпионов.
             </p>
             <div className="flex flex-wrap gap-2">

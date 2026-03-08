@@ -1,3 +1,4 @@
+import React from "react";
 import { Navbar }              from "./components/Navbar";
 import { Ticket }              from "lucide-react";
 import { HeroSection }         from "./components/HeroSection";
@@ -99,11 +100,11 @@ export default function App() {
       className="film-grain"
       style={{
         background: "#050508",
-        minHeight:  "100vh",
-        display:    "flex",
+        minHeight: "100vh",
+        display: "flex",
         flexDirection: "column",
-        width:      "100%",
-        overflowX:  "hidden",
+        width: "100%",
+        overflowX: "hidden",
       }}
     >
       {/* ── Fixed right nav (no logo), scroll-spy active = white ─ */}
@@ -177,10 +178,9 @@ export default function App() {
         {/* 11. TICKETS & SPONSORSHIP */}
         <TicketsSection />
 
+        {/* 12. FOOTER */}
+        <Footer />
       </main>
-
-      {/* 12. FOOTER */}
-      <Footer />
     </div>
   );
 }

@@ -12,7 +12,7 @@ export function BrandsSection() {
   const [exhibitorModalOpen, setExhibitorModalOpen] = useState(false);
 
   return (
-    <section id="brands" className="relative overflow-hidden"
+    <section id="brands" className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
@@ -83,7 +83,7 @@ export function BrandsSection() {
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-7 p-10 md:p-12">
             <div>
               <div className="gh-title text-white" style={{ fontSize: "1.85rem", marginBottom: "6px" }}>Хотите выставиться на <span style={{ letterSpacing: "0.08em" }}>GAMEHUB</span>?</div>
-              <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.92rem", color: "rgba(255,255,255,0.3)" }}>
+              <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.92rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.3)" }}>
                 Представьте свой бренд 7–8 тысячам увлечённых геймеров и профессионалам индустрии.
               </div>
             </div>

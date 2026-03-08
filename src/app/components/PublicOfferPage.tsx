@@ -9,6 +9,7 @@ export function PublicOfferPage() {
         background: "#050508",
         color: "rgba(255,255,255,0.9)",
         fontFamily: "'Barlow', sans-serif",
+        letterSpacing: "0.03em",
       }}
     >
       <Navbar />

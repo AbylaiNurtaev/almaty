@@ -11,7 +11,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden"
+      className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}
     >
       {/* Textures */}
@@ -114,6 +114,7 @@ export function AboutSection() {
                   style={{
                     fontFamily: "'Barlow',sans-serif",
                     fontSize: "0.72rem",
+                    letterSpacing: "0.03em",
                     color: "rgba(255,255,255,0.32)",
                     marginTop: "4px",
                   }}
@@ -180,6 +181,7 @@ export function AboutSection() {
             <div
               style={{
                 fontFamily: "'Barlow',sans-serif",
+                letterSpacing: "0.03em",
                 color: "white",
                 lineHeight: 1.82,
                 fontSize: "1rem",

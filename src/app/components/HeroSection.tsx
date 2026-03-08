@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Zap, Star, ArrowRight } from "lucide-react";
 
 const BG = "https://images.unsplash.com/photo-1614609005636-648d357485c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwYXJlbmElMjBzcGVjdGFjdWxhciUyMGNvbmNlcnQlMjBsaWdodGluZyUyMG1hc3NpdmUlMjBjcm93ZCUyMHN0YWdlfGVufDF8fHx8MTc3MjgwNTQ1M3ww&ixlib=rb-4.1.0&q=80&w=1920";
@@ -37,8 +37,8 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative w-full flex flex-col overflow-hidden"
-      style={{ background: "#050508", minHeight: "100vh", height: "100vh" }}
+      className="sec-fullscreen relative w-full flex flex-col overflow-hidden"
+      style={{ background: "#050508" }}
     >
       {/* ════ BACKGROUND STACK ════ */}
       <div className="absolute inset-0">
@@ -180,6 +180,7 @@ export function HeroSection() {
               style={{
                 fontFamily: "'Barlow',sans-serif",
                 fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
+                letterSpacing: "0.03em",
                 color: "white",
                 lineHeight: 1.75,
                 maxWidth: "740px",

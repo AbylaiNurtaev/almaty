@@ -113,8 +113,8 @@ export function GamesSection() {
   }, [dotaNoTransition]);
 
   return (
-    <section id="games" className="relative overflow-hidden flex flex-col"
-      style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)", minHeight: "100vh" }}>
+    <section id="games" className="sec-fullscreen relative overflow-hidden flex flex-col"
+      style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
 
       {/* Dynamic bg tint */}
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"
@@ -204,7 +204,7 @@ export function GamesSection() {
               style={{ background: `linear-gradient(90deg, ${g.color}, ${g.color}22, transparent)` }} />
 
             <div className="relative z-10 p-12 md:p-14 h-full flex flex-col">
-              <p className="max-w-[500px] flex-1" style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.42)", lineHeight: 1.78, fontSize: "0.96rem" }}>{g.desc}</p>
+              <p className="max-w-[500px] flex-1" style={{ fontFamily: "'Barlow',sans-serif", letterSpacing: "0.03em", color: "rgba(255,255,255,0.42)", lineHeight: 1.78, fontSize: "0.96rem" }}>{g.desc}</p>
 
               {/* Mini stats — стеклянный эффект, прижато к низу */}
               <div
