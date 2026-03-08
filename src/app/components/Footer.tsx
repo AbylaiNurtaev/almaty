@@ -15,7 +15,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="sec-fullscreen relative overflow-hidden"
+    <footer className="relative overflow-hidden"
       style={{ background: "#030308", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-8 pointer-events-none" />

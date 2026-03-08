@@ -79,7 +79,7 @@ export function BrandsSection() {
           style={{ border: "1px dashed rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.012)" }}>
           <div className="absolute inset-0 bg-dots opacity-18 pointer-events-none" />
           <div className="absolute right-0 bottom-0 select-none pointer-events-none hidden md:block"
-            style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "10rem", lineHeight: 0.88, color: "rgba(255,255,255,0.007)", letterSpacing: "-0.06em" }}>EXPO</div>
+            style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "10rem", lineHeight: 0.88, color: "rgba(255,255,255,0.007)", letterSpacing: "0.03em" }}>EXPO</div>
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-7 p-10 md:p-12">
             <div>
               <div className="gh-title text-white" style={{ fontSize: "1.85rem", marginBottom: "6px" }}>Хотите выставиться на <span style={{ letterSpacing: "0.08em" }}>GAMEHUB</span>?</div>

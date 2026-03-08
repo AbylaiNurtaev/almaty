@@ -161,7 +161,7 @@ export function TicketsSection() {
 
                   {/* Name display */}
                   <div className="gh-title mb-3"
-                    style={{ fontSize: t.id === "star" ? "2.7rem" : t.id === "free" ? "2.4rem" : "3.8rem", color: t.color, letterSpacing: "-0.03em" }}>
+                    style={{ fontSize: t.id === "star" ? "2.7rem" : t.id === "free" ? "2.4rem" : "3.8rem", color: t.color, letterSpacing: "0.03em" }}>
                     {t.display}
                   </div>
                   <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.28)", marginBottom: "22px" }}>{t.priceSub}</div>
@@ -248,7 +248,7 @@ export function TicketsSection() {
           </div>
 
           <div className="absolute right-0 bottom-0 select-none pointer-events-none hidden md:block"
-            style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "clamp(5rem,10vw,11rem)", lineHeight: 0.88, color: "rgba(255,255,255,0.006)", letterSpacing: "-0.06em" }}>PARTNER</div>
+            style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "clamp(5rem,10vw,11rem)", lineHeight: 0.88, color: "rgba(255,255,255,0.006)", letterSpacing: "0.03em" }}>PARTNER</div>
 
             <div className="grid md:grid-cols-2 relative z-10">
             <div

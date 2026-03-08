@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useRef } from "react";
 import { Navbar }              from "./components/Navbar";
 import { Ticket }              from "lucide-react";
 import { HeroSection }         from "./components/HeroSection";
@@ -93,8 +93,49 @@ function SectionDivider() {
 
 /* ═══════════════════════════════════════════════════════════
    APP  –  single vertical page, all sections stacked
+   Один поворот колёсика = один блок вперёд/назад
    ═══════════════════════════════════════════════════════════ */
+const SNAP_SELECTOR = "main > .hero-block-wrap, main > section.sec-fullscreen, main > footer.sec-snap";
+const WHEEL_COOLDOWN_MS = 700;
+
 export default function App() {
+  const wheelCooldown = useRef(0);
+
+  useEffect(() => {
+    const getBlocks = () =>
+      Array.from(document.querySelectorAll<HTMLElement>(SNAP_SELECTOR));
+    const getCurrentIndex = () => {
+      const blocks = getBlocks();
+      const viewportTop = window.scrollY + 72; /* верх видимой области (под navbar) */
+      for (let i = blocks.length - 1; i >= 0; i--) {
+        const rect = blocks[i].getBoundingClientRect();
+        const top = rect.top + window.scrollY;
+        if (viewportTop >= top) return i;
+      }
+      return 0;
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      const now = Date.now();
+      if (now < wheelCooldown.current) {
+        e.preventDefault();
+        return;
+      }
+      const blocks = getBlocks();
+      if (blocks.length === 0) return;
+      const idx = getCurrentIndex();
+      const goNext = e.deltaY > 0;
+      const nextIdx = goNext ? Math.min(idx + 1, blocks.length - 1) : Math.max(idx - 1, 0);
+      if (nextIdx === idx) return;
+      e.preventDefault();
+      wheelCooldown.current = now + WHEEL_COOLDOWN_MS;
+      blocks[nextIdx].scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, []);
+
   return (
     <div
       className="film-grain"
@@ -127,11 +168,11 @@ export default function App() {
       {/* ── Main page content (padding-bottom so CTA doesn’t overlap) ─ */}
       <main style={{ flex: 1, display: "flex", flexDirection: "column", paddingBottom: "24px" }}>
 
-        {/* 1. HERO */}
-        <HeroSection />
-
-        {/* Ticker between Hero and About */}
-        <TickerBar accent="#00E5FF" />
+        {/* Hero block: ticker + hero = 100vh */}
+        <div className="hero-block-wrap">
+          <TickerBar accent="#00E5FF" />
+          <HeroSection />
+        </div>
 
         {/* 2. ABOUT THE FESTIVAL */}
         <AboutSection />

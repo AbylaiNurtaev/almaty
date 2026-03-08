@@ -105,7 +105,7 @@ export function AboutSection() {
                     fontSize: "2.6rem",
                     lineHeight: 1,
                     color: "white",
-                    letterSpacing: "-0.03em",
+                    letterSpacing: "0.03em",
                   }}
                 >
                   7,000+
@@ -142,7 +142,7 @@ export function AboutSection() {
                       fontSize: "1.7rem",
                       lineHeight: 1,
                       color: "var(--c-cyan,#00E5FF)",
-                      letterSpacing: "-0.02em",
+                      letterSpacing: "0.03em",
                     }}
                   >
                     {f.val}

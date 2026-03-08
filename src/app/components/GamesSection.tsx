@@ -216,7 +216,7 @@ export function GamesSection() {
               >
                 {g.stats.map(([l, v]) => (
                   <div key={l} className="flex items-baseline gap-2">
-                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.15rem", lineHeight: 1, color: "#ffffff", letterSpacing: "-0.02em" }}>{v}</span>
+                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.15rem", lineHeight: 1, color: "#ffffff", letterSpacing: "0.03em" }}>{v}</span>
                     <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.48rem", letterSpacing: "0.2em", color: "rgba(255,255,255,0.65)", textTransform: "uppercase" }}>{l}</span>
                   </div>
                 ))}

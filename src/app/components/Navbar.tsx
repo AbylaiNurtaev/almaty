@@ -9,6 +9,10 @@ const LINKS = [
   { label: "Программа", href: "#program" },
   { label: "Челленджи", href: "#challenges" },
   { label: "Призы", href: "#prizes" },
+  { label: "Технологии", href: "#brands" },
+  { label: "Бренды", href: "#brands" },
+  { label: "Франшизы", href: "#networks" },
+  { label: "Комп клубы", href: "#clubs" },
   { label: "Билеты", href: "#tickets" },
 ];
 
