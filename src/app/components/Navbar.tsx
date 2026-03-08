@@ -2,82 +2,78 @@ import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const LINKS = [
-  { label: "О фестивале", href: "#about" },
-  { label: "Активности", href: "#activities" },
-  { label: "Стримеры", href: "#streamers" },
-  { label: "Игры", href: "#games" },
-  { label: "Программа", href: "#program" },
-  { label: "Челленджи", href: "#challenges" },
-  { label: "Призы", href: "#prizes" },
-  { label: "Технологии", href: "#brands" },
-  { label: "Бренды", href: "#brands" },
-  { label: "Франшизы", href: "#networks" },
-  { label: "Комп клубы", href: "#clubs" },
-  { label: "Билеты", href: "#tickets" },
+  { label: "О фестивале",  href: "#about" },
+  { label: "Активности",   href: "#activities" },
+  { label: "Стримеры",     href: "#streamers" },
+  { label: "Игры",         href: "#games" },
+  { label: "Программа",    href: "#program" },
+  { label: "Челленджи",    href: "#challenges" },
+  { label: "Призы",        href: "#prizes" },
+  { label: "Технологии",   href: "#brands" },
+  { label: "Бренды",       href: "#brands" },
+  { label: "Франшизы",     href: "#clubs" },
+  { label: "Комп клубы",   href: "#owners" },
+  { label: "Билеты",       href: "#tickets" },
 ];
 
-const SECTION_IDS = LINKS.map((l) => l.href.slice(1));
-
 export function Navbar() {
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string>("hero");
+  const [open, setOpen]         = useState(false);
 
   useEffect(() => {
-    const updateActive = () => {
-      const viewportMiddle = window.scrollY + window.innerHeight * 0.4;
-      let current: string | null = null;
-      for (const id of SECTION_IDS) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        const rect = el.getBoundingClientRect();
-        const sectionTop = rect.top + window.scrollY;
-        const sectionBottom = sectionTop + rect.height;
-        if (viewportMiddle >= sectionTop && viewportMiddle <= sectionBottom) {
-          current = id;
-          break;
-        }
-        if (sectionTop <= viewportMiddle) current = id;
-      }
-      setActiveId(current || SECTION_IDS[0]);
+    // App.tsx диспатчит этот CustomEvent при скролле внутри snap-контейнера
+    const handler = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (id) setActiveId(id);
     };
-    updateActive();
-    window.addEventListener("scroll", updateActive, { passive: true });
-    return () => window.removeEventListener("scroll", updateActive);
+    window.addEventListener("snap-section-change", handler);
+    return () => window.removeEventListener("snap-section-change", handler);
   }, []);
 
   const linkStyle = (href: string) => {
     const id = href.slice(1);
     const isActive = activeId === id;
     return {
-      fontFamily: "'Barlow Condensed',sans-serif" as const,
-      fontWeight: 700,
-      fontSize: "0.68rem",
+      fontFamily:    "'Barlow Condensed', sans-serif" as const,
+      fontWeight:    700,
+      fontSize:      "0.68rem",
       letterSpacing: "0.2em",
-      color: isActive ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.45)",
-      transition: "color 0.2s ease",
+      color:         isActive ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.45)",
+      transition:    "color 0.2s ease",
     };
   };
 
-  const linkContent = (
-    <>
-      {LINKS.map((l) => (
-        <a
-          key={l.label}
-          href={l.href}
-          onClick={() => setOpen(false)}
-          className="block uppercase py-2 hover:text-white transition-colors duration-200 group relative"
-          style={linkStyle(l.href)}
-        >
-          {l.label}
-          <span className="absolute bottom-0 right-0 left-0 h-px bg-[var(--c-cyan,#00D4F5)] origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-280" />
-        </a>
-      ))}
-    </>
-  );
+  /* Клик по ссылке — скроллим внутри snap-контейнера */
+  const scrollTo = (href: string) => {
+    const id = href.slice(1);
+    // ищем snap-контейнер (первый overflowY:scroll div внутри .film-grain)
+    const container = document.querySelector<HTMLElement>("[data-snap-root]")
+      ?? document.querySelector<HTMLElement>('div[style*="scroll-snap-type"]');
+    const target = document.getElementById(id);
+    if (container && target) {
+      container.scrollTo({ top: target.offsetTop, behavior: "smooth" });
+    } else {
+      target?.scrollIntoView({ behavior: "smooth" });
+    }
+    setOpen(false);
+  };
+
+  const linkContent = LINKS.map((l) => (
+    <a
+      key={l.label}
+      href={l.href}
+      onClick={(e) => { e.preventDefault(); scrollTo(l.href); }}
+      className="block uppercase py-2 hover:text-white transition-colors duration-200 group relative"
+      style={linkStyle(l.href)}
+    >
+      {l.label}
+      <span className="absolute bottom-0 right-0 left-0 h-px bg-[var(--c-cyan,#00D4F5)] origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-280" />
+    </a>
+  ));
 
   return (
     <>
-      {/* Desktop: fixed right nav, no logo */}
+      {/* Desktop: fixed right nav */}
       <nav
         className="fixed top-0 right-0 z-50 hidden lg:flex flex-col items-end justify-center h-screen py-20 pr-6 xl:pr-10 pointer-events-none"
         aria-label="Навигация по разделам"
@@ -87,7 +83,7 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile: burger top-right */}
+      {/* Mobile: burger */}
       <div className="fixed top-0 right-0 z-50 lg:hidden p-4 pointer-events-auto">
         <button
           onClick={() => setOpen(!open)}
@@ -111,7 +107,7 @@ export function Navbar() {
                 <a
                   key={l.label}
                   href={l.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => { e.preventDefault(); scrollTo(l.href); }}
                   className="w-full text-center py-3 uppercase border-b transition-colors"
                   style={{
                     ...linkStyle(l.href),

@@ -24,13 +24,12 @@ const TICKER_ITEMS = [
 ];
 
 function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
-  /* Дублируем элементы дважды — при сдвиге на -50% вторая копия занимает место первой, цикл бесконечный */
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
     <div
       style={{
-        position: "relative",
-        overflow: "hidden",
+        position:     "relative",
+        overflow:     "hidden",
         borderTop:    "1px solid rgba(255,255,255,0.06)",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
         background:   "rgba(255,255,255,0.015)",
@@ -38,7 +37,6 @@ function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
         flexShrink:   0,
       }}
     >
-      {/* Fade masks */}
       <div style={{
         position: "absolute", left: 0, top: 0, bottom: 0, width: "80px",
         background: "linear-gradient(to right, #050508, transparent)", zIndex: 2, pointerEvents: "none",
@@ -47,7 +45,6 @@ function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
         position: "absolute", right: 0, top: 0, bottom: 0, width: "80px",
         background: "linear-gradient(to left, #050508, transparent)", zIndex: 2, pointerEvents: "none",
       }} />
-
       <div className="ticker-wrap">
         <div className="ticker-track">
           {items.map((item, i) => (
@@ -80,60 +77,63 @@ function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
   );
 }
 
-/* ─── Thin section divider ──────────────────────────────────── */
-function SectionDivider() {
+/* ─── Snap Section wrapper ──────────────────────────────────── */
+function SnapSection({
+  children,
+  id,
+  style,
+}: {
+  children: React.ReactNode;
+  id?: string;
+  style?: React.CSSProperties;
+}) {
   return (
-    <div style={{
-      height:     "1px",
-      background: "rgba(255,255,255,0.05)",
-      flexShrink: 0,
-    }} />
+    <section
+      id={id}
+      style={{
+        /* Каждая секция = ровно 100vh. Scroll-snap останавливается точно здесь */
+        height:          "100vh",
+        scrollSnapAlign: "start",
+        scrollSnapStop:  "always",   /* ← ключевой флаг: не перепрыгивает блоки */
+        overflow:        "hidden",
+        position:        "relative",
+        display:         "flex",
+        flexDirection:   "column",
+        ...style,
+      }}
+    >
+      {children}
+    </section>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════
-   APP  –  single vertical page, all sections stacked
-   Один поворот колёсика = один блок вперёд/назад
-   ═══════════════════════════════════════════════════════════ */
-const SNAP_SELECTOR = "main > .hero-block-wrap, main > section.sec-fullscreen, main > footer.sec-snap";
-const WHEEL_COOLDOWN_MS = 700;
-
+/* ════════════════════════════════════════════════════════════
+   APP
+   ════════════════════════════════════════════════════════════ */
 export default function App() {
-  const wheelCooldown = useRef(0);
+  /* ref на главный scroll-контейнер */
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  /* Scroll-spy: каждый блок ровно 100vh, делим scrollTop на высоту блока */
+  const SECTION_ORDER = [
+    "hero", "about", "activities", "streamers", "games",
+    "program", "challenges", "prizes", "brands",
+    "clubs", "owners", "tickets", "footer",
+  ];
 
   useEffect(() => {
-    const getBlocks = () =>
-      Array.from(document.querySelectorAll<HTMLElement>(SNAP_SELECTOR));
-    const getCurrentIndex = () => {
-      const blocks = getBlocks();
-      const viewportTop = window.scrollY + 72; /* верх видимой области (под navbar) */
-      for (let i = blocks.length - 1; i >= 0; i--) {
-        const rect = blocks[i].getBoundingClientRect();
-        const top = rect.top + window.scrollY;
-        if (viewportTop >= top) return i;
-      }
-      return 0;
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      const index = Math.round(el.scrollTop / el.clientHeight);
+      const active = SECTION_ORDER[index] ?? "";
+      window.dispatchEvent(new CustomEvent("snap-section-change", { detail: active }));
     };
 
-    const onWheel = (e: WheelEvent) => {
-      const now = Date.now();
-      if (now < wheelCooldown.current) {
-        e.preventDefault();
-        return;
-      }
-      const blocks = getBlocks();
-      if (blocks.length === 0) return;
-      const idx = getCurrentIndex();
-      const goNext = e.deltaY > 0;
-      const nextIdx = goNext ? Math.min(idx + 1, blocks.length - 1) : Math.max(idx - 1, 0);
-      if (nextIdx === idx) return;
-      e.preventDefault();
-      wheelCooldown.current = now + WHEEL_COOLDOWN_MS;
-      blocks[nextIdx].scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    return () => window.removeEventListener("wheel", onWheel);
+    onScroll();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -141,22 +141,27 @@ export default function App() {
       className="film-grain"
       style={{
         background: "#050508",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        overflowX: "hidden",
+        height:     "100vh",          /* контейнер = окно браузера */
+        width:      "100%",
+        overflow:   "hidden",
+        position:   "relative",
       }}
     >
-      {/* ── Fixed right nav (no logo), scroll-spy active = white ─ */}
+      {/* ── Fixed Navbar ── */}
       <Navbar />
 
-      {/* ── Fixed bottom CTA: Получить билет (отступ справа как у навигации) ─ */}
+      {/* ── Fixed CTA ── */}
       <a
         href="#tickets"
+        onClick={(e) => {
+          e.preventDefault();
+          scrollRef.current
+            ?.querySelector<HTMLElement>("#tickets")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }}
         className="fixed bottom-[100px] right-6 xl:right-10 z-40 flex items-center justify-center gap-2 btn-primary"
         style={{
-          padding: "10px 22px",
+          padding:  "10px 22px",
           fontSize: "0.7rem",
           clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
         }}
@@ -165,63 +170,137 @@ export default function App() {
         <span>Получить билет</span>
       </a>
 
-      {/* ── Main page content (padding-bottom so CTA doesn’t overlap) ─ */}
-      <main style={{ flex: 1, display: "flex", flexDirection: "column", paddingBottom: "24px" }}>
+      {/* ══════════════════════════════════════════════════════
+          ГЛАВНЫЙ СКРОЛЛ-КОНТЕЙНЕР
+          • overflow-y: scroll  — скролл только здесь
+          • scroll-snap-type: y mandatory  — жёсткий снэп по Y
+          • padding-top: 72px  — место под navbar
+          ══════════════════════════════════════════════════════ */}
+      <div
+        ref={scrollRef}
+        style={{
+          position:       "absolute",
+          inset:          0,
+          overflowY:      "scroll",
+          overflowX:      "hidden",
+          scrollSnapType: "y mandatory",
+          /* Убираем стандартный скроллбар — снэп уже управляет навигацией */
+          scrollbarWidth: "none",          /* Firefox */
+        }}
+      >
+        {/* Скрываем скроллбар в WebKit */}
+        <style>{`
+          div[data-snap-root]::-webkit-scrollbar { display: none; }
+        `}</style>
 
-        {/* Hero block: ticker + hero = 100vh */}
-        <div className="hero-block-wrap">
-          <TickerBar accent="#00E5FF" />
-          <HeroSection />
-        </div>
+        {/* 0. HERO (ticker + hero = 100vh) */}
+        <SnapSection id="hero">
+          {/* Navbar-offset: ticker + hero занимают 100vh, navbar поверх */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <TickerBar accent="#00E5FF" />
+            <div style={{ flex: 1, overflow: "hidden" }}>
+              <HeroSection />
+            </div>
+          </div>
+        </SnapSection>
 
-        {/* 2. ABOUT THE FESTIVAL */}
-        <AboutSection />
-        <SectionDivider />
+        {/* 1. ABOUT */}
+        <SnapSection id="about">
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <AboutSection />
+          </div>
+        </SnapSection>
 
-        {/* 3. MAIN ACTIVITIES */}
-        <ActivitiesSection />
-        <SectionDivider />
+        {/* 2. ACTIVITIES */}
+        <SnapSection id="activities">
+          <div style={{flex: 1, overflow: "hidden" }}>
+            <ActivitiesSection />
+          </div>
+        </SnapSection>
 
-        {/* 4. STREAMERS */}
-        <StreamersSection />
-        <SectionDivider />
+        {/* 3. STREAMERS */}
+        <SnapSection id="streamers">
+          <div style={{flex: 1, overflow: "hidden" }}>
+            <StreamersSection />
+          </div>
+        </SnapSection>
 
-        {/* 5. GAMES */}
-        <GamesSection />
-        <SectionDivider />
+        {/* 4. GAMES */}
+        <SnapSection id="games">
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <GamesSection />
+          </div>
+        </SnapSection>
 
-        {/* 6. PROGRAM */}
-        <ProgramSection />
-        <SectionDivider />
+        {/* 5. PROGRAM */}
+        <SnapSection id="program">
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <ProgramSection />
+          </div>
+        </SnapSection>
 
-        {/* 6.5. VIRAL CHALLENGES */}
-        <ViralChallengesSection />
-        <SectionDivider />
+        {/* 6. VIRAL CHALLENGES */}
+        <SnapSection id="challenges">
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <ViralChallengesSection />
+          </div>
+        </SnapSection>
 
         {/* 7. PRIZES */}
-        <PrizesSection />
-        <SectionDivider />
+        <SnapSection id="prizes">
+          <div style={{  flex: 1, overflow: "hidden" }}>
+            <PrizesSection />
+          </div>
+        </SnapSection>
 
-        {/* 8. BRAND EXHIBITION */}
-        <BrandsSection />
-        <SectionDivider />
+        {/* 8. BRANDS */}
+        <SnapSection id="brands">
+          <div style={{  flex: 1, overflow: "hidden" }}>
+            <BrandsSection />
+          </div>
+        </SnapSection>
 
-        {/* 9. COMPUTER CLUB FRANCHISES */}
-        <ClubNetworksSection />
-        <SectionDivider />
+        {/* 9. CLUB NETWORKS */}
+        <SnapSection id="clubs">
+          <div style={{  flex: 1, overflow: "hidden" }}>
+            <ClubNetworksSection />
+          </div>
+        </SnapSection>
 
-        {/* 10. CLUB OWNER REGISTRATION */}
-        <ClubOwnersSection />
+        {/* 10. CLUB OWNERS */}
+        <SnapSection id="owners">
+          <div style={{  flex: 1, overflow: "hidden" }}>
+            <ClubOwnersSection />
+          </div>
+        </SnapSection>
 
-        {/* Ticker before Tickets */}
-        <TickerBar accent="#F0B429" />
-
-        {/* 11. TICKETS & SPONSORSHIP */}
-        <TicketsSection />
+        {/* 11. TICKETS (с ticker-bar сверху) */}
+        <SnapSection id="tickets">
+          <div style={{  flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+            <TickerBar accent="#F0B429" />
+            <div style={{ flex: 1, overflow: "hidden" }}>
+              <TicketsSection />
+            </div>
+          </div>
+        </SnapSection>
 
         {/* 12. FOOTER */}
-        <Footer />
-      </main>
+        <footer
+          id="footer"
+          style={{
+            height:          "100vh",
+            scrollSnapAlign: "start",
+            scrollSnapStop:  "always",
+            overflow:        "hidden",
+            display:         "flex",
+            flexDirection:   "column",
+          }}
+        >
+          <div style={{ paddingTop: "72px", flex: 1, overflow: "hidden" }}>
+            <Footer />
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
