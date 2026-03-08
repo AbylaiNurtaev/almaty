@@ -23,11 +23,6 @@ export function Footer() {
       {/* Top neon */}
       <div className="absolute top-0 left-0 right-0 h-px"
         style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,245,0.45), rgba(107,33,232,0.3), transparent)" }} />
-      {/* GAMEHUB watermark */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 select-none pointer-events-none whitespace-nowrap"
-        style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "clamp(5rem,16vw,14rem)", lineHeight: 0.85, color: "rgba(255,255,255,0.008)", letterSpacing: "-0.05em" }}>
-        GAMEHUB
-      </div>
 
       <div className="relative z-10 px-8 md:px-12 xl:px-20 pt-20 pb-10"
         style={{ maxWidth: "1320px", margin: "0 auto" }}>

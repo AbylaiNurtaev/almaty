@@ -1,4 +1,5 @@
 import { Navbar }              from "./components/Navbar";
+import { Ticket }              from "lucide-react";
 import { HeroSection }         from "./components/HeroSection";
 import { AboutSection }        from "./components/AboutSection";
 import { ActivitiesSection }   from "./components/ActivitiesSection";
@@ -105,11 +106,25 @@ export default function App() {
         overflowX:  "hidden",
       }}
     >
-      {/* ── Fixed navigation ─────────────────────────────────── */}
+      {/* ── Fixed right nav (no logo), scroll-spy active = white ─ */}
       <Navbar />
 
-      {/* ── Main page content ────────────────────────────────── */}
-      <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      {/* ── Fixed bottom CTA: Получить билет (отступ справа как у навигации) ─ */}
+      <a
+        href="#tickets"
+        className="fixed bottom-[100px] right-6 xl:right-10 z-40 flex items-center justify-center gap-2 btn-primary"
+        style={{
+          padding: "10px 22px",
+          fontSize: "0.7rem",
+          clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
+        }}
+      >
+        <Ticket size={12} />
+        <span>Получить билет</span>
+      </a>
+
+      {/* ── Main page content (padding-bottom so CTA doesn’t overlap) ─ */}
+      <main style={{ flex: 1, display: "flex", flexDirection: "column", paddingBottom: "24px" }}>
 
         {/* 1. HERO */}
         <HeroSection />

@@ -1,98 +1,120 @@
-import { useState, useEffect } from "react";
-import { Menu, X, Ticket } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 
 const LINKS = [
   { label: "О фестивале", href: "#about" },
-  { label: "Активности",  href: "#activities" },
-  { label: "Игры",        href: "#games" },
-  { label: "Стримеры",   href: "#streamers" },
-  { label: "Программа",   href: "#program" },
-  { label: "Челленджи",  href: "#challenges" },
-  { label: "Призы",      href: "#prizes" },
-  { label: "Билеты",     href: "#tickets" },
+  { label: "Активности", href: "#activities" },
+  { label: "Игры", href: "#games" },
+  { label: "Стримеры", href: "#streamers" },
+  { label: "Программа", href: "#program" },
+  { label: "Челленджи", href: "#challenges" },
+  { label: "Призы", href: "#prizes" },
+  { label: "Билеты", href: "#tickets" },
 ];
 
+const SECTION_IDS = LINKS.map((l) => l.href.slice(1));
+
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 48);
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
+    const updateActive = () => {
+      const viewportMiddle = window.scrollY + window.innerHeight * 0.35;
+      let current: string | null = null;
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        if (top <= viewportMiddle) current = id;
+      }
+      setActiveId(current || SECTION_IDS[0]);
+    };
+    updateActive();
+    window.addEventListener("scroll", updateActive, { passive: true });
+    return () => window.removeEventListener("scroll", updateActive);
   }, []);
 
-  return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
-      style={scrolled
-        ? { background: "rgba(5,5,8,0.97)", backdropFilter: "blur(32px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }
-        : { background: "transparent" }
-      }
-    >
-      {/* Top border (when scrolled) */}
-      {scrolled && (
-        <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-          style={{ background: "rgba(255,255,255,0.07)" }} />
-      )}
+  const linkStyle = (href: string) => {
+    const id = href.slice(1);
+    const isActive = activeId === id;
+    return {
+      fontFamily: "'Barlow Condensed',sans-serif" as const,
+      fontWeight: 700,
+      fontSize: "0.68rem",
+      letterSpacing: "0.2em",
+      color: isActive ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.45)",
+      transition: "color 0.2s ease",
+    };
+  };
 
-      <div
-        className="mx-auto flex items-center justify-between h-16 px-6 md:px-10 xl:px-16"
-        style={{ maxWidth: "1380px" }}
-      >
-        {/* Logo */}
-        <a href="#hero" className="flex items-center gap-2.5 shrink-0 group">
-          <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.55rem", lineHeight: 1, letterSpacing: "0.04em" }}>
-            <span className="text-white">GAME</span>
-            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>HUB</span>
-          </span>
+  const linkContent = (
+    <>
+      {LINKS.map((l) => (
+        <a
+          key={l.label}
+          href={l.href}
+          onClick={() => setOpen(false)}
+          className="block uppercase py-2 hover:text-white transition-colors duration-200 group relative"
+          style={linkStyle(l.href)}
+        >
+          {l.label}
+          <span className="absolute bottom-0 right-0 left-0 h-px bg-[var(--c-cyan,#00D4F5)] origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-280" />
         </a>
+      ))}
+    </>
+  );
 
-        {/* Desktop nav */}
-        <div className="hidden lg:flex items-center gap-7">
-          {LINKS.map((l) => (
-            <a key={l.label} href={l.href}
-              style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "0.68rem", letterSpacing: "0.2em" }}
-              className="relative uppercase text-white hover:text-white/90 transition-colors duration-200 group py-1">
-              {l.label}
-              <span className="absolute bottom-0 left-0 right-0 h-px bg-[var(--c-cyan,#00D4F5)] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-280" />
-            </a>
-          ))}
+  return (
+    <>
+      {/* Desktop: fixed right nav, no logo */}
+      <nav
+        className="fixed top-0 right-0 z-50 hidden lg:flex flex-col items-end justify-center h-screen py-20 pr-6 xl:pr-10 pointer-events-none"
+        aria-label="Навигация по разделам"
+      >
+        <div className="pointer-events-auto flex flex-col items-end gap-0.5">
+          {linkContent}
         </div>
+      </nav>
 
-        {/* CTA + burger */}
-        <div className="flex items-center gap-3">
-          <a href="#tickets" className="hidden md:inline-flex btn-primary" style={{ padding: "10px 22px", fontSize: "0.7rem" }}>
-            <Ticket size={12} />
-            <span>Получить билет</span>
-          </a>
-          <button onClick={() => setOpen(!open)} aria-label="Меню"
-            className="lg:hidden w-9 h-9 flex items-center justify-center text-white hover:text-white/90 transition-colors"
-            style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
-            {open ? <X size={16} /> : <Menu size={16} />}
-          </button>
-        </div>
+      {/* Mobile: burger top-right */}
+      <div className="fixed top-0 right-0 z-50 lg:hidden p-4 pointer-events-auto">
+        <button
+          onClick={() => setOpen(!open)}
+          aria-label="Меню"
+          className="w-10 h-10 flex items-center justify-center text-white hover:text-white/90 transition-colors"
+          style={{ border: "1px solid rgba(255,255,255,0.1)" }}
+        >
+          {open ? <X size={18} /> : <Menu size={18} />}
+        </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu overlay */}
       {open && (
-        <div className="lg:hidden border-t" style={{ background: "rgba(7,7,14,0.99)", borderColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(32px)" }}>
-          {LINKS.map((l) => (
-            <a key={l.label} href={l.href} onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-6 py-3.5 border-b text-white hover:text-white/90 transition-colors"
-              style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "0.18em", borderColor: "rgba(255,255,255,0.04)" }}>
-              <span className="w-2 h-px bg-[var(--c-cyan,#00D4F5)] opacity-50" />
-              <span className="uppercase">{l.label}</span>
-            </a>
-          ))}
-          <div className="px-6 py-5">
-            <a href="#tickets" onClick={() => setOpen(false)} className="btn-primary w-full justify-center">
-              <Ticket size={14} />
-              <span>Получить билет</span>
-            </a>
+        <div
+          className="fixed inset-0 z-40 lg:hidden"
+          style={{ background: "rgba(5,5,8,0.95)", backdropFilter: "blur(24px)" }}
+        >
+          <div className="flex flex-col items-center justify-center min-h-screen px-8 pt-20 pb-24">
+            <div className="flex flex-col items-center gap-2 w-full max-w-xs">
+              {LINKS.map((l) => (
+                <a
+                  key={l.label}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="w-full text-center py-3 uppercase border-b transition-colors"
+                  style={{
+                    ...linkStyle(l.href),
+                    borderColor: "rgba(255,255,255,0.06)",
+                  }}
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       )}
-    </nav>
+    </>
   );
 }
