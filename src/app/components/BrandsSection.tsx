@@ -23,7 +23,6 @@ export function BrandsSection() {
         <div className="mb-14">
           <div className="eyebrow">Выставка</div>
           <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
-            Технологии и<br />
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>Выставка брендов</span>
           </h2>
         </div>

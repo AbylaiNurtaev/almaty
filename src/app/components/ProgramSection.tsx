@@ -60,7 +60,17 @@ function DayCard({
         </div>
         <div className="ml-auto flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: color, boxShadow: `0 0 5px ${color}` }} />
-          <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.57rem", letterSpacing: "0.18em", color, textTransform: "uppercase" }}>{events.length} мероприятий</span>
+          <span
+            style={{
+              fontFamily: "'Barlow Condensed',sans-serif",
+              fontSize: "0.8rem",
+              letterSpacing: "0.22em",
+              color,
+              textTransform: "uppercase",
+            }}
+          >
+            {events.length} мероприятий
+          </span>
         </div>
       </div>
 

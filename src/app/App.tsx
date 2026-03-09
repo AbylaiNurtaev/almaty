@@ -55,7 +55,7 @@ function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
                 fontSize:      "clamp(0.8rem, 1.2vw, 1rem)",
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
-                color:         `${accent}65`,
+                color:         "#ffffff",
                 whiteSpace:    "nowrap",
                 padding:       "0 28px",
               }}>
@@ -118,7 +118,7 @@ export default function App() {
   const SECTION_ORDER = [
     "hero", "about", "activities", "streamers", "games",
     "program", "challenges", "prizes", "brands",
-    "clubs", "owners", "tickets", "footer",
+    "clubs", "owners", "tickets",
   ];
 
   useEffect(() => {
@@ -184,6 +184,7 @@ export default function App() {
           overflowY:      "scroll",
           overflowX:      "hidden",
           scrollSnapType: "y mandatory",
+          paddingBottom:  "64px",      /* место под фиксированный футер */
           /* Убираем стандартный скроллбар — снэп уже управляет навигацией */
           scrollbarWidth: "none",          /* Firefox */
         }}
@@ -283,23 +284,19 @@ export default function App() {
             </div>
           </div>
         </SnapSection>
+      </div>
 
-        {/* 12. FOOTER */}
-        <footer
-          id="footer"
-          style={{
-            height:          "100vh",
-            scrollSnapAlign: "start",
-            scrollSnapStop:  "always",
-            overflow:        "hidden",
-            display:         "flex",
-            flexDirection:   "column",
-          }}
-        >
-          <div style={{ paddingTop: "72px", flex: 1, overflow: "hidden" }}>
-            <Footer />
-          </div>
-        </footer>
+      {/* Фиксированный футер по низу экрана */}
+      <div
+        style={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 30,
+        }}
+      >
+        <Footer />
       </div>
     </div>
   );

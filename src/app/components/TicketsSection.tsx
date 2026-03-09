@@ -131,10 +131,8 @@ export function TicketsSection() {
 
         {/* Header */}
         <div className="text-center mb-6">
-
           <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
-            Выберите свой<br />
-            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>билет</span>
+            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>Билеты</span>
           </h2>
         </div>
 

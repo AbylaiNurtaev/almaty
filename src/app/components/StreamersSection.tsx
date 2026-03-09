@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import TwitchIcon from "../../assets/icons/twitch.png";
+import TikTokIcon from "../../assets/icons/tiktok.png";
+import InstagramIcon from "../../assets/icons/Instagram.webp";
 
 const PORTRAITS = [
   "https://images.unsplash.com/photo-1634651754953-1565eca58d5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1lciUyMHN0cmVhbWVyJTIwY29udGVudCUyMGNyZWF0b3IlMjBicm9hZGNhc3RpbmclMjBsaXZlJTIwbmVvbiUyMGRhcmt8ZW58MXx8fHwxNzcyODA1NDU5fDA&ixlib=rb-4.1.0&q=80&w=800",
@@ -20,6 +23,41 @@ const STREAMERS = [
 ];
 
 const PLAT_COLOR: Record<string, string> = { Twitch: "#9147FF", YouTube: "#FF0000" };
+
+const SOCIALS: Record<
+  string,
+  { twitch?: string; tiktok?: string; instagram?: string }
+> = {
+  Buster: {
+    twitch: "https://www.twitch.tv/buster",
+    tiktok: "https://www.tiktok.com/@bustersworld4",
+    instagram: "https://www.instagram.com/busterzy",
+  },
+  Bratishkin: {
+    twitch: "https://www.twitch.tv/bratishkinoff",
+    tiktok: "https://www.tiktok.com/@nebratishkin",
+    instagram: "https://www.instagram.com/br4tishkin",
+  },
+  Del1ght: {
+    twitch: "https://www.twitch.tv/del1ght",
+  },
+  Sasavot: {
+    twitch: "https://www.twitch.tv/sasavot",
+    instagram: "https://www.instagram.com/sasavot_rofls",
+  },
+  Zubarev: {
+    twitch: "https://www.twitch.tv/zubarev",
+    tiktok: "https://www.tiktok.com/@zubarefff",
+  },
+  Korya: {
+    twitch: "https://www.twitch.tv/korya_mc",
+  },
+  "Dmitrii Lixx": {
+    twitch: "https://www.twitch.tv/dmitry_lixxx",
+    instagram: "https://www.instagram.com/dima_lixx/",
+  },
+  // Для остальных стримеров ссылки можно добавить позже, когда будут подтверждённые профили
+};
 
 const LEFT_INDICES = [0, 1, 2, 3, 4, 5];   // 6 стримеров слева (3×2)
 const RIGHT_INDICES = [6, 7, 8];            // 3 стримера справа + ячейка «ещё»
@@ -171,23 +209,75 @@ export function StreamersSection() {
               <div className="gh-title text-white mb-2" style={{ fontSize: "clamp(1.15rem, 3.5vw, 1.6rem)" }}>
                 {selected.name}
               </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: PLAT_COLOR[selected.platform] }} />
-                  <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.5)" }}>
-                    {selected.platform}
+              <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-2">
+                  {SOCIALS[selected.name]?.tiktok && (
+                    <a
+                      href={SOCIALS[selected.name]!.tiktok}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={TikTokIcon}
+                        alt="TikTok"
+                        className="shrink-0"
+                        style={{ width: "18px", height: "18px" }}
+                      />
+                    </a>
+                  )}
+                  {SOCIALS[selected.name]?.instagram && (
+                    <a
+                      href={SOCIALS[selected.name]!.instagram}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={InstagramIcon}
+                        alt="Instagram"
+                        className="shrink-0"
+                        style={{ width: "18px", height: "18px" }}
+                      />
+                    </a>
+                  )}
+                  {SOCIALS[selected.name]?.twitch && (
+                    <a
+                      href={SOCIALS[selected.name]!.twitch}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={TwitchIcon}
+                        alt="Twitch"
+                        className="shrink-0"
+                        style={{ width: "18px", height: "18px" }}
+                      />
+                    </a>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  {selected.platform !== "YouTube" && (
+                    <span
+                      style={{
+                        fontFamily: "'Barlow',sans-serif",
+                        fontSize: "0.9rem",
+                        letterSpacing: "0.03em",
+                        color: "rgba(255,255,255,0.5)",
+                      }}
+                    >
+                      {selected.platform}
+                    </span>
+                  )}
+                  <span
+                    style={{
+                      fontFamily: "'Barlow Condensed',sans-serif",
+                      fontSize: "0.85rem",
+                      color: "rgba(255,255,255,0.6)",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    {selected.followers}
                   </span>
                 </div>
-                <span
-                  style={{
-                    fontFamily: "'Barlow Condensed',sans-serif",
-                    fontSize: "0.85rem",
-                    color: "rgba(255,255,255,0.35)",
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  {selected.followers}
-                </span>
               </div>
             </div>
             </div>

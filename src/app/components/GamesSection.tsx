@@ -1,29 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Trophy, ChevronRight, Target, Shield, Sword } from "lucide-react";
 
 import cs1 from "../../assets/cs1.webp";
-import cs2 from "../../assets/cs2.webp";
-import cs3 from "../../assets/cs3.webp";
 import pubg1 from "../../assets/pubg1.webp";
-import pubg2 from "../../assets/pubg2.webp";
-import pubg3 from "../../assets/pubg3.jpg";
-import dota2Social from "../../assets/dota2_social.jpg";
 import dota2 from "../../assets/dota2.jpg";
-import dota2Webp from "../../assets/dota2.webp";
-
-const CS2_SLIDER_IMGS = [cs1, cs2, cs3];
-const CS2_TRACK = [cs1, cs2, cs3, cs1];
-
-const PUBG_SLIDER_IMGS = [pubg1, pubg2, pubg3];
-const PUBG_TRACK = [pubg1, pubg2, pubg3, pubg1];
-
-const DOTA_SLIDER_IMGS = [dota2Social, dota2, dota2Webp];
-const DOTA_TRACK = [dota2Social, dota2, dota2Webp, dota2Social];
 
 const IMGS = {
-  cs2:  CS2_SLIDER_IMGS[0],
-  pubg: PUBG_SLIDER_IMGS[0],
-  dota: DOTA_SLIDER_IMGS[0],
+  cs2:  cs1,
+  pubg: pubg1,
+  dota: dota2,
 };
 
 const GAMES = [
@@ -34,87 +19,24 @@ const GAMES = [
 
 export function GamesSection() {
   const [active, setActive] = useState("cs2");
-  const [cs2SlideIndex, setCs2SlideIndex] = useState(0);
-  const [cs2NoTransition, setCs2NoTransition] = useState(false);
-  const [pubgSlideIndex, setPubgSlideIndex] = useState(0);
-  const [pubgNoTransition, setPubgNoTransition] = useState(false);
-  const [dotaSlideIndex, setDotaSlideIndex] = useState(0);
-  const [dotaNoTransition, setDotaNoTransition] = useState(false);
   const g = GAMES.find((x) => x.id === active)!;
 
-  const isCs2 = active === "cs2";
-  const isPubg = active === "pubg";
-  const isDota = active === "dota";
-
-  useEffect(() => {
-    if (!isCs2) setCs2SlideIndex(0);
-  }, [isCs2]);
-  useEffect(() => {
-    if (!isPubg) setPubgSlideIndex(0);
-  }, [isPubg]);
-  useEffect(() => {
-    if (!isDota) setDotaSlideIndex(0);
-  }, [isDota]);
-
-  useEffect(() => {
-    if (!isCs2) return;
-    const t = setInterval(() => {
-      setCs2SlideIndex((i) => {
-        if (i === CS2_TRACK.length - 1) {
-          setCs2NoTransition(true);
-          return 0;
-        }
-        return i + 1;
-      });
-    }, 4500);
-    return () => clearInterval(t);
-  }, [isCs2]);
-  useEffect(() => {
-    if (!isPubg) return;
-    const t = setInterval(() => {
-      setPubgSlideIndex((i) => {
-        if (i === PUBG_TRACK.length - 1) {
-          setPubgNoTransition(true);
-          return 0;
-        }
-        return i + 1;
-      });
-    }, 4500);
-    return () => clearInterval(t);
-  }, [isPubg]);
-  useEffect(() => {
-    if (!isDota) return;
-    const t = setInterval(() => {
-      setDotaSlideIndex((i) => {
-        if (i === DOTA_TRACK.length - 1) {
-          setDotaNoTransition(true);
-          return 0;
-        }
-        return i + 1;
-      });
-    }, 4500);
-    return () => clearInterval(t);
-  }, [isDota]);
-
-  useEffect(() => {
-    if (!cs2NoTransition) return;
-    const id = requestAnimationFrame(() => setCs2NoTransition(false));
-    return () => cancelAnimationFrame(id);
-  }, [cs2NoTransition]);
-  useEffect(() => {
-    if (!pubgNoTransition) return;
-    const id = requestAnimationFrame(() => setPubgNoTransition(false));
-    return () => cancelAnimationFrame(id);
-  }, [pubgNoTransition]);
-  useEffect(() => {
-    if (!dotaNoTransition) return;
-    const id = requestAnimationFrame(() => setDotaNoTransition(false));
-    return () => cancelAnimationFrame(id);
-  }, [dotaNoTransition]);
+  // Статичный фон для каждой игры (без движения, только смена при клике)
+  const currentBg = IMGS[g.id as keyof typeof IMGS];
 
   return (
     <section id="games" className="sec-fullscreen relative overflow-hidden flex flex-col"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
+
+      {/* Fullscreen dynamic background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <img
+          src={currentBg}
+          alt={g.name}
+          className="w-full h-full object-cover"
+          style={{ filter: "brightness(0.18) saturate(0.55)" }}
+        />
+      </div>
 
       {/* Dynamic bg tint */}
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"
@@ -133,139 +55,142 @@ export function GamesSection() {
         </div>
 
         {/* Content */}
-        <div className="grid lg:grid-cols-12 gap-3">
+        <div className="grid lg:grid-cols-12 gap-6 items-start">
 
-          {/* Main panel */}
-          <div className="lg:col-span-7 relative overflow-hidden"
-            style={{ border: `1px solid ${g.color}38`, minHeight: "480px" }}>
-            {isCs2 ? (
-              <div className="absolute inset-0 overflow-hidden">
-                <div
-                  className="flex h-full ease-out"
-                  style={{
-                    width: `${CS2_TRACK.length * 100}%`,
-                    transform: `translateX(-${(100 / CS2_TRACK.length) * cs2SlideIndex}%)`,
-                    transition: cs2NoTransition ? "none" : "transform 700ms ease-out",
-                  }}
-                >
-                  {CS2_TRACK.map((src, i) => (
-                    <div key={i} className="flex-[0_0_25%] h-full">
-                      <img src={src} alt="" className="w-full h-full object-cover"
-                        style={{ filter: "brightness(0.14) saturate(0.4)" }} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : isPubg ? (
-              <div className="absolute inset-0 overflow-hidden">
-                <div
-                  className="flex h-full ease-out"
-                  style={{
-                    width: `${PUBG_TRACK.length * 100}%`,
-                    transform: `translateX(-${(100 / PUBG_TRACK.length) * pubgSlideIndex}%)`,
-                    transition: pubgNoTransition ? "none" : "transform 700ms ease-out",
-                  }}
-                >
-                  {PUBG_TRACK.map((src, i) => (
-                    <div key={i} className="flex-[0_0_25%] h-full">
-                      <img src={src} alt="" className="w-full h-full object-cover"
-                        style={{ filter: "brightness(0.14) saturate(0.4)" }} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : isDota ? (
-              <div className="absolute inset-0 overflow-hidden">
-                <div
-                  className="flex h-full ease-out"
-                  style={{
-                    width: `${DOTA_TRACK.length * 100}%`,
-                    transform: `translateX(-${(100 / DOTA_TRACK.length) * dotaSlideIndex}%)`,
-                    transition: dotaNoTransition ? "none" : "transform 700ms ease-out",
-                  }}
-                >
-                  {DOTA_TRACK.map((src, i) => (
-                    <div key={i} className="flex-[0_0_25%] h-full">
-                      <img src={src} alt="" className="w-full h-full object-cover"
-                        style={{ filter: "brightness(0.14) saturate(0.4)" }} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <img src={IMGS[g.id as keyof typeof IMGS]} alt={g.name}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
-                style={{ filter: "brightness(0.14) saturate(0.4)" }} />
-            )}
-            <div className="absolute inset-0 transition-all duration-600 pointer-events-none"
-              style={{ background: `linear-gradient(135deg, rgba(5,5,8,0.97) 0%, ${g.color}0F 65%, rgba(5,5,8,0.72) 100%)` }} />
-            {/* Top accent */}
-            <div className="absolute top-0 left-0 right-0 h-[2px]"
-              style={{ background: `linear-gradient(90deg, ${g.color}, ${g.color}22, transparent)` }} />
-
-            <div className="relative z-10 p-12 md:p-14 h-full flex flex-col">
-              <p className="max-w-[500px] flex-1" style={{ fontFamily: "'Barlow',sans-serif", letterSpacing: "0.03em", color: "rgba(255,255,255,0.42)", lineHeight: 1.78, fontSize: "0.96rem" }}>{g.desc}</p>
-
-              {/* Mini stats — стеклянный эффект, прижато к низу */}
-              <div
-                className="absolute bottom-0 left-0 right-0 flex flex-wrap justify-start gap-4 p-4 md:p-5"
+          {/* Описание и мини-статы активной игры */}
+          <div className="lg:col-span-5">
+            <div key={g.id} className="games-fade">
+              <p
+                className="max-w-[520px]"
                 style={{
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
+                  fontFamily: "'Barlow',sans-serif",
+                  letterSpacing: "0.03em",
+                  color: "rgba(255,255,255,0.7)",
+                  lineHeight: 1.8,
+                  fontSize: "0.98rem",
                 }}
               >
+                {g.desc}
+              </p>
+              <div className="mt-7 flex flex-wrap gap-4">
                 {g.stats.map(([l, v]) => (
-                  <div key={l} className="flex items-baseline gap-2">
-                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, fontSize: "1.15rem", lineHeight: 1, color: "#ffffff", letterSpacing: "0.03em" }}>{v}</span>
-                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.48rem", letterSpacing: "0.2em", color: "rgba(255,255,255,0.65)", textTransform: "uppercase" }}>{l}</span>
+                  <div
+                    key={l}
+                    className="flex flex-col gap-1 px-4 py-3"
+                    style={{
+                      background: "rgba(5,5,8,0.78)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      minWidth: "140px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'Barlow Condensed',sans-serif",
+                        fontWeight: 900,
+                        fontSize: "1.15rem",
+                        lineHeight: 1,
+                        color: "#ffffff",
+                        letterSpacing: "0.03em",
+                      }}
+                    >
+                      {v}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "'Barlow Condensed',sans-serif",
+                        fontSize: "0.48rem",
+                        letterSpacing: "0.2em",
+                        color: "rgba(255,255,255,0.65)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {l}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Game selector cards */}
-          <div className="lg:col-span-5 flex flex-col gap-3">
+          {/* Карточки выбора игры */}
+          <div className="lg:col-span-7 flex flex-col gap-3">
             {GAMES.map((gm) => {
               const isA = active === gm.id;
               const GI = gm.Icon;
               return (
-                <button key={gm.id} onClick={() => setActive(gm.id)}
+                <button
+                  key={gm.id}
+                  onClick={() => setActive(gm.id)}
                   className="group text-left overflow-hidden relative flex-1"
-                  style={{ border: isA ? `1px solid ${gm.color}45` : "1px solid rgba(255,255,255,0.06)", minHeight: "128px", transition: "all .32s ease" }}>
+                  style={{
+                    border: isA ? `1px solid ${gm.color}45` : "1px solid rgba(255,255,255,0.06)",
+                    minHeight: "128px",
+                    transition: "all .32s ease",
+                  }}
+                >
                   <img
-                    src={
-                      gm.id === "cs2" && isA
-                        ? CS2_SLIDER_IMGS[cs2SlideIndex % CS2_SLIDER_IMGS.length]
-                        : gm.id === "pubg" && isA
-                          ? PUBG_SLIDER_IMGS[pubgSlideIndex % PUBG_SLIDER_IMGS.length]
-                          : gm.id === "dota" && isA
-                            ? DOTA_SLIDER_IMGS[dotaSlideIndex % DOTA_SLIDER_IMGS.length]
-                            : IMGS[gm.id as keyof typeof IMGS]
-                    }
+                    src={IMGS[gm.id as keyof typeof IMGS]}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover"
-                    style={{ filter: isA ? "brightness(0.22) saturate(0.5)" : "brightness(0.07) saturate(0.15)", transition: "filter .45s ease" }} />
-                  <div className="absolute inset-0"
-                    style={{ background: isA ? `linear-gradient(to right, rgba(5,5,8,0.95) 40%, ${gm.color}0F)` : "rgba(5,5,8,0.88)", transition: "background .45s ease" }} />
-                  <div className="absolute top-0 left-0 bottom-0 w-[3px]"
-                    style={{ background: isA ? gm.color : "rgba(255,255,255,0.06)", transition: "background .32s ease" }} />
+                    style={{
+                      filter: isA ? "brightness(0.22) saturate(0.5)" : "brightness(0.07) saturate(0.15)",
+                      transition: "filter .45s ease",
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: isA
+                        ? `linear-gradient(to right, rgba(5,5,8,0.95) 40%, ${gm.color}0F)`
+                        : "rgba(5,5,8,0.88)",
+                      transition: "background .45s ease",
+                    }}
+                  />
+                  <div
+                    className="absolute top-0 left-0 bottom-0 w-[3px]"
+                    style={{
+                      background: isA ? gm.color : "rgba(255,255,255,0.06)",
+                      transition: "background .32s ease",
+                    }}
+                  />
 
                   <div className="relative z-10 flex items-center gap-5 p-6">
-                    <div className="w-11 h-11 flex items-center justify-center shrink-0"
-                      style={{ background: isA ? `${gm.color}1E` : "rgba(255,255,255,0.04)", border: `1px solid ${isA ? gm.color + "42" : "rgba(255,255,255,0.07)"}`, transition: "all .32s ease" }}>
-                      <GI size={16} style={{ color: isA ? gm.color : "rgba(255,255,255,0.2)", transition: "color .32s ease" }} />
+                    <div
+                      className="w-11 h-11 flex items-center justify-center shrink-0"
+                      style={{
+                        background: isA ? `${gm.color}1E` : "rgba(255,255,255,0.04)",
+                        border: `1px solid ${isA ? gm.color + "42" : "rgba(255,255,255,0.07)"}`,
+                        transition: "all .32s ease",
+                      }}
+                    >
+                      <GI
+                        size={16}
+                        style={{ color: isA ? gm.color : "rgba(255,255,255,0.2)", transition: "color .32s ease" }}
+                      />
                     </div>
                     <div>
-                      <div className="gh-title text-white" style={{ fontSize: "clamp(1.5rem, 2.5vw, 1.85rem)" }}>{gm.name}</div>
+                      <div
+                        className="gh-title text-white"
+                        style={{ fontSize: "clamp(1.5rem, 2.5vw, 1.85rem)" }}
+                      >
+                        {gm.name}
+                      </div>
                     </div>
                   </div>
                 </button>
               );
             })}
 
-            <a href="#tickets" className="btn-outline w-full justify-center mt-3"
-              style={{ borderColor: `${g.color}55`, color: "#ffffff", fontSize: "0.76rem", clipPath: "none" }}>
+            <a
+              href="#tickets"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("tickets");
+                el?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="btn-outline w-full justify-center mt-3"
+              style={{ borderColor: `${g.color}55`, color: "#ffffff", fontSize: "0.76rem", clipPath: "none" }}
+            >
               <Trophy size={13} />
               <span>Зарегистрироваться на турнир</span>
               <ChevronRight size={13} />

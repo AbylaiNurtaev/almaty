@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const LINKS = [
+  { label: "Главная",       href: "#hero" },
   { label: "О фестивале",  href: "#about" },
   { label: "Активности",   href: "#activities" },
   { label: "Стримеры",     href: "#streamers" },
@@ -9,8 +10,7 @@ const LINKS = [
   { label: "Программа",    href: "#program" },
   { label: "Челленджи",    href: "#challenges" },
   { label: "Призы",        href: "#prizes" },
-  { label: "Технологии",   href: "#brands" },
-  { label: "Бренды",       href: "#brands" },
+  { label: "Выставка брендов", href: "#brands" },
   { label: "Франшизы",     href: "#clubs" },
   { label: "Комп клубы",   href: "#owners" },
   { label: "Билеты",       href: "#tickets" },
