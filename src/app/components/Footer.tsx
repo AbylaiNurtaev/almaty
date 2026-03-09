@@ -49,9 +49,8 @@ export function Footer() {
               style={{ background: "var(--c-cyan,#00E5FF)" }}
             />
             <span
+              className="gh-logo"
               style={{
-                fontFamily: "'Barlow Condensed',sans-serif",
-                fontWeight: 900,
                 fontSize: "1.1rem",
                 lineHeight: 1,
                 letterSpacing: "0.12em",

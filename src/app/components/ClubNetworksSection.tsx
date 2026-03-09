@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const IMG = "https://images.unsplash.com/photo-1558324190-c940eb141401?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMGdhbWluZyUyMGNsdWIlMjByb29tJTIwZGFyayUyMG5lb24lMjByb3dzJTIwc2V0dXB8ZW58MXx8fHwxNzcyODAzOTE5fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
 import broArenaImg from "@/assets/clubs/BRO Arena.jpg";
@@ -27,6 +27,35 @@ const CLUBS = [
 
 export function ClubNetworksSection() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0); // COLIZEUM по умолчанию
+  const autoRotateRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const AUTO_DELAY = 5000;
+
+  const startAutoRotate = () => {
+    if (autoRotateRef.current) {
+      clearInterval(autoRotateRef.current);
+    }
+    autoRotateRef.current = setInterval(() => {
+      setSelectedIndex((prev) => {
+        if (prev === null) return 0;
+        return (prev + 1) % CLUBS.length;
+      });
+    }, AUTO_DELAY);
+  };
+
+  const handleSelect = (index: number) => {
+    setSelectedIndex(index);
+    startAutoRotate();
+  };
+
+  // Автопереключение выбранной франшизы каждые 5 секунд
+  useEffect(() => {
+    startAutoRotate();
+    return () => {
+      if (autoRotateRef.current) {
+        clearInterval(autoRotateRef.current);
+      }
+    };
+  }, []);
 
   const bgImage = selectedIndex !== null && CLUB_IMAGES[CLUBS[selectedIndex].name]
     ? CLUB_IMAGES[CLUBS[selectedIndex].name]
@@ -69,38 +98,77 @@ export function ClubNetworksSection() {
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>франшизы</span>
           </h2>
         </div>
+      </div>
 
-        <div className="grid lg:grid-cols-2 gap-20 xl:gap-32 items-center">
-          <div className="order-1 lg:order-1" />
-
-          {/* Справа: список кнопок (узкий) */}
-          <div className="order-2 lg:order-2 flex justify-end lg:justify-end">
-            <div className="w-full max-w-[260px]" style={{ gap: "1px", display: "flex", flexDirection: "column", background: "rgba(255,255,255,0.06)" }}>
-              {CLUBS.map((c, i) => {
-                const isSelected = selectedIndex === i;
-                return (
-                  <button
-                    key={c.name}
-                    type="button"
-                    onClick={() => setSelectedIndex(i)}
-                    className="group flex items-center gap-5 transition-all duration-300 cursor-pointer text-left w-full border-l-2"
+      {/* Горизонтальные переключатели франшиз внизу по центру */}
+      <div
+        style={{
+          position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%)",
+          bottom: "150px",
+          zIndex: 20,
+          width: "100%",
+          padding: "0 var(--sec-px)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1380px",
+            margin: "0 auto",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              gap: "1px",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              background: "rgba(255,255,255,0.06)",
+              padding: "4px",
+            }}
+          >
+            {CLUBS.map((c, i) => {
+              const isSelected = selectedIndex === i;
+              return (
+                <button
+                  key={c.name}
+                  type="button"
+                  onClick={() => handleSelect(i)}
+                  className="group flex items-center gap-5 transition-all duration-300 cursor-pointer text-left border-l-2"
+                  style={{
+                    background: isSelected ? "rgba(0,229,255,0.08)" : "#09091A",
+                    padding: "16px 22px",
+                    borderLeftColor: isSelected ? "var(--c-cyan,#00E5FF)" : "transparent",
+                  }}
+                >
+                  <span
                     style={{
-                      background: isSelected ? "rgba(0,229,255,0.08)" : "#09091A",
-                      padding: "16px 22px",
-                      borderLeftColor: isSelected ? "var(--c-cyan,#00E5FF)" : "transparent",
+                      fontFamily: "'Barlow Condensed',sans-serif",
+                      fontWeight: 700,
+                      fontSize: "0.68rem",
+                      color: "rgba(0,229,255,0.22)",
+                      letterSpacing: "0.1em",
+                      minWidth: "24px",
                     }}
                   >
-                    <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "0.68rem", color: "rgba(0,229,255,0.22)", letterSpacing: "0.1em", minWidth: "24px" }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div className="w-px h-5 shrink-0" style={{ background: "rgba(255,255,255,0.08)" }} />
-                    <span className="gh-mono text-white flex-1 group-hover:text-white/80 transition-colors duration-200" style={{ fontSize: "1.08rem" }}>
-                      {c.name}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div
+                    className="w-px h-5 shrink-0"
+                    style={{ background: "rgba(255,255,255,0.08)" }}
+                  />
+                  <span
+                    className="gh-mono text-white flex-1 group-hover:text-white/80 transition-colors duration-200"
+                    style={{ fontSize: "1.08rem" }}
+                  >
+                    {c.name}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Zap, Star, ArrowRight } from "lucide-react";
 
 const BG = "https://images.unsplash.com/photo-1614609005636-648d357485c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwYXJlbmElMjBzcGVjdGFjdWxhciUyMGNvbmNlcnQlMjBsaWdodGluZyUyMG1hc3NpdmUlMjBjcm93ZCUyMHN0YWdlfGVufDF8fHx8MTc3MjgwNTQ1M3ww&ixlib=rb-4.1.0&q=80&w=1920";
@@ -150,11 +150,8 @@ export function HeroSection() {
 
             {/* ── GAMEHUB TITLE ── */}
             <h1
+              className="gh-logo"
               style={{
-                fontFamily: "'Barlow Condensed',sans-serif",
-                fontWeight: 900,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
                 lineHeight: 0.80,
                 fontSize: "clamp(3.5rem, 10vw, 8rem)",
                 color: "white",

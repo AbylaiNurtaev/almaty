@@ -43,7 +43,18 @@ export function GamesSection() {
         style={{ background: `radial-gradient(ellipse 65% 50% at 75% 55%, ${g.color}0D 0%, transparent 70%)` }} />
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
 
-      <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
+      <div
+        style={{
+          width: "1380px",
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 10,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
 
         {/* Header */}
         <div className="mb-14">
@@ -55,7 +66,7 @@ export function GamesSection() {
         </div>
 
         {/* Content */}
-        <div className="grid lg:grid-cols-12 gap-6 items-start">
+        <div className="grid lg:grid-cols-12 gap-6 items-center">
 
           {/* Описание и мини-статы активной игры */}
           <div className="lg:col-span-5">
@@ -113,7 +124,10 @@ export function GamesSection() {
           </div>
 
           {/* Карточки выбора игры */}
-          <div className="lg:col-span-7 flex flex-col gap-3">
+          <div
+            className="lg:col-span-7 flex flex-col gap-3"
+            style={{ maxWidth: "540px", marginLeft: "auto" }}
+          >
             {GAMES.map((gm) => {
               const isA = active === gm.id;
               const GI = gm.Icon;
@@ -124,7 +138,7 @@ export function GamesSection() {
                   className="group text-left overflow-hidden relative flex-1"
                   style={{
                     border: isA ? `1px solid ${gm.color}45` : "1px solid rgba(255,255,255,0.06)",
-                    minHeight: "128px",
+                    minHeight: "104px",
                     transition: "all .32s ease",
                   }}
                 >
@@ -133,7 +147,7 @@ export function GamesSection() {
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{
-                      filter: isA ? "brightness(0.22) saturate(0.5)" : "brightness(0.07) saturate(0.15)",
+                      filter: isA ? "brightness(0.35) saturate(0.8)" : "brightness(0.18) saturate(0.4)",
                       transition: "filter .45s ease",
                     }}
                   />
@@ -141,9 +155,11 @@ export function GamesSection() {
                     className="absolute inset-0"
                     style={{
                       background: isA
-                        ? `linear-gradient(to right, rgba(5,5,8,0.95) 40%, ${gm.color}0F)`
-                        : "rgba(5,5,8,0.88)",
-                      transition: "background .45s ease",
+                        ? `linear-gradient(to right, rgba(10,10,16,0.62) 0%, rgba(10,10,16,0.36) 60%, ${gm.color}0F 100%)`
+                        : "rgba(10,10,16,0.45)",
+                      backdropFilter: "blur(18px)",
+                      WebkitBackdropFilter: "blur(18px)",
+                      transition: "background .45s ease, backdrop-filter .45s ease",
                     }}
                   />
                   <div
@@ -154,9 +170,9 @@ export function GamesSection() {
                     }}
                   />
 
-                  <div className="relative z-10 flex items-center gap-5 p-6">
+                  <div className="relative z-10 flex items-center gap-5 px-5 py-4">
                     <div
-                      className="w-11 h-11 flex items-center justify-center shrink-0"
+                      className="w-10 h-10 flex items-center justify-center shrink-0"
                       style={{
                         background: isA ? `${gm.color}1E` : "rgba(255,255,255,0.04)",
                         border: `1px solid ${isA ? gm.color + "42" : "rgba(255,255,255,0.07)"}`,
