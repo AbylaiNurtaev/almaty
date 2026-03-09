@@ -3,16 +3,16 @@ import { Menu, X } from "lucide-react";
 
 const LINKS = [
   { label: "Главная",       href: "#hero" },
-  { label: "О фестивале",  href: "#about" },
+  { label: "GameFest",     href: "#about" },
   { label: "Активности",   href: "#activities" },
-  { label: "Стримеры",     href: "#streamers" },
+  { label: "Гости",        href: "#streamers" },
   { label: "Игры",         href: "#games" },
   { label: "Программа",    href: "#program" },
-  { label: "Челленджи",    href: "#challenges" },
+  { label: "Челендж",      href: "#challenges" },
   { label: "Призы",        href: "#prizes" },
-  { label: "Выставка брендов", href: "#brands" },
+  { label: "Expo",             href: "#brands" },
   { label: "Франшизы",     href: "#clubs" },
-  { label: "Комп клубы",   href: "#owners" },
+  { label: "Клубы",        href: "#owners" },
   { label: "Билеты",       href: "#tickets" },
 ];
 
@@ -32,13 +32,12 @@ export function Navbar() {
 
   const linkStyle = (href: string) => {
     const id = href.slice(1);
-    const isActive = activeId === id;
     return {
       fontFamily:    "'Barlow Condensed', sans-serif" as const,
       fontWeight:    700,
       fontSize:      "0.68rem",
       letterSpacing: "0.2em",
-      color:         isActive ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.45)",
+      color:         "rgba(255,255,255,1)",
       transition:    "color 0.2s ease",
     };
   };
@@ -75,11 +74,14 @@ export function Navbar() {
     <>
       {/* Desktop: fixed right nav */}
       <nav
-        className="fixed top-0 right-0 z-50 hidden lg:flex flex-col items-end justify-center h-screen py-20 pr-6 xl:pr-10 pointer-events-none"
+        className="fixed top-0 z-50 hidden lg:flex flex-col items-end justify-center h-screen py-20 pointer-events-none"
         aria-label="Навигация по разделам"
+        style={{ right: "10px" }}
       >
-        <div className="pointer-events-auto flex flex-col items-end gap-0.5">
-          {linkContent}
+        <div className="pointer-events-auto">
+          <div className="flex flex-col items-end gap-0.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-4 shadow-[0_0_40px_rgba(0,0,0,0.85)]">
+            {linkContent}
+          </div>
         </div>
       </nav>
 

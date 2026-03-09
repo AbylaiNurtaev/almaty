@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { PARTNER_CATEGORIES } from "@/app/data/partnersCategories";
 import { ExhibitorApplicationModal } from "./ExhibitorApplicationModal";
@@ -8,14 +8,59 @@ import { ExhibitorApplicationModal } from "./ExhibitorApplicationModal";
 const HIDDEN_IDS = ["franchise", "delivery", "service"];
 const DISPLAY_CATEGORIES = PARTNER_CATEGORIES.filter((c) => !HIDDEN_IDS.includes(c.id));
 
+const BRAND_GLOW_COLORS = [
+  "#00D4F5",
+  "#F97316",
+  "#22C55E",
+  "#6366F1",
+  "#EC4899",
+  "#EAB308",
+  "#0EA5E9",
+  "#F43F5E",
+];
+
 export function BrandsSection() {
   const [exhibitorModalOpen, setExhibitorModalOpen] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("devices");
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+
+  const activeCategory = selectedCategoryId
+    ? DISPLAY_CATEGORIES.find((c) => c.id === selectedCategoryId)
+    : null;
+
+  useEffect(() => {
+    if (activeCategory) {
+      setSelectedBrand((prev) =>
+        prev && activeCategory.brands.includes(prev)
+          ? prev
+          : activeCategory.brands[0] ?? null,
+      );
+    }
+  }, [activeCategory]);
+
+  const activeBrandIndex =
+    activeCategory && selectedBrand
+      ? activeCategory.brands.indexOf(selectedBrand)
+      : -1;
+
+  const brandGlowColor =
+    activeBrandIndex >= 0
+      ? BRAND_GLOW_COLORS[activeBrandIndex % BRAND_GLOW_COLORS.length]
+      : activeCategory?.color ?? "#00E5FF";
 
   return (
     <section id="brands" className="sec-fullscreen relative overflow-hidden"
       style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
+      {/* Подсветка от выбранного бренда */}
+      <div
+        className="pointer-events-none absolute inset-0 transition-opacity duration-500"
+        style={{
+          opacity: activeCategory ? 1 : 0,
+          background: `radial-gradient(circle at 75% 40%, ${brandGlowColor}26 0%, transparent 55%)`,
+        }}
+      />
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
@@ -27,51 +72,123 @@ export function BrandsSection() {
           </h2>
         </div>
 
-        {/* Vertical layout: headers in a row, brands in columns below */}
+        {/* Категории как фильтры */}
         <div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-10 gap-x-4 gap-y-6 mb-6"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-3 gap-y-4 mb-4"
           style={{
             background: "rgba(255,255,255,0.06)",
-            padding: "24px",
+            padding: "18px 18px 16px",
             border: "1px solid rgba(255,255,255,0.06)",
           }}
         >
-          {DISPLAY_CATEGORIES.map((cat) => (
+          {DISPLAY_CATEGORIES.map((cat) => {
+            const isActive = selectedCategoryId === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => {
+                  setSelectedCategoryId(cat.id);
+                }}
+                className="group flex flex-col gap-3 relative overflow-hidden transition-all duration-280 cursor-pointer text-left"
+                style={{
+                  background: "#050508",
+                  padding: "10px 10px",
+                  minHeight: "72px",
+                  border: isActive ? `1px solid ${cat.color}66` : "1px solid transparent",
+                }}
+              >
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: cat.color, opacity: isActive ? 1 : undefined }}
+                />
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{
+                    background: `radial-gradient(ellipse at left top, ${cat.color}08 0%, transparent 60%)`,
+                    opacity: isActive ? 1 : undefined,
+                  }}
+                />
+
+                {/* Заголовок категории */}
+                <div className="relative z-10 flex items-center gap-3 shrink-0">
+                  <div className="flex flex-col gap-0.5 shrink-0">
+                    <div className="w-px h-3" style={{ background: cat.color }} />
+                    <div className="w-px h-4" style={{ background: cat.color }} />
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Barlow Condensed',sans-serif",
+                      fontWeight: 900,
+                      color: cat.color,
+                      fontSize: "0.74rem",
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      lineHeight: 1.15,
+                    }}
+                  >
+                    {cat.cat}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Горизонтальный список брендов выбранной категории */}
+        {activeCategory && (
+          <div
+            className="mt-4"
+            style={{
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              padding: "16px 20px",
+            }}
+          >
             <div
-              key={cat.id}
-              className="group flex flex-col gap-4 relative overflow-hidden transition-all duration-280 cursor-default"
-              style={{ background: "#050508", padding: "20px 16px", minHeight: "120px" }}
+              className="mb-3"
+              style={{
+                fontFamily: "'Barlow Condensed',sans-serif",
+                fontWeight: 700,
+                fontSize: "0.78rem",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.6)",
+              }}
             >
-              <div className="absolute left-0 top-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: cat.color }} />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                style={{ background: `radial-gradient(ellipse at left top, ${cat.color}08 0%, transparent 60%)` }} />
-
-              {/* Category header */}
-              <div className="relative z-10 flex items-center gap-3 shrink-0">
-                <div className="flex flex-col gap-0.5 shrink-0">
-                  <div className="w-px h-3" style={{ background: cat.color }} />
-                  <div className="w-px h-4" style={{ background: cat.color }} />
-                </div>
-                <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 900, color: cat.color, fontSize: "0.8rem", letterSpacing: "0.08em", textTransform: "uppercase", lineHeight: 1.15 }}>
-                  {cat.cat}
-                </div>
-              </div>
-
-              {/* Brands stacked vertically */}
-              <div className="flex flex-col gap-1.5 flex-1 relative z-10">
-                {cat.brands.map((b) => (
-                  <span
+              Бренды категории{" "}
+              <span style={{ color: activeCategory.color }}>{activeCategory.cat}</span>
+            </div>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {activeCategory.brands.map((b, idx) => {
+                const isBrandActive = selectedBrand === b;
+                const pillGlowColor =
+                  BRAND_GLOW_COLORS[idx % BRAND_GLOW_COLORS.length];
+                return (
+                  <button
                     key={b}
-                    className="brand-pill w-full text-center"
-                    style={{ background: `${cat.color}08`, borderColor: `${cat.color}1A` }}
+                    type="button"
+                    onClick={() => setSelectedBrand(b)}
+                    className="brand-pill whitespace-nowrap transition-colors duration-200 cursor-pointer"
+                    style={{
+                      background: isBrandActive
+                        ? `${pillGlowColor}26`
+                        : `${activeCategory.color}08`,
+                      borderColor: isBrandActive
+                        ? `${pillGlowColor}66`
+                        : `${activeCategory.color}1A`,
+                      boxShadow: isBrandActive
+                        ? `0 0 24px ${pillGlowColor}66`
+                        : "none",
+                    }}
                   >
                     {b}
-                  </span>
-                ))}
-              </div>
+                  </button>
+                );
+              })}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
 
         {/* Exhibitor CTA */}
         <div className="relative overflow-hidden"
