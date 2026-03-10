@@ -17,7 +17,10 @@ export function ActivitiesSection() {
     <section
       id="activities"
       className="sec-fullscreen relative overflow-hidden flex flex-col"
-      style={{ background: "#050508", padding: "var(--sec-py) var(--sec-px)" }}
+      style={{
+        background: "#050508",
+        padding: "clamp(48px, 5vw, 72px) var(--sec-px) clamp(32px, 4vw, 48px)",
+      }}
     >
       {/* Фон: плавно меняется в зависимости от выбранной активности */}
       <div
@@ -30,13 +33,27 @@ export function ActivitiesSection() {
       />
       <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none transition-opacity duration-500" />
 
-      <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10, flex: 1, display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          maxWidth: "1380px",
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 10,
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          paddingBottom: "56px", // запас снизу под футер
+        }}
+      >
 
         {/* ── Сверху: заголовок и описание ── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-10 md:mb-14">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6 md:mb-8">
           <div>
             <div className="eyebrow">Что будет на фестивале</div>
-            <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
+            <h2
+              className="gh-title text-white"
+              style={{ fontSize: "clamp(2.2rem, 3.4vw, 3.6rem)" }}
+            >
               Основные<br />
               <span style={{ color: "var(--c-cyan,#00E5FF)" }}>активности</span>
             </h2>
@@ -45,7 +62,7 @@ export function ActivitiesSection() {
 
         {/* ── Центр: контент выбранной активности (зона под фото/фон) ── */}
         <div
-          className="flex-1 flex flex-col justify-center min-h-[280px] md:min-h-[360px] rounded-lg border transition-all duration-500"
+          className="flex-1 flex flex-col justify-center min-h-[260px] md:min_h-[320px] rounded-lg border transition-all duration-500"
           style={{
             borderColor: `${active.color}25`,
             background: "rgba(5,5,8,0.4)",

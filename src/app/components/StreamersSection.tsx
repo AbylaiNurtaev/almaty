@@ -129,7 +129,10 @@ export function StreamersSection() {
     <section
       id="streamers"
       className="sec-fullscreen relative overflow-hidden"
-      style={{ background: "#09091A", padding: "clamp(28px, 3.5vw, 44px) var(--sec-px) var(--sec-py) var(--sec-px)" }}
+      style={{
+        background: "#09091A",
+        padding: "clamp(28px, 3.5vw, 44px) var(--sec-px) clamp(36px, 4vw, 56px) var(--sec-px)",
+      }}
     >
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div
@@ -137,13 +140,24 @@ export function StreamersSection() {
         style={{ background: "radial-gradient(ellipse 65% 55% at 95% 30%, rgba(0,229,255,0.055) 0%, transparent 70%)" }}
       />
 
-      <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
+      <div
+        style={{
+          maxWidth: "1380px",
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 10,
+          paddingBottom: "56px", // запас снизу под футер
+        }}
+      >
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-6">
           <div>
             <div className="eyebrow">Специальные гости</div>
-            <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
+            <h2
+              className="gh-title text-white"
+              style={{ fontSize: "clamp(2.2rem, 3.4vw, 3.6rem)" }}
+            >
               Стримеры и<br />
               <span style={{ color: "var(--c-cyan,#00E5FF)" }}>
                 инфлюенсеры

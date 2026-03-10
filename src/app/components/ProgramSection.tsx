@@ -162,8 +162,14 @@ export function ProgramSection() {
   }, [hoveredRow?.ev.title]);
 
   return (
-    <section id="program" className="sec-fullscreen relative overflow-hidden"
-      style={{ background: "#09091A", padding: "var(--sec-py) var(--sec-px)" }}>
+    <section
+      id="program"
+      className="sec-fullscreen relative overflow-hidden"
+      style={{
+        background: "#09091A",
+        padding: "clamp(48px, 5vw, 72px) var(--sec-px) clamp(32px, 4vw, 48px)",
+      }}
+    >
 
       {/* Подсказка у курсора с эффектом печати */}
       {hoveredRow && (
@@ -200,11 +206,21 @@ export function ProgramSection() {
       )}
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(135deg, rgba(0,229,255,0.035) 0%, transparent 45%, rgba(124,58,237,0.035) 100%)" }} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "linear-gradient(135deg, rgba(0,229,255,0.035) 0%, transparent 45%, rgba(124,58,237,0.035) 100%)" }}
+      />
 
-      <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
-        <div className="mb-14">
+      <div
+        style={{
+          maxWidth: "1380px",
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 10,
+          paddingBottom: "56px", // запас снизу под футер
+        }}
+      >
+        <div className="mb-8 md:mb-10">
           <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
             Двухдневная<br />
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>

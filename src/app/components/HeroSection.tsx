@@ -37,8 +37,8 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="sec-fullscreen relative w-full flex flex-col overflow-hidden"
-      style={{ background: "#050508" }}
+      className="relative w-full flex flex-col overflow-hidden"
+      style={{ background: "#050508", height: "100%" }}
     >
       {/* ════ BACKGROUND STACK ════ */}
       <div className="absolute inset-0">
@@ -103,7 +103,7 @@ export function HeroSection() {
       </div>
 
       {/* ════ TOP META BAR ════ */}
-      <div className="relative z-20" style={{ padding: "32px var(--sec-px) 0" }}>
+      <div className="relative z-20" style={{ padding: "20px var(--sec-px) 0" }}>
         <div
           style={{ maxWidth: "1380px", margin: "0 auto" }}
           className="flex flex-wrap items-center justify-center gap-4 pt-8"
@@ -139,8 +139,8 @@ export function HeroSection() {
 
       {/* ════ MAIN CONTENT ════ */}
       <div
-        className="relative z-20 flex-1 flex items-center justify-center py-16"
-        style={{ padding: "48px var(--sec-px) 48px" }}
+        className="relative z-20 flex-1 flex items-center justify-center"
+        style={{ padding: "32px var(--sec-px) 32px" }}
       >
         <div style={{ maxWidth: "1380px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ maxWidth: "900px", width: "100%", textAlign: "center" }}>
@@ -152,10 +152,10 @@ export function HeroSection() {
             <h1
               className="gh-logo"
               style={{
-                lineHeight: 0.80,
-                fontSize: "clamp(3.5rem, 10vw, 8rem)",
+                lineHeight: 0.8,
+                fontSize: "clamp(3.2rem, 8.5vw, 6.4rem)",
                 color: "white",
-                marginBottom: "32px",
+                marginBottom: "24px",
                 position: "relative",
                 whiteSpace: "nowrap",
                 textAlign: "center",
@@ -176,12 +176,12 @@ export function HeroSection() {
             <p
               style={{
                 fontFamily: "'Barlow',sans-serif",
-                fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
+                fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
                 letterSpacing: "0.03em",
                 color: "white",
                 lineHeight: 1.75,
                 maxWidth: "740px",
-                marginBottom: "48px",
+                marginBottom: "32px",
                 marginLeft: "auto",
                 marginRight: "auto",
                 fontWeight: 700,
@@ -192,7 +192,7 @@ export function HeroSection() {
             </p>
 
             {/* ── COUNTDOWN ── */}
-            <div className="mb-12 flex flex-col items-center">
+            <div className="mb-10 flex flex-col items-center">
               <div
                 className="eyebrow eyebrow-no-deco"
                 style={{
@@ -224,7 +224,7 @@ export function HeroSection() {
             </div>
 
             {/* ── CTAs ── */}
-            <div className="flex flex-wrap justify-center gap-3 mb-16">
+            <div className="flex flex-wrap justify-center gap-3 mb-12">
               <a href="#tickets" className="btn-primary">
                 <Zap size={14} />
                 <span>Бесплатный билет</span>
