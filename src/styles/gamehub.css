@@ -149,7 +149,7 @@ body {
 
 /* Club networks: brand pills + 7s timer ring */
 .club-switcher-bar {
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -159,7 +159,7 @@ body {
 }
 
 .club-pill-button {
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .club-timer-svg {

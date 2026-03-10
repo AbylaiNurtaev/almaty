@@ -137,7 +137,7 @@ export function ClubNetworksSection() {
                 <div key={c.name} className="club-pill-wrapper">
                   {isSelected && (
                     <svg className="club-timer-svg" viewBox="0 0 100 40" preserveAspectRatio="none">
-                      <rect className="club-timer-ring" x="1.5" y="1.5" width="97" height="37" rx="20" ry="20" />
+                      <rect className="club-timer-ring" x="1.5" y="1.5" width="97" height="37" rx="10" ry="10" />
                     </svg>
                   )}
                   <button
