@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Check, Star, Zap, Shield, ArrowRight, ChevronRight } from "lucide-react";
 import { SponsorApplicationModal } from "./SponsorApplicationModal";
 import {
@@ -44,7 +44,7 @@ const TICKETS = [
 ];
 
 /** Фиксированная высота тела карточки: все три ровные, VIP выступает ровно на 44px за счёт жёлтой полосы. */
-const TICKET_CARD_HEIGHT = "670px";
+const TICKET_CARD_HEIGHT = "645px";
 
 const SPONSOR_BENEFITS: { id: string; title: string; description: string }[] = [
   {
@@ -119,7 +119,7 @@ export function TicketsSection() {
   };
   return (
     <section id="tickets" className="sec-fullscreen relative overflow-hidden"
-      style={{ background: "#09091A", padding: "clamp(28px, 3.5vw, 44px) var(--sec-px) var(--sec-py) var(--sec-px)" }}>
+      style={{ background: "#09091A", padding: "clamp(10px, 1.6vw, 20px) var(--sec-px) var(--sec-py) var(--sec-px)" }}>
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div className="absolute top-0 right-0 w-1/2 h-1/2 pointer-events-none"
@@ -130,7 +130,7 @@ export function TicketsSection() {
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
         {/* Header */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-3">
           <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>Билеты</span>
           </h2>
@@ -147,9 +147,9 @@ export function TicketsSection() {
                     style={{ background: `linear-gradient(90deg, transparent, ${t.color}55, transparent)` }} />
                 )}
 
-                <div className="flex-1 flex flex-col p-9">
+                <div className="flex-1 flex flex-col p-7 pb-10">
                   {/* Icon + label */}
-                  <div className="flex items-center gap-4 mb-8">
+                  <div className="flex items-center gap-4 mb-6">
                     <div className="flex items-center justify-center shrink-0"
                       style={{ width: "46px", height: "46px", background: `${t.color}12`, border: `1px solid ${t.color}32`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
                       <Icon size={16} style={{ color: t.color }} />
@@ -162,9 +162,9 @@ export function TicketsSection() {
                     style={{ fontSize: t.id === "star" ? "2.7rem" : t.id === "free" ? "2.4rem" : "3.8rem", color: t.color, letterSpacing: "0.03em" }}>
                     {t.display}
                   </div>
-                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.28)", marginBottom: "22px" }}>{t.priceSub}</div>
+                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.78rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.28)", marginBottom: "18px" }}>{t.priceSub}</div>
 
-                  <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.36)", lineHeight: 1.7, marginBottom: "28px" }}>{t.desc}</p>
+                  <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.9rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.36)", lineHeight: 1.7, marginBottom: "22px" }}>{t.desc}</p>
 
                   {/* Perforated separator + perks */}
                   <div className="perf-edge perf-top pt-6 pb-2">

@@ -147,6 +147,45 @@ body {
   animation: club-bg-fade-in 0.7s ease-out forwards;
 }
 
+/* Club networks: brand pills + 7s timer ring */
+.club-switcher-bar {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.club-pill-wrapper {
+  position: relative;
+  margin: 2px;
+}
+
+.club-pill-button {
+  border-radius: 20px;
+}
+
+.club-timer-svg {
+  position: absolute;
+  inset: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  pointer-events: none;
+}
+
+.club-timer-ring {
+  fill: transparent;
+  stroke: var(--c-cyan, #00e5ff);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: club-timer-rotate 7s linear forwards;
+}
+
+@keyframes club-timer-rotate {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* ════════════════════════════════════════════════════════════
    TYPOGRAPHY
    ════════════════════════════════════════════════════════════ */

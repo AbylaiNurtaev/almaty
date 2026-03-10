@@ -28,7 +28,7 @@ const CLUBS = [
 export function ClubNetworksSection() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0); // COLIZEUM по умолчанию
   const autoRotateRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const AUTO_DELAY = 5000;
+  const AUTO_DELAY = 7000;
 
   const startAutoRotate = () => {
     if (autoRotateRef.current) {
@@ -47,7 +47,7 @@ export function ClubNetworksSection() {
     startAutoRotate();
   };
 
-  // Автопереключение выбранной франшизы каждые 5 секунд
+  // Автопереключение выбранной франшизы каждые 7 секунд
   useEffect(() => {
     startAutoRotate();
     return () => {
@@ -121,6 +121,7 @@ export function ClubNetworksSection() {
           }}
         >
           <div
+            className="club-switcher-bar"
             style={{
               gap: "1px",
               display: "flex",
@@ -133,40 +134,29 @@ export function ClubNetworksSection() {
             {CLUBS.map((c, i) => {
               const isSelected = selectedIndex === i;
               return (
-                <button
-                  key={c.name}
-                  type="button"
-                  onClick={() => handleSelect(i)}
-                  className="group flex items-center gap-5 transition-all duration-300 cursor-pointer text-left border-l-2"
-                  style={{
-                    background: isSelected ? "rgba(0,229,255,0.08)" : "#09091A",
-                    padding: "16px 22px",
-                    borderLeftColor: isSelected ? "var(--c-cyan,#00E5FF)" : "transparent",
-                  }}
-                >
-                  <span
+                <div key={c.name} className="club-pill-wrapper">
+                  {isSelected && (
+                    <svg className="club-timer-svg" viewBox="0 0 100 40" preserveAspectRatio="none">
+                      <rect className="club-timer-ring" x="1.5" y="1.5" width="97" height="37" rx="20" ry="20" />
+                    </svg>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleSelect(i)}
+                    className="club-pill-button group flex items-center gap-5 transition-all duration-300 cursor-pointer text-left"
                     style={{
-                      fontFamily: "'Barlow Condensed',sans-serif",
-                      fontWeight: 700,
-                      fontSize: "0.68rem",
-                      color: "rgba(0,229,255,0.22)",
-                      letterSpacing: "0.1em",
-                      minWidth: "24px",
+                      background: isSelected ? "rgba(0,229,255,0.08)" : "#09091A",
+                      padding: "16px 22px",
                     }}
                   >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div
-                    className="w-px h-5 shrink-0"
-                    style={{ background: "rgba(255,255,255,0.08)" }}
-                  />
-                  <span
-                    className="gh-mono text-white flex-1 group-hover:text-white/80 transition-colors duration-200"
-                    style={{ fontSize: "1.08rem" }}
-                  >
-                    {c.name}
-                  </span>
-                </button>
+                    <span
+                      className="gh-mono text-white flex-1 group-hover:text-white/80 transition-colors duration-200"
+                      style={{ fontSize: "1.08rem" }}
+                    >
+                      {c.name}
+                    </span>
+                  </button>
+                </div>
               );
             })}
           </div>
