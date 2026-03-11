@@ -70,6 +70,38 @@ body {
   letter-spacing: 0.03em;
 }
 
+/* Правый сайд-бар навигации — масштабирование на широких экранах */
+.side-nav-panel {
+  max-width: 240px;
+}
+.side-nav-link {
+  font-size: 0.68rem;
+}
+
+@media (min-width: 1720px) {
+  .side-nav-panel {
+    max-width: 280px;
+    transform: scale(1.08);
+    transform-origin: center right;
+  }
+  .side-nav-link {
+    font-size: 0.8rem;
+    letter-spacing: 0.22em;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .side-nav-panel {
+    max-width: 320px;
+    transform: scale(1.16);
+  }
+  .side-nav-link {
+    font-size: 0.9rem;
+  }
+}
+
 /* Каждый раздел = ровно 100vh по высоте */
 .sec-fullscreen {
   min-height: 100vh;

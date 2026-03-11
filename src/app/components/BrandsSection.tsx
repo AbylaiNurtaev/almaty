@@ -74,10 +74,10 @@ export function BrandsSection() {
 
         {/* Категории как фильтры */}
         <div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-3 gap-y-4 mb-4"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-10 gap-x-2 gap-y-3 mb-4"
           style={{
             background: "rgba(255,255,255,0.06)",
-            padding: "18px 18px 16px",
+            padding: "12px 14px 10px",
             border: "1px solid rgba(255,255,255,0.06)",
           }}
         >
@@ -90,11 +90,11 @@ export function BrandsSection() {
                 onClick={() => {
                   setSelectedCategoryId(cat.id);
                 }}
-                className="group flex flex-col gap-3 relative overflow-hidden transition-all duration-280 cursor-pointer text-left"
+                className="group flex flex-col gap-2 relative overflow-hidden transition-all duration-280 cursor-pointer text-left"
                 style={{
                   background: "#050508",
-                  padding: "10px 10px",
-                  minHeight: "72px",
+                  padding: "6px 6px",
+                  minHeight: "52px",
                   border: isActive ? `1px solid ${cat.color}66` : "1px solid transparent",
                 }}
               >
@@ -111,18 +111,14 @@ export function BrandsSection() {
                 />
 
                 {/* Заголовок категории */}
-                <div className="relative z-10 flex items-center gap-3 shrink-0">
-                  <div className="flex flex-col gap-0.5 shrink-0">
-                    <div className="w-px h-3" style={{ background: cat.color }} />
-                    <div className="w-px h-4" style={{ background: cat.color }} />
-                  </div>
+                <div className="relative z-10 flex items-center shrink-0">
                   <div
                     style={{
                       fontFamily: "'Barlow Condensed',sans-serif",
                       fontWeight: 900,
                       color: cat.color,
-                      fontSize: "0.74rem",
-                      letterSpacing: "0.08em",
+                      fontSize: "0.62rem",
+                      letterSpacing: "0.1em",
                       textTransform: "uppercase",
                       lineHeight: 1.15,
                     }}

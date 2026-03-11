@@ -34,7 +34,7 @@ export const PARTNER_CATEGORIES: PartnerCategory[] = [
   },
   {
     id: "software",
-    cat: "Программное обеспечение",
+    cat: "Софт",
     color: PALETTE[2],
     count: "05",
     brands: ["Senet", "Langame", "Smartshell", "Gizmo", "CCboot"],
@@ -62,7 +62,7 @@ export const PARTNER_CATEGORIES: PartnerCategory[] = [
   },
   {
     id: "drinks",
-    cat: "Напитки",
+    cat: "Хорека",
     color: PALETTE[6],
     count: "06",
     brands: ["RedBull", "Monster", "Coca cola", "RG brands", "LIT energy", "Gorilla"],

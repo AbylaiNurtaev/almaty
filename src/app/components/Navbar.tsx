@@ -2,17 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const LINKS = [
-  { label: "Главная",       href: "#hero" },
-  { label: "GameFest",     href: "#about" },
-  { label: "Активности",   href: "#activities" },
+  { label: "Главная",      href: "#hero" },
   { label: "Гости",        href: "#streamers" },
-  { label: "Игры",         href: "#games" },
-  { label: "Программа",    href: "#program" },
-  { label: "Челендж",      href: "#challenges" },
-  { label: "Призы",        href: "#prizes" },
-  { label: "Expo",             href: "#brands" },
-  { label: "Франшизы",     href: "#clubs" },
-  { label: "Клубы",        href: "#owners" },
+  { label: "Развлечения",  href: "#games" },
+  { label: "Выставка",     href: "#brands" },
   { label: "Билеты",       href: "#tickets" },
 ];
 
@@ -35,7 +28,6 @@ export function Navbar() {
     return {
       fontFamily:    "'Barlow Condensed', sans-serif" as const,
       fontWeight:    700,
-      fontSize:      "0.68rem",
       letterSpacing: "0.2em",
       color:         "rgba(255,255,255,1)",
       transition:    "color 0.2s ease",
@@ -62,7 +54,7 @@ export function Navbar() {
       key={l.label}
       href={l.href}
       onClick={(e) => { e.preventDefault(); scrollTo(l.href); }}
-      className="block uppercase py-2 hover:text-white transition-colors duration-200 group relative"
+      className="side-nav-link block uppercase py-2 hover:text-white transition-colors duration-200 group relative"
       style={linkStyle(l.href)}
     >
       {l.label}
@@ -79,7 +71,7 @@ export function Navbar() {
         style={{ right: "10px" }}
       >
         <div className="pointer-events-auto">
-          <div className="flex flex-col items-end gap-0.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-4 shadow-[0_0_40px_rgba(0,0,0,0.85)]">
+          <div className="side-nav-panel flex flex-col items-end gap-0.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-4 shadow-[0_0_40px_rgba(0,0,0,0.85)]">
             {linkContent}
           </div>
         </div>
