@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Trophy, Swords, Gamepad2, Cake, MicVocal } from "lucide-react";
 
 const ACTS = [
-  { n: "01", icon: Trophy,   title: "Турниры",               tag: "Соревнования",  color: "#00E5FF", desc: "Официальные соревнования по CS2, Dota 2, PUBG и другим играм. Призовые фонды, рейтинг и звание чемпиона арены." },
-  { n: "02", icon: Swords,   title: "Шоу-матчи",             tag: "Развлечения",  color: "#7C3AED", desc: "Звёздные стримеры против про-игроков на главной сцене. Зрелищные матчи и прямая трансляция для всей арены." },
-  { n: "03", icon: Gamepad2, title: "Игровые конкурсы",      tag: "Интерактив",   color: "#F0B429", desc: "Интерактивные конкурсы для зрителей: скоростные забеги, челленджи на сцене и призы от партнёров." },
-  { n: "04", icon: Cake,     title: "Вирусные челленджи",    tag: "Главный хедлайнер", color: "#F03558", desc: "Тренды из соцсетей оживают на сцене. Костюмы, эмодзи, мемы — судьи стримеры, призы лучшим." },
-  { n: "05", icon: MicVocal, title: "Автограф-сессии",       tag: "Эксклюзив",    color: "#00D97E", desc: "Встречи со стримерами и гостями фестиваля. Фото, автографы и живое общение в отдельной зоне." },
+  { n: "01", icon: Trophy,   title: "Турниры",            color: "#00E5FF", desc: "Официальные соревнования по CS2, Dota 2, PUBG и другим играм. Призовые фонды, рейтинг и звание чемпиона арены." },
+  { n: "02", icon: Swords,   title: "Шоу-матчи",          color: "#7C3AED", desc: "Звёздные стримеры против про-игроков на главной сцене. Зрелищные матчи и прямая трансляция для всей арены." },
+  { n: "03", icon: Gamepad2, title: "Игровые конкурсы",   color: "#F0B429", desc: "Интерактивные конкурсы для зрителей: скоростные забеги, челленджи на сцене и призы от партнёров." },
+  { n: "04", icon: Cake,     title: "Вирусные челленджи", color: "#F03558", desc: "Тренды из соцсетей оживают на сцене. Костюмы, эмодзи, мемы — судьи стримеры, призы лучшим." },
+  { n: "05", icon: MicVocal, title: "Автограф-сессии",    color: "#00D97E", desc: "Встречи со стримерами и гостями фестиваля. Фото, автографы и живое общение в отдельной зоне." },
 ];
 
 export function ActivitiesSection() {
@@ -70,14 +70,6 @@ export function ActivitiesSection() {
           }}
         >
           <div className="p-8 md:p-12">
-            <div className="flex items-center gap-4 mb-6">
-              <span
-                className="tag-angled"
-                style={{ background: `${active.color}22`, border: `1px solid ${active.color}44`, color: active.color }}
-              >
-                {active.tag}
-              </span>
-            </div>
             <div className="flex items-center gap-5 mb-6">
               <div
                 className="w-16 h-16 flex-shrink-0 flex items-center justify-center"
@@ -122,7 +114,7 @@ export function ActivitiesSection() {
                 key={a.title}
                 type="button"
                 onClick={() => setActiveIndex(i)}
-                className="group relative overflow-hidden flex flex-col items-start text-left cursor-pointer transition-all duration-350 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050508] focus-visible:ring-[var(--c-cyan)]"
+                className="group relative overflow-hidden flex flex-col justify-center items-start text-left cursor-pointer transition-all duration-350 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050508] focus-visible:ring-[var(--c-cyan)]"
                 style={{
                   background: isActive ? "rgba(5,5,8,0.95)" : "#050508",
                   minHeight: "140px",
@@ -157,20 +149,6 @@ export function ActivitiesSection() {
                   className="absolute top-0 left-0 bottom-0 w-[2px] transition-opacity duration-300"
                   style={{ background: a.color, opacity: isActive ? 0.8 : 0 }}
                 />
-
-                <div className="flex items-center gap-3 mb-3 relative z-10">
-                  <span
-                    className="tag-angled w-fit"
-                    style={{
-                      background: isActive ? `${a.color}22` : `${a.color}0C`,
-                      border: `1px solid ${a.color}28`,
-                      color: a.color,
-                      fontSize: "0.5rem",
-                    }}
-                  >
-                    {a.tag}
-                  </span>
-                </div>
 
                 <div className="flex items-center gap-3 relative z-10">
                   <div
