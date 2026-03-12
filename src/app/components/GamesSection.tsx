@@ -241,7 +241,13 @@ export function GamesSection() {
                 el?.scrollIntoView({ behavior: "smooth" });
               }}
               className="btn-outline w-full justify-center mt-3"
-              style={{ borderColor: `${g.color}55`, color: "#ffffff", fontSize: "0.76rem", clipPath: "none" }}
+              style={{
+                border: `1px solid ${g.color}`,
+                color: "#ffffff",
+                fontSize: "0.76rem",
+                clipPath: "none",
+                background: "rgba(5,5,12,0.85)",
+              }}
             >
               <Trophy size={13} />
               <span>Зарегистрироваться</span>

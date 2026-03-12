@@ -74,7 +74,7 @@ export function BrandsSection() {
 
         {/* Категории как фильтры */}
         <div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-10 gap-x-2 gap-y-3 mb-4"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 2xl:grid-cols-10 gap-x-2 gap-y-3 mb-4 items-stretch"
           style={{
             background: "rgba(255,255,255,0.06)",
             padding: "12px 14px 10px",
@@ -90,10 +90,10 @@ export function BrandsSection() {
                 onClick={() => {
                   setSelectedCategoryId(cat.id);
                 }}
-                className="group flex flex-col gap-2 relative overflow-hidden transition-all duration-280 cursor-pointer text-left"
+                className="group relative overflow-hidden transition-all duration-280 cursor-pointer flex items-center justify-center h-full text-left"
                 style={{
                   background: "#050508",
-                  padding: "6px 6px",
+                  padding: "8px 8px",
                   minHeight: "52px",
                   border: isActive ? `1px solid ${cat.color}66` : "1px solid transparent",
                 }}
@@ -111,7 +111,7 @@ export function BrandsSection() {
                 />
 
                 {/* Заголовок категории */}
-                <div className="relative z-10 flex items-center shrink-0">
+                <div className="relative z-10 flex items-center justify-center shrink-0 text-center w-full">
                   <div
                     style={{
                       fontFamily: "'Barlow Condensed',sans-serif",

@@ -100,13 +100,13 @@ export function ClubNetworksSection() {
         </div>
       </div>
 
-      {/* Горизонтальные переключатели франшиз внизу по центру */}
+      {/* Горизонтальные переключатели франшиз внизу по центру — на уровне с CTA "Получить билет" */}
       <div
         style={{
           position: "absolute",
           left: "50%",
           transform: "translateX(-50%)",
-          bottom: "150px",
+          bottom: "80px",
           zIndex: 20,
           width: "100%",
           padding: "0 var(--sec-px)",

@@ -159,7 +159,7 @@ export default function App() {
             ?.querySelector<HTMLElement>("#tickets")
             ?.scrollIntoView({ behavior: "smooth" });
         }}
-        className="fixed bottom-[100px] right-6 xl:right-10 z-40 flex items-center justify-center gap-2 btn-primary"
+        className="fixed bottom-[80px] right-6 xl:right-10 z-40 flex items-center justify-center gap-2 btn-primary"
         style={{
           padding:  "10px 22px",
           fontSize: "0.7rem",
