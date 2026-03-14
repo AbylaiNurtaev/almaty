@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { DoorOpen, Mic, Swords, Store, Cake, Star, Trophy, Gift, Award, Gamepad2, Zap, Clock, X } from "lucide-react";
-
-const TYPING_SPEED_MS = 50;
-const CURSOR_OFFSET = 16;
 
 type Ev = { time: string; title: string; desc: string; modalText: string; Icon: React.ElementType; hot?: boolean };
 
@@ -34,33 +31,51 @@ function DayCard({
   color,
   events,
   onEventClick,
-  onRowHover,
 }: {
   label: string;
   date: string;
   color: string;
   events: Ev[];
   onEventClick: (ev: Ev, color: string) => void;
-  onRowHover: (ev: Ev | null, color: string, e?: React.MouseEvent) => void;
 }) {
   return (
-    <div className="relative overflow-hidden" style={{ border: `1px solid ${color}18`, background: `${color}03` }}>
+    <div className="relative overflow-hidden max-md:min-w-0" style={{ border: `1px solid ${color}18`, background: `${color}03` }}>
       {/* Top neon accent */}
       <div className="absolute top-0 left-0 right-0 h-0.5"
         style={{ background: `linear-gradient(90deg, ${color}, ${color}25, transparent)` }} />
-      {/* Header */}
-      <div className="flex items-center gap-4 px-7 py-5" style={{ borderBottom: `1px solid ${color}10` }}>
-        <div className="w-11 h-11 flex items-center justify-center shrink-0"
-          style={{ background: `${color}14`, border: `1px solid ${color}30`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
-          <Clock size={15} style={{ color }} />
+      {/* Header — десктоп как было; мобилка: колонка, без выталкивания за экран */}
+      <div
+        className="flex items-center gap-4 px-7 py-5 max-md:flex-col max-md:items-stretch max-md:gap-3 max-md:px-4 max-md:py-3.5"
+        style={{ borderBottom: `1px solid ${color}10` }}
+      >
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <div
+            className="w-11 h-11 max-md:w-9 max-md:h-9 flex items-center justify-center shrink-0"
+            style={{ background: `${color}14`, border: `1px solid ${color}30`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}
+          >
+            <Clock size={15} className="max-md:w-3 max-md:h-3" style={{ color }} />
+          </div>
+          <div className="min-w-0">
+            <div className="gh-title text-white max-md:text-[1.05rem]" style={{ fontSize: "1.3rem" }}>{label}</div>
+            <div
+              className="max-md:text-[0.5rem] max-md:tracking-[0.14em]"
+              style={{
+                fontFamily: "'Barlow Condensed',sans-serif",
+                fontSize: "0.57rem",
+                letterSpacing: "0.22em",
+                color: "rgba(255,255,255,0.2)",
+                textTransform: "uppercase",
+                marginTop: "3px",
+              }}
+            >
+              {date}
+            </div>
+          </div>
         </div>
-        <div>
-          <div className="gh-title text-white" style={{ fontSize: "1.3rem" }}>{label}</div>
-          <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.57rem", letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", marginTop: "3px" }}>{date}</div>
-        </div>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2 shrink-0 max-md:ml-0 max-md:pt-0.5">
           <div className="w-1.5 h-1.5 rounded-full" style={{ background: color, boxShadow: `0 0 5px ${color}` }} />
           <span
+            className="max-md:text-[0.62rem] max-md:tracking-[0.12em]"
             style={{
               fontFamily: "'Barlow Condensed',sans-serif",
               fontSize: "0.8rem",
@@ -75,7 +90,7 @@ function DayCard({
       </div>
 
       {/* Timeline events */}
-      <div className="p-7 space-y-0">
+      <div className="p-7 space-y-0 max-md:p-3 max-md:px-3 max-md:pb-4">
         {events.map((ev, i) => {
           const Icon = ev.Icon;
           const isLast = i === events.length - 1;
@@ -84,34 +99,81 @@ function DayCard({
               key={ev.time}
               type="button"
               onClick={() => onEventClick(ev, color)}
-              className="flex gap-3.5 group w-full text-left cursor-pointer hover:opacity-90 transition-opacity"
-              onMouseEnter={(e) => onRowHover(ev, color, e)}
-              onMouseLeave={() => onRowHover(null, color)}
-              onMouseMove={(e) => onRowHover(ev, color, e)}
+              className="flex gap-3.5 max-md:gap-2.5 group w-full min-w-0 text-left cursor-pointer hover:opacity-90 transition-opacity max-md:items-start"
             >
               {/* Spine */}
-              <div className="flex flex-col items-center w-5 shrink-0">
-                <div className="w-3.5 h-3.5 flex items-center justify-center shrink-0 z-10 mt-0.5"
+              <div className="flex flex-col items-center w-5 max-md:w-4 shrink-0">
+                <div
+                  className="w-3.5 h-3.5 max-md:w-3 max-md:h-3 flex items-center justify-center shrink-0 z-10 mt-0.5"
                   style={{
                     background: ev.hot ? color : "rgba(255,255,255,0.06)",
                     border: `1px solid ${ev.hot ? color : "rgba(255,255,255,0.1)"}`,
                     borderRadius: "2px",
                     boxShadow: ev.hot ? `0 0 8px ${color}55` : "none",
-                  }}>
-                  <Icon size={7} style={{ color: ev.hot ? "#070711" : "rgba(255,255,255,0.2)" }} />
+                  }}
+                >
+                  <Icon size={7} className="max-md:!w-[5px] max-md:!h-[5px]" style={{ color: ev.hot ? "#070711" : "rgba(255,255,255,0.2)" }} />
                 </div>
                 {!isLast && (
-                  <div className="w-px flex-1 mt-1" style={{ background: `linear-gradient(to bottom, ${color}30, rgba(255,255,255,0.025))`, minHeight: "22px" }} />
+                  <div className="w-px flex-1 mt-1 min-h-[18px] max-md:min-h-[14px]" style={{ background: `linear-gradient(to bottom, ${color}30, rgba(255,255,255,0.025))` }} />
                 )}
               </div>
               {/* Content */}
-              <div className={`flex-1 pb-3.5 ${isLast ? "" : "border-b"}`} style={{ borderColor: "rgba(255,255,255,0.04)" }}>
-                <div className="flex items-baseline gap-3 flex-wrap">
-                  <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: "0.72rem", color: ev.hot ? color : `${color}50`, minWidth: "38px", letterSpacing: "0.02em" }}>{ev.time}</span>
-                  <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontWeight: 700, fontSize: ev.hot ? "0.88rem" : "0.82rem", color: ev.hot ? "white" : "rgba(255,255,255,0.62)", textTransform: "uppercase", letterSpacing: "0.06em" }}>{ev.title}</span>
-                  {ev.hot && <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: color, boxShadow: `0 0 5px ${color}`, marginTop: "2px" }} />}
+              <div
+                className={`flex-1 min-w-0 pb-3.5 max-md:pb-2.5 ${isLast ? "" : "border-b"}`}
+                style={{ borderColor: "rgba(255,255,255,0.04)" }}
+              >
+                <div className="flex flex-col max-md:gap-0.5 md:flex-row md:items-baseline md:gap-3 md:flex-wrap">
+                  <span
+                    className="shrink-0 max-md:mb-0"
+                    style={{
+                      fontFamily: "'Barlow Condensed',sans-serif",
+                      fontWeight: 700,
+                      fontSize: "0.72rem",
+                      color: ev.hot ? color : `${color}50`,
+                      minWidth: "38px",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {ev.time}
+                  </span>
+                  <span
+                    className="min-w-0 break-words max-md:text-[0.68rem] max-md:leading-snug max-md:tracking-[0.04em]"
+                    style={{
+                      fontFamily: "'Barlow Condensed',sans-serif",
+                      fontWeight: 700,
+                      fontSize: ev.hot ? "0.88rem" : "0.82rem",
+                      color: ev.hot ? "white" : "rgba(255,255,255,0.62)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    {ev.title}
+                    {ev.hot && (
+                      <span
+                        className="inline-block w-1.5 h-1.5 rounded-full shrink-0 align-middle ml-1 md:hidden"
+                        style={{ background: color, boxShadow: `0 0 5px ${color}` }}
+                      />
+                    )}
+                  </span>
+                  {ev.hot && (
+                    <span className="w-1.5 h-1.5 rounded-full shrink-0 max-md:hidden" style={{ background: color, boxShadow: `0 0 5px ${color}`, marginTop: "2px" }} />
+                  )}
                 </div>
-                <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.66rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.2)", lineHeight: 1.5, marginTop: "2px", paddingLeft: "50px" }}>{ev.desc}</p>
+                <p
+                  className="max-md:!pl-0 max-md:!mt-1 max-md:text-[0.62rem]"
+                  style={{
+                    fontFamily: "'Barlow',sans-serif",
+                    fontSize: "0.66rem",
+                    letterSpacing: "0.03em",
+                    color: "rgba(255,255,255,0.2)",
+                    lineHeight: 1.5,
+                    marginTop: "2px",
+                    paddingLeft: "50px",
+                  }}
+                >
+                  {ev.desc}
+                </p>
               </div>
             </button>
           );
@@ -123,87 +185,16 @@ function DayCard({
 
 export function ProgramSection() {
   const [modal, setModal] = useState<{ ev: Ev; color: string } | null>(null);
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
-  const [hoveredRow, setHoveredRow] = useState<{ ev: Ev; color: string } | null>(null);
-  const [typedLen, setTypedLen] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const handleRowHover = (ev: Ev | null, color: string, e?: React.MouseEvent) => {
-    if (e) setCursor({ x: e.clientX, y: e.clientY });
-    setHoveredRow(ev ? { ev, color } : null);
-  };
-
-  useEffect(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    if (!hoveredRow) {
-      setTypedLen(0);
-      return;
-    }
-    const text = hoveredRow.ev.title;
-    setTypedLen(1);
-    let index = 1;
-    const id = setInterval(() => {
-      index += 1;
-      if (index > text.length) {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-        intervalRef.current = null;
-        return;
-      }
-      setTypedLen(index);
-    }, TYPING_SPEED_MS);
-    intervalRef.current = id;
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    };
-  }, [hoveredRow?.ev.title]);
 
   return (
     <section
       id="program"
-      className="sec-fullscreen relative overflow-hidden"
+      className="sec-fullscreen relative overflow-hidden max-md:overflow-x-hidden"
       style={{
         background: "#09091A",
         padding: "clamp(48px, 5vw, 72px) var(--sec-px) clamp(32px, 4vw, 48px)",
       }}
     >
-
-      {/* Подсказка у курсора с эффектом печати */}
-      {hoveredRow && (
-        <div
-          className="fixed pointer-events-none z-[9999]"
-          style={{ left: cursor.x + CURSOR_OFFSET, top: cursor.y + CURSOR_OFFSET }}
-        >
-          <div
-            className="flex items-center gap-2 px-3 py-2 rounded-full whitespace-nowrap shadow-lg"
-            style={{
-              background: "rgba(5,5,8,0.95)",
-              border: `1px solid ${hoveredRow.color}40`,
-              boxShadow: `0 0 20px ${hoveredRow.color}20`,
-            }}
-          >
-            <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: hoveredRow.color }} />
-            <span
-              style={{
-                fontFamily: "'Barlow Condensed',sans-serif",
-                fontSize: "0.7rem",
-                letterSpacing: "0.08em",
-                color: hoveredRow.color,
-                textTransform: "uppercase",
-              }}
-            >
-              {hoveredRow.ev.time} — {hoveredRow.ev.title.slice(0, typedLen)}
-              <span
-                className="animate-typing-cursor inline-block w-[2px] ml-0.5 align-baseline"
-                style={{ background: hoveredRow.color, height: "1em", verticalAlign: "text-bottom" }}
-              />
-            </span>
-          </div>
-        </div>
-      )}
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
       <div
@@ -212,6 +203,7 @@ export function ProgramSection() {
       />
 
       <div
+        className="max-md:min-w-0 max-md:w-full"
         style={{
           maxWidth: "1380px",
           margin: "0 auto",
@@ -220,8 +212,11 @@ export function ProgramSection() {
           paddingBottom: "56px", // запас снизу под футер
         }}
       >
-        <div className="mb-8 md:mb-10">
-          <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
+        <div className="mb-8 md:mb-10 max-md:mb-5">
+          <h2
+            className="gh-title text-white max-md:!text-[clamp(1.5rem,7vw,2.15rem)] max-md:!leading-tight"
+            style={{ fontSize: "var(--h2-sec)" }}
+          >
             Двухдневная<br />
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>
               программа
@@ -229,9 +224,9 @@ export function ProgramSection() {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-3 mb-5">
-          <DayCard label="День первый" date="11 апреля 2026" color="#00E5FF" events={D1} onEventClick={(ev, color) => setModal({ ev, color })} onRowHover={handleRowHover} />
-          <DayCard label="День второй" date="12 апреля 2026" color="#7C3AED" events={D2} onEventClick={(ev, color) => setModal({ ev, color })} onRowHover={handleRowHover} />
+        <div className="grid md:grid-cols-2 gap-3 mb-5 max-md:gap-10 max-md:w-full min-w-0">
+          <DayCard label="День первый" date="11 апреля 2026" color="#00E5FF" events={D1} onEventClick={(ev, color) => setModal({ ev, color })} />
+          <DayCard label="День второй" date="12 апреля 2026" color="#7C3AED" events={D2} onEventClick={(ev, color) => setModal({ ev, color })} />
         </div>
 
         {/* Модалка события */}
@@ -245,7 +240,7 @@ export function ProgramSection() {
               onClick={() => setModal(null)}
             >
               <div
-                className="program-modal-panel relative max-w-lg w-full p-8"
+                className="program-modal-panel relative max-w-lg w-full p-8 max-md:p-5 max-md:max-h-[85dvh] max-md:overflow-y-auto"
                 style={{
                   background: "var(--c-bg2,#09091A)",
                   border: `1px solid ${modalColor}40`,

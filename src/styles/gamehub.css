@@ -102,11 +102,81 @@ body {
   }
 }
 
-/* Каждый раздел = ровно 100vh по высоте */
+/* Каждый раздел по умолчанию = 100vh (для десктопа) */
 .sec-fullscreen {
   min-height: 100vh;
   height: 100vh;
   box-sizing: border-box;
+}
+
+/* На мобильных секция может быть выше содержимого, чтобы не резать контент */
+@media (max-width: 768px) {
+  .sec-fullscreen {
+    min-height: 100dvh;
+    height: auto;
+  }
+
+  /* «Основные активности» — меньше внешние отступы, чтобы влезало в экран */
+  #activities.sec-fullscreen {
+    padding-top: 8px !important;
+    padding-bottom: 4px !important;
+  }
+
+  /* Программа: меньше горизонтальный отступ, без горизонтального скролла */
+  #program.sec-fullscreen {
+    padding-left: max(12px, env(safe-area-inset-left)) !important;
+    padding-right: max(12px, env(safe-area-inset-right)) !important;
+  }
+
+  /* Выставка брендов — меньше отступ сверху (var(--sec-py) слишком высокий на мобилке) */
+  #brands.sec-fullscreen {
+    padding-top: max(10px, env(safe-area-inset-top)) !important;
+  }
+
+  /* Владельцы клубов — компактнее CTA на мобилке */
+  .club-owners-section .club-owner-cta {
+    margin: 8px !important;
+  }
+
+  /* Вирусные челленджи — полная высота экрана на мобилке */
+  #challenges.sec-fullscreen {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    box-sizing: border-box;
+  }
+
+  /* Призы фестиваля — полная высота экрана на мобилке */
+  #prizes.sec-fullscreen {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    box-sizing: border-box;
+  }
+
+  /* Приглашенные франшизы — полная высота + горизонтальный скролл плашек */
+  #networks.sec-fullscreen {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    box-sizing: border-box;
+    padding-left: max(10px, env(safe-area-inset-left)) !important;
+    padding-right: max(10px, env(safe-area-inset-right)) !important;
+    padding-top: max(10px, env(safe-area-inset-top)) !important;
+  }
+
+  #networks .club-networks-pills-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-bottom: 4px;
+  }
+  #networks .club-networks-pills-scroll .club-switcher-bar {
+    flex-wrap: nowrap !important;
+    width: max-content;
+    min-width: min(100%, max-content);
+  }
 }
 
 /* Блок «тикер + Hero» вместе = 100vh; Hero занимает остаток высоты */
@@ -494,6 +564,18 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* Выставка брендов — мобилка: плашки брендов переносятся на несколько строк */
+@media (max-width: 768px) {
+  #brands .brand-pill {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    max-width: 100%;
+  }
+}
+
 /* ════════════════════════════════════════════════════════════
    WATERMARK NUMBER
    ════════════════════════════════════════════════════════════ */
@@ -577,6 +659,36 @@ body {
   line-height: 1;
 }
 
+/* Мобильная компоновка таймера и статистики в одну строку */
+@media (max-width: 480px) {
+  .cd-box {
+    padding: 10px 12px;
+    margin: 0 2px;
+    width: 4.2rem;
+    min-width: 4.2rem;
+  }
+  .cd-val {
+    font-size: 2rem;
+  }
+  .cd-colon {
+    font-size: 1.8rem;
+    padding-top: 10px;
+  }
+  .stat-num {
+    font-size: 1.4rem;
+  }
+  .stat-lbl {
+    font-size: 0.46rem;
+  }
+  .hero-stats-row {
+    padding-top: 18px;
+  }
+  .hero-stat-item {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
 /* ════════════════════════════════════════════════════════════
    STREAMER CARDS
    ════════════════════════════════════════════════════════════ */
@@ -592,6 +704,28 @@ body {
 }
 button.streamer-card {
   cursor: pointer;
+}
+
+/* Стримеры: ниже карточки только на мобилке (ПК без изменений) */
+@media (max-width: 767px) {
+  #streamers button.streamer-card {
+    min-height: 112px !important;
+  }
+  #streamers .streamer-grid-filler {
+    min-height: 112px !important;
+  }
+  #streamers button.streamer-card .absolute.bottom-0.p-4 {
+    padding: 10px 12px !important;
+  }
+  #streamers button.streamer-card .gh-mono {
+    font-size: 0.92rem !important;
+  }
+  #streamers button.streamer-card .tag-angled {
+    margin-bottom: 4px !important;
+    font-size: 0.42rem !important;
+    letter-spacing: 0.18em !important;
+    padding: 3px 8px !important;
+  }
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -661,6 +795,24 @@ button.streamer-card {
   }
 }
 
+/* VIP-карточка: чуть выше по контенту, только мобилка */
+@media (max-width: 767px) {
+  .ticket-vip-mobile-taller {
+    max-height: 720px !important;
+  }
+}
+
+/* Билеты: кнопки CTA — только мобилка (ПК без изменений) */
+@media (max-width: 767px) {
+  .ticket-cta-btn {
+    font-size: 0.68rem !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1.25 !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
 /* Holo shimmer for VIP */
 .holo-card {
   position: relative;
@@ -726,6 +878,26 @@ button.streamer-card {
 
 .games-fade {
   animation: games-fade-in 0.35s ease-out;
+}
+
+/* Кнопка «Зарегистрироваться» под описанием — только до lg; на ПК только кнопка в правой колонке */
+.games-register-mobile-only {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .games-register-mobile-only {
+    display: block;
+  }
+}
+
+/* Игры фестиваля — только мобилка: выше заголовок, не выше 100dvh */
+@media (max-width: 767px) {
+  #games.games-section-mobile {
+    padding-top: max(8px, env(safe-area-inset-top)) !important;
+    padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    max-height: 100dvh;
+    box-sizing: border-box;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════

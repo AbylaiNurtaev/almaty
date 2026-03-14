@@ -12,7 +12,7 @@ import { PrizesSection }       from "./components/PrizesSection";
 import { BrandsSection }       from "./components/BrandsSection";
 import { ClubNetworksSection } from "./components/ClubNetworksSection";
 import { ClubOwnersSection }   from "./components/ClubOwnersSection";
-import { TicketsSection }      from "./components/TicketsSection";
+import { TicketsSection }           from "./components/TicketsSection";
 import { Footer }              from "./components/Footer";
 
 /* ─── Ticker items ─────────────────────────────────────────── */
@@ -91,11 +91,11 @@ function SnapSection({
     <section
       id={id}
       style={{
-        /* Каждая секция = ровно 100vh. Scroll-snap останавливается точно здесь */
-        height:          "100vh",
+        /* На десктопе секция ≈ экран, на мобильных может быть выше */
+        minHeight:       "100dvh",
         scrollSnapAlign: "start",
         scrollSnapStop:  "always",   /* ← ключевой флаг: не перепрыгивает блоки */
-        overflow:        "hidden",
+        overflow:        "visible",
         position:        "relative",
         display:         "flex",
         flexDirection:   "column",
@@ -150,25 +150,27 @@ export default function App() {
       {/* ── Fixed Navbar ── */}
       <Navbar />
 
-      {/* ── Fixed CTA ── */}
-      <a
-        href="#tickets"
-        onClick={(e) => {
-          e.preventDefault();
-          scrollRef.current
-            ?.querySelector<HTMLElement>("#tickets")
-            ?.scrollIntoView({ behavior: "smooth" });
-        }}
-        className="fixed bottom-[80px] right-6 xl:right-10 z-40 flex items-center justify-center gap-2 btn-primary"
-        style={{
-          padding:  "10px 22px",
-          fontSize: "0.7rem",
-          clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-        }}
-      >
-        <Ticket size={12} />
-        <span>Получить билет</span>
-      </a>
+      {/* ── Fixed CTA (desktop only) ── */}
+      <div className="hidden md:block">
+        <a
+          href="#tickets"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollRef.current
+              ?.querySelector<HTMLElement>("#tickets")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="fixed bottom-[80px] right-6 xl:right-10 z-40 flex items-center justify-center gap-2 btn-primary"
+          style={{
+            padding:  "10px 22px",
+            fontSize: "0.7rem",
+            clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
+          }}
+        >
+          <Ticket size={12} />
+          <span>Получить билет</span>
+        </a>
+      </div>
 
       {/* ══════════════════════════════════════════════════════
           ГЛАВНЫЙ СКРОЛЛ-КОНТЕЙНЕР
@@ -178,20 +180,25 @@ export default function App() {
           ══════════════════════════════════════════════════════ */}
       <div
         ref={scrollRef}
+        data-snap-root
         style={{
           position:       "absolute",
           inset:          0,
           overflowY:      "scroll",
           overflowX:      "hidden",
           scrollSnapType: "y mandatory",
-          paddingBottom:  "64px",      /* место под фиксированный футер */
-          /* Убираем стандартный скроллбар — снэп уже управляет навигацией */
-          scrollbarWidth: "none",          /* Firefox */
+          paddingBottom:  "64px",
+          scrollbarWidth: "none",
+          touchAction:    "pan-y",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         {/* Скрываем скроллбар в WebKit */}
         <style>{`
           div[data-snap-root]::-webkit-scrollbar { display: none; }
+          @media (max-width: 767px) {
+            div[data-snap-root] { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+          }
         `}</style>
 
         {/* 0. HERO (ticker + hero = 100vh) */}
@@ -275,19 +282,19 @@ export default function App() {
           </div>
         </SnapSection>
 
-        {/* 11. TICKETS (с ticker-bar сверху) */}
+        {/* 11. TICKETS */}
         <SnapSection id="tickets">
-          <div style={{  flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
             <TickerBar accent="#F0B429" />
-            <div style={{ flex: 1, overflow: "hidden" }}>
+            <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
               <TicketsSection />
             </div>
           </div>
         </SnapSection>
       </div>
 
-      {/* Фиксированный футер по низу экрана */}
-      <div
+      {/* Футер только на ПК; на мобилке нет — не торчит под билетами */}
+      <div className="hidden md:block"
         style={{
           position: "fixed",
           left: 0,

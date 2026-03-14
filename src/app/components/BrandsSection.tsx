@@ -64,10 +64,13 @@ export function BrandsSection() {
 
       <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
 
-        {/* Header */}
-        <div className="mb-14">
-          <div className="eyebrow">Выставка</div>
-          <h2 className="gh-title text-white" style={{ fontSize: "var(--h2-sec)" }}>
+        {/* Header — мобилка: меньше отступы и шрифт */}
+        <div className="mb-14 max-md:!mb-4 max-md:!mt-0">
+          <div className="eyebrow max-md:!mb-1 max-md:!text-[0.5rem] max-md:!tracking-[0.2em]">Выставка</div>
+          <h2
+            className="gh-title text-white max-md:!text-[clamp(1.05rem,4.2vw,1.4rem)] max-md:!leading-tight max-md:!mt-0"
+            style={{ fontSize: "var(--h2-sec)" }}
+          >
             <span style={{ color: "var(--c-cyan,#00E5FF)" }}>Выставка брендов</span>
           </h2>
         </div>
@@ -134,7 +137,7 @@ export function BrandsSection() {
         {/* Горизонтальный список брендов выбранной категории */}
         {activeCategory && (
           <div
-            className="mt-4"
+            className="mt-4 max-md:!mt-2 max-md:!p-3 max-md:!px-3"
             style={{
               background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.06)",
@@ -142,7 +145,7 @@ export function BrandsSection() {
             }}
           >
             <div
-              className="mb-3"
+              className="mb-3 max-md:!mb-2 max-md:!text-[0.62rem] max-md:!tracking-[0.1em]"
               style={{
                 fontFamily: "'Barlow Condensed',sans-serif",
                 fontWeight: 700,
@@ -155,7 +158,8 @@ export function BrandsSection() {
               Бренды категории{" "}
               <span style={{ color: activeCategory.color }}>{activeCategory.cat}</span>
             </div>
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            {/* Десктоп: одна строка + скролл. Мобилка: перенос на сколько угодно строк */}
+            <div className="flex flex-wrap gap-2 gap-y-2 md:flex-nowrap md:overflow-x-auto md:pb-1 max-md:overflow-x-visible max-md:pb-0">
               {activeCategory.brands.map((b, idx) => {
                 const isBrandActive = selectedBrand === b;
                 const pillGlowColor =
@@ -165,7 +169,7 @@ export function BrandsSection() {
                     key={b}
                     type="button"
                     onClick={() => setSelectedBrand(b)}
-                    className="brand-pill whitespace-nowrap transition-colors duration-200 cursor-pointer"
+                    className="brand-pill whitespace-nowrap max-md:whitespace-normal transition-colors duration-200 cursor-pointer shrink-0"
                     style={{
                       background: isBrandActive
                         ? `${pillGlowColor}26`

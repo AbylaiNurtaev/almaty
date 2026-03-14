@@ -174,7 +174,7 @@ export function StreamersSection() {
           </div>
 
           {/* По центру — видеобращение (9:16), увеличенный блок */}
-          <div className="flex justify-center order-2 min-h-[360px] min-w-0">
+          <div className="flex justify-center order-2 min-h-[320px] sm:min-h-[360px] min-w-0">
             <div
               className="streamer-card w-full max-w-[320px] lg:max-w-[380px] flex flex-col justify-end"
               style={{
@@ -302,7 +302,7 @@ export function StreamersSection() {
             {RIGHT_INDICES.map((i) => renderStreamerCard(STREAMERS[i], i, selectedId === i))}
             {/* Ячейка «ещё» */}
             <div
-              className="flex flex-col items-center justify-center relative overflow-hidden"
+              className="streamer-grid-filler flex flex-col items-center justify-center relative overflow-hidden"
               style={{
                 border: "1px dashed rgba(255,255,255,0.08)",
                 background: "rgba(255,255,255,0.02)",
@@ -330,7 +330,7 @@ export function StreamersSection() {
             {[1, 2].map((n) => (
               <div
                 key={n}
-                className="flex flex-col items-center justify-center relative overflow-hidden"
+                className="streamer-grid-filler flex flex-col items-center justify-center relative overflow-hidden"
                 style={{
                   border: "1px dashed rgba(255,255,255,0.06)",
                   background: "rgba(255,255,255,0.015)",

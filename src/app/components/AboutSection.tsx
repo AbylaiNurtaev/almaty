@@ -126,7 +126,7 @@ export function AboutSection() {
 
             {/* Stat strip */}
             <div
-              className="grid grid-cols-4 mt-px"
+              className="grid grid-cols-2 sm:grid-cols-4 mt-px"
               style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
             >
               {FACTS.map((f) => (

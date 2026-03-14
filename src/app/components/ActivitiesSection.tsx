@@ -19,10 +19,10 @@ export function ActivitiesSection() {
       className="sec-fullscreen relative overflow-hidden flex flex-col"
       style={{
         background: "#050508",
+        /* десктоп — как было */
         padding: "clamp(48px, 5vw, 72px) var(--sec-px) clamp(32px, 4vw, 48px)",
       }}
     >
-      {/* Фон: плавно меняется в зависимости от выбранной активности */}
       <div
         className="absolute inset-0 pointer-events-none transition-all duration-700 ease-out"
         style={{
@@ -42,16 +42,18 @@ export function ActivitiesSection() {
           flex: 1,
           display: "flex",
           flexDirection: "column",
-          paddingBottom: "56px", // запас снизу под футер
+          paddingBottom: "56px",
         }}
       >
 
-        {/* ── Сверху: заголовок и описание ── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6 md:mb-8">
+        {/* Заголовок: десктоп как было; мобилка — компактнее */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-6 md:mb-8 max-md:gap-3 max-md:mb-2">
           <div>
-            <div className="eyebrow">Что будет на фестивале</div>
+            <div className="eyebrow max-md:!mb-2 max-md:!text-[0.58rem] max-md:!tracking-[0.28em]">
+              Что будет на фестивале
+            </div>
             <h2
-              className="gh-title text-white"
+              className="gh-title text-white max-md:!text-[clamp(1.35rem,6vw,1.75rem)] max-md:!leading-tight"
               style={{ fontSize: "clamp(2.2rem, 3.4vw, 3.6rem)" }}
             >
               Основные<br />
@@ -60,19 +62,19 @@ export function ActivitiesSection() {
           </div>
         </div>
 
-        {/* ── Центр: контент выбранной активности (зона под фото/фон) ── */}
+        {/* Центр: десктоп — flex-1 + justify-center (как было). Мобилка — фикс. высота + скролл */}
         <div
-          className="flex-1 flex flex-col justify-center min-h-[260px] md:min_h-[320px] rounded-lg border transition-all duration-500"
+          className="rounded-lg border transition-all duration-500 flex flex-col md:flex-1 md:justify-center max-md:flex-none max-md:max-h-[200px] max-md:overflow-hidden"
           style={{
             borderColor: `${active.color}25`,
             background: "rgba(5,5,8,0.4)",
             backdropFilter: "blur(8px)",
           }}
         >
-          <div className="p-8 md:p-12">
-            <div className="flex items-center gap-5 mb-6">
+          <div className="p-8 md:p-12 max-md:p-3 max-md:overflow-y-auto max-md:min-h-0 max-md:flex-1">
+            <div className="flex items-center gap-5 mb-6 max-md:gap-2 max-md:mb-2">
               <div
-                className="w-16 h-16 flex-shrink-0 flex items-center justify-center"
+                className="w-16 h-16 flex-shrink-0 flex items-center justify-center max-md:w-10 max-md:h-10 [&_svg]:max-md:!w-[18px] [&_svg]:max-md:!h-[18px]"
                 style={{
                   background: `${active.color}15`,
                   border: `1px solid ${active.color}35`,
@@ -81,12 +83,15 @@ export function ActivitiesSection() {
               >
                 <active.icon size={28} style={{ color: active.color }} />
               </div>
-              <h3 className="gh-title text-white" style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}>
+              <h3
+                className="gh-title text-white max-md:!text-base"
+                style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
+              >
                 {active.title}
               </h3>
             </div>
             <p
-              className="transition-opacity duration-500"
+              className="transition-opacity duration-500 max-md:text-[0.8rem] max-md:leading-snug"
               style={{
                 fontFamily: "'Barlow',sans-serif",
                 letterSpacing: "0.03em",
@@ -101,9 +106,9 @@ export function ActivitiesSection() {
           </div>
         </div>
 
-        {/* ── Снизу: кликабельные переключатели ── */}
+        {/* Сетка: десктоп 2→3→5 как было; мобилка — одна колонка, низкие строки */}
         <div
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-8 md:mt-10"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 mt-8 md:mt-10 max-md:grid-cols-1 max-md:mt-3"
           style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
         >
           {ACTS.map((a, i) => {
@@ -114,16 +119,13 @@ export function ActivitiesSection() {
                 key={a.title}
                 type="button"
                 onClick={() => setActiveIndex(i)}
-                className="group relative overflow-hidden flex flex-col justify-center items-start text-left cursor-pointer transition-all duration-350 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050508] focus-visible:ring-[var(--c-cyan)]"
+                className="group relative overflow-hidden flex flex-col justify-center items-start text-left cursor-pointer transition-all duration-350 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050508] focus-visible:ring-[var(--c-cyan)] min-h-[140px] px-[18px] py-5 max-md:flex-row max-md:items-center max-md:min-h-[60px] max-md:py-5 max-md:px-5"
                 style={{
                   background: isActive ? "rgba(5,5,8,0.95)" : "#050508",
-                  minHeight: "140px",
-                  padding: "20px 18px",
                   border: isActive ? `1px solid ${a.color}40` : "1px solid transparent",
                   boxShadow: isActive ? `0 0 0 1px ${a.color}20` : "none",
                 }}
               >
-                {/* Hover / active glow */}
                 <div
                   className="absolute inset-0 pointer-events-none transition-opacity duration-400"
                   style={{
@@ -137,7 +139,6 @@ export function ActivitiesSection() {
                     style={{ background: `radial-gradient(ellipse at 100% 0%, ${a.color}0E 0%, transparent 70%)` }}
                   />
                 )}
-                {/* Top accent bar when active */}
                 <div
                   className="absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300"
                   style={{
@@ -150,19 +151,19 @@ export function ActivitiesSection() {
                   style={{ background: a.color, opacity: isActive ? 0.8 : 0 }}
                 />
 
-                <div className="flex items-center gap-3 relative z-10">
+                <div className="flex items-center gap-3 relative z-10 w-full max-md:gap-2">
                   <div
-                    className="w-11 h-11 flex-shrink-0 flex items-center justify-center transition-transform duration-350 group-hover:scale-105"
+                    className="w-11 h-11 flex-shrink-0 flex items-center justify-center transition-transform duration-350 group-hover:scale-105 max-md:w-8 max-md:h-8"
                     style={{
                       background: `${a.color}12`,
                       border: `1px solid ${a.color}28`,
                       clipPath: "polygon(12% 0,100% 0,88% 100%,0 100%)",
                     }}
                   >
-                    <Icon size={18} style={{ color: a.color }} />
+                    <Icon className="max-md:!w-[14px] max-md:!h-[14px]" size={18} style={{ color: a.color }} />
                   </div>
                   <h3
-                    className="gh-title transition-colors duration-300"
+                    className="gh-title transition-colors duration-300 max-md:!text-[0.68rem] max-md:!tracking-[0.06em] max-md:!leading-tight"
                     style={{
                       fontSize: "1.1rem",
                       color: isActive ? "white" : "rgba(255,255,255,0.5)",

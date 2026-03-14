@@ -38,7 +38,7 @@ export function HeroSection() {
     <section
       id="hero"
       className="relative w-full flex flex-col overflow-hidden"
-      style={{ background: "#050508", height: "100%" }}
+      style={{ background: "#050508", height: "95vh" }}
     >
       {/* ════ BACKGROUND STACK ════ */}
       <div className="absolute inset-0">
@@ -103,7 +103,7 @@ export function HeroSection() {
       </div>
 
       {/* ════ TOP META BAR ════ */}
-      <div className="relative z-20" style={{ padding: "20px var(--sec-px) 0" }}>
+      <div className="relative z-20" style={{ padding: "12px var(--sec-px) 0" }}>
         <div
           style={{ maxWidth: "1380px", margin: "0 auto" }}
           className="flex flex-wrap items-center justify-center gap-4 pt-8"
@@ -154,11 +154,10 @@ export function HeroSection() {
               style={{
                 lineHeight: 0.8,
                 fontSize: "clamp(3.2rem, 8.5vw, 6.4rem)",
-                color: "white",
+                color:        "white",
                 marginBottom: "24px",
-                position: "relative",
-                whiteSpace: "nowrap",
-                textAlign: "center",
+                position:     "relative",
+                textAlign:    "center",
               }}
             >
               GAME
@@ -172,8 +171,9 @@ export function HeroSection() {
               </span>
             </h1>
 
-            {/* Descriptor */}
+            {/* Descriptor (desktop only, скрываем на мобильных для экономии места) */}
             <p
+              className="hidden md:block"
               style={{
                 fontFamily: "'Barlow',sans-serif",
                 fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)",
@@ -205,7 +205,7 @@ export function HeroSection() {
                 <Zap size={10} />
                 Обратный отсчёт
               </div>
-              <div className="flex items-start justify-center gap-2">
+              <div className="flex items-start justify-center gap-1">
                 {[
                   { v: D, l: "Дней" },
                   { v: H, l: "Час" },
@@ -241,17 +241,19 @@ export function HeroSection() {
 
             {/* ── STATS ROW ── */}
             <div
+              className="hero-stats-row"
               style={{
                 borderTop: "1px solid rgba(255,255,255,0.07)",
-                paddingTop: "36px",
+                paddingTop: "24px",
                 display: "flex",
-                flexWrap: "wrap",
+                flexWrap: "nowrap",
                 justifyContent: "center",
                 gap: 0,
               }}
             >
               {STATS.map((s, i) => (
                 <div
+                  className="hero-stat-item"
                   key={s.label}
                   style={{
                     paddingLeft: i === 0 ? 0 : "clamp(20px,4vw,40px)",

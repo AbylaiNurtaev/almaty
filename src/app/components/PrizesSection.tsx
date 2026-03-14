@@ -21,37 +21,60 @@ export function PrizesSection() {
     ? PRIZES.filter((p) => p.title === TAG_TO_TITLE[selectedTag])
     : PRIZES;
   const glowColor = selectedTag ? TAG_TO_COLOR[selectedTag] ?? DEFAULT_GLOW : DEFAULT_GLOW;
-
   return (
-    <section id="prizes" className="sec-fullscreen relative overflow-hidden"
-      style={{ background: "#09091A", paddingTop: "var(--sec-py)", paddingBottom: "calc(var(--sec-py) * 0.65)", paddingLeft: "var(--sec-px)", paddingRight: "var(--sec-px)" }}>
+    <section
+      id="prizes"
+      className="sec-fullscreen relative overflow-hidden max-md:!p-0 max-md:flex max-md:flex-col max-md:items-center max-md:min-h-0 max-md:py-[max(8px,env(safe-area-inset-top))] max-md:pb-[max(8px,env(safe-area-inset-bottom))]"
+      style={{
+        background: "#09091A",
+        paddingTop: "var(--sec-py)",
+        paddingBottom: "calc(var(--sec-py) * 0.65)",
+        paddingLeft: "var(--sec-px)",
+        paddingRight: "var(--sec-px)",
+      }}
+    >
 
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-2/3 pointer-events-none"
+      <div className="absolute bottom-0 left-0 w-1/2 h-2/3 pointer-events-none max-md:hidden"
         style={{ background: "radial-gradient(ellipse at left bottom, rgba(124,58,237,0.07) 0%, transparent 65%)" }} />
-      <div className="absolute top-0 right-0 w-1/2 h-2/3 pointer-events-none"
+      <div className="absolute top-0 right-0 w-1/2 h-2/3 pointer-events-none max-md:hidden"
         style={{ background: "radial-gradient(ellipse at right top, rgba(0,229,255,0.05) 0%, transparent 65%)" }} />
 
-      <div style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}>
+      <div
+        className="max-md:w-[95vw] max-md:max-w-[95vw] max-md:mx-auto max-md:flex max-md:flex-col max-md:items-center max-md:min-h-0 max-md:flex-1 max-md:self-stretch"
+        style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}
+      >
 
-        {/* Header + hero image */}
-        <div className="grid md:grid-cols-2 gap-16 items-center mb-10">
-          <div>
-            <div className="eyebrow">Выигрывайте крупно</div>
-            <h2 className="gh-title text-white mb-7" style={{ fontSize: "var(--h2-sec)" }}>
+        <div className="grid md:grid-cols-2 gap-16 items-center mb-10 max-md:grid-cols-1 max-md:gap-3 max-md:mb-2 max-md:shrink-0 max-md:w-full">
+          <div className="max-md:text-center max-md:order-2">
+            <div className="eyebrow max-md:!mb-1 max-md:!text-[0.55rem] max-md:!tracking-[0.2em]">Выигрывайте крупно</div>
+            <h2
+              className="gh-title text-white mb-7 max-md:!mb-2 max-md:!text-[clamp(1.35rem,5vw,1.85rem)] max-md:!leading-tight"
+              style={{ fontSize: "var(--h2-sec)" }}
+            >
               Призы<br />
               <span style={{ color: "var(--c-cyan,#00E5FF)" }}>фестиваля</span>
             </h2>
-            <p className="mb-9" style={{ fontFamily: "'Barlow',sans-serif", fontSize: "1rem", letterSpacing: "0.03em", color: "rgba(255,255,255,0.38)", lineHeight: 1.78, maxWidth: "440px" }}>
+            <p
+              className="mb-9 max-md:!mb-3 max-md:!text-[0.8rem] max-md:!leading-snug max-md:mx-auto max-md:max-w-[95%]"
+              style={{
+                fontFamily: "'Barlow',sans-serif",
+                fontSize: "1rem",
+                letterSpacing: "0.03em",
+                color: "rgba(255,255,255,0.38)",
+                lineHeight: 1.78,
+                maxWidth: "440px",
+              }}
+            >
               Тысячи долларов в призах: игровые ПК, мониторы, периферия и эксклюзивная техника — ждут чемпионов.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 max-md:justify-center max-md:gap-1.5">
               {TAGS.map((t) => (
                 <button
                   key={t}
                   type="button"
                   onClick={() => setSelectedTag(selectedTag === t ? null : t)}
-                  className="tag-angled cursor-pointer transition-colors duration-200 hover:bg-cyan-500/15 hover:border-cyan-400/30"
+                  className="tag-angled cursor-pointer transition-colors duration-200 hover:bg-cyan-500/15 hover:border-cyan-400/30 max-md:!py-1 max-md:!px-2.5 max-md:!text-[0.65rem]"
                   style={{
                     background: selectedTag === t ? "rgba(0,229,255,0.12)" : "rgba(0,229,255,0.05)",
                     border: "1px solid " + (selectedTag === t ? "rgba(0,229,255,0.35)" : "rgba(0,229,255,0.15)"),
@@ -65,54 +88,95 @@ export function PrizesSection() {
             </div>
           </div>
 
-          {/* Image panel — свечение меняется с выбранным тегом, позже будет тематическая картинка */}
-          <div className="relative overflow-hidden clip-both transition-all duration-500">
-            <img src={IMG} alt="Festival prizes" className="w-full object-cover"
-              style={{ height: "clamp(200px,30vh,300px)", filter: "brightness(0.35) saturate(0.6)" }} />
-            <div className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
+          <div className="relative overflow-hidden clip-both transition-all duration-500 max-md:order-1 max-md:rounded-md max-md:border max-md:border-white/10">
+            <img
+              src={IMG}
+              alt="Festival prizes"
+              className="w-full object-cover h-[clamp(200px,30vh,300px)] max-md:!h-[24dvh] max-md:!min-h-[100px] max-md:!max-h-[200px]"
+              style={{ filter: "brightness(0.35) saturate(0.6)" }}
+            />
+            <div
+              className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
               style={{
                 background: `radial-gradient(ellipse 80% 70% at 50% 50%, ${glowColor}25 0%, ${glowColor}08 40%, transparent 70%)`,
                 opacity: 1,
-              }} />
-            <div className="absolute inset-0 transition-all duration-500 pointer-events-none"
-              style={{
-                boxShadow: `inset 0 0 80px ${glowColor}18, inset 0 0 140px ${glowColor}08`,
-              }} />
+              }}
+            />
+            <div
+              className="absolute inset-0 transition-all duration-500 pointer-events-none"
+              style={{ boxShadow: `inset 0 0 80px ${glowColor}18, inset 0 0 140px ${glowColor}08` }}
+            />
             <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(9,9,26,0.8), transparent, rgba(9,9,26,0.8))" }} />
             <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent, rgba(9,9,26,0.7))" }} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="gh-title text-white" style={{ fontSize: "clamp(3.5rem,9vw,6.5rem)" }}>ВЫИГРЫВАЙ</div>
-              <div className="gh-title transition-colors duration-500" style={{ fontSize: "clamp(3.5rem,9vw,6.5rem)", color: glowColor }}>КРУПНО</div>
-              <div style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.58rem", letterSpacing: "0.45em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", marginTop: "12px" }}>Тысячи в призах</div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center max-md:py-2">
+              <div
+                className="gh-title text-white max-md:!text-[clamp(1.5rem,6.5vw,2.25rem)] max-md:!leading-none"
+                style={{ fontSize: "clamp(3.5rem,9vw,6.5rem)" }}
+              >
+                ВЫИГРЫВАЙ
+              </div>
+              <div
+                className="gh-title transition-colors duration-500 max-md:!text-[clamp(1.5rem,6.5vw,2.25rem)] max-md:!leading-none"
+                style={{ fontSize: "clamp(3.5rem,9vw,6.5rem)", color: glowColor }}
+              >
+                КРУПНО
+              </div>
+              <div
+                className="max-md:!text-[0.45rem] max-md:!tracking-[0.25em] max-md:!mt-1"
+                style={{
+                  fontFamily: "'Barlow Condensed',sans-serif",
+                  fontSize: "0.58rem",
+                  letterSpacing: "0.45em",
+                  color: "rgba(255,255,255,0.3)",
+                  textTransform: "uppercase",
+                  marginTop: "12px",
+                }}
+              >
+                Тысячи в призах
+              </div>
             </div>
             <div className="absolute top-0 left-0 right-0 h-px transition-colors duration-500" style={{ background: `linear-gradient(90deg, transparent, ${glowColor}80, transparent)` }} />
           </div>
         </div>
 
-        {/* Prize cards — 3 одинаковых блока */}
         <div
-          className={selectedTag ? "grid grid-cols-1 max-w-xs" : "grid grid-cols-3 max-w-3xl"}
+          className={
+            (selectedTag
+              ? "grid grid-cols-1 max-w-xs max-md:!max-w-none max-md:flex-none max-md:self-start"
+              : "grid grid-cols-3 max-w-3xl max-md:!grid-cols-1 max-md:grid-rows-3 max-md:flex-1 max-md:min-h-0 max-md:auto-rows-fr") +
+            " max-md:w-full max-md:rounded-md max-md:overflow-hidden max-md:border max-md:border-white/[0.06]"
+          }
           style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
         >
           {filteredPrizes.map((p) => {
             const Icon = p.Icon;
             return (
-              <div key={p.title}
-                className="group relative overflow-hidden flex flex-col justify-center items-start cursor-default transition-all duration-300"
-                style={{ background: "#09091A", height: "88px", padding: "16px" }}>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              <div
+                key={p.title}
+                className={
+                  "group relative overflow-hidden flex flex-col justify-center items-start cursor-default transition-all duration-300 bg-[#09091A] md:h-[88px] md:p-4 max-md:w-full max-md:px-3 max-md:py-3 " +
+                  (selectedTag
+                    ? "max-md:!h-[88px] max-md:min-h-[88px] max-md:max-h-[88px] max-md:shrink-0"
+                    : "max-md:min-h-0 max-md:h-full")
+                }
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none max-md:hidden"
                   style={{ background: `radial-gradient(ellipse at 100% 0%, ${p.color}14 0%, transparent 65%)` }} />
-                <div className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                <div className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-md:hidden"
                   style={{ background: `linear-gradient(90deg, transparent, ${p.color}, transparent)` }} />
-                <div className="absolute top-0 left-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-300"
+                <div className="absolute top-0 left-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-300 max-md:hidden"
                   style={{ background: p.color }} />
 
-                <div className="flex flex-row items-center gap-3 transition-all duration-350 group-hover:opacity-90">
-                  <div className="flex shrink-0 items-center justify-center transition-transform duration-350 group-hover:scale-110"
-                    style={{ width: "40px", height: "40px", background: `${p.color}10`, border: `1px solid ${p.color}28`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}>
-                    <Icon size={14} style={{ color: p.color }} />
+                <div className="flex flex-row items-center gap-3 transition-all duration-350 group-hover:opacity-90 max-md:gap-2.5 max-md:w-full">
+                  <div
+                    className="flex shrink-0 items-center justify-center transition-transform duration-350 group-hover:scale-110 w-10 h-10 max-md:w-9 max-md:h-9"
+                    style={{ background: `${p.color}10`, border: `1px solid ${p.color}28`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}
+                  >
+                    <Icon className="max-md:!w-3 max-md:!h-3" size={14} style={{ color: p.color }} />
                   </div>
-                  <h3 className="gh-title text-white relative z-10" style={{ fontSize: "1.25rem" }}>{p.title}</h3>
+                  <h3 className="gh-title text-white relative z-10 text-xl max-md:!text-[0.95rem]" style={{ fontSize: "1.25rem" }}>
+                    {p.title}
+                  </h3>
                 </div>
               </div>
             );
