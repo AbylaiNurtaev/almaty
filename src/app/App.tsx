@@ -12,6 +12,7 @@ import { PrizesSection }       from "./components/PrizesSection";
 import { BrandsSection }       from "./components/BrandsSection";
 import { ClubNetworksSection } from "./components/ClubNetworksSection";
 import { ClubOwnersSection }   from "./components/ClubOwnersSection";
+import { MapSection }          from "./components/MapSection";
 import { TicketsSection }           from "./components/TicketsSection";
 import { Footer }              from "./components/Footer";
 
@@ -118,7 +119,7 @@ export default function App() {
   const SECTION_ORDER = [
     "hero", "about", "activities", "streamers", "games",
     "program", "challenges", "prizes", "brands",
-    "clubs", "owners", "tickets",
+    "clubs", "owners", "map", "tickets",
   ];
 
   useEffect(() => {
@@ -282,7 +283,14 @@ export default function App() {
           </div>
         </SnapSection>
 
-        {/* 11. TICKETS */}
+        {/* 11. MAP */}
+        <SnapSection id="map">
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <MapSection />
+          </div>
+        </SnapSection>
+
+        {/* 12. TICKETS */}
         <SnapSection id="tickets">
           <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
             <TickerBar accent="#F0B429" />

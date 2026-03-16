@@ -6,6 +6,7 @@ const LINKS = [
   { label: "Гости", href: "#streamers" },
   { label: "Развлечения", href: "#games" },
   { label: "Выставка", href: "#brands" },
+  { label: "Карта", href: "#map" },
   { label: "Билеты", href: "#tickets" },
 ];
 
