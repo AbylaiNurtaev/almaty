@@ -62,7 +62,7 @@ export function Footer() {
           </div>
 
           {/* Даты и описание места */}
-          <span className="whitespace-nowrap">11–12 апреля 2026</span>
+          <span className="whitespace-nowrap">30 мая — 1 июня 2026</span>
           <span className="whitespace-nowrap">Арена Балуан Шолак</span>
 
           {/* Правовой блок + соцсети справа */}

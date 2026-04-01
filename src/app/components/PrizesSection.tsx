@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Cpu, Monitor, Keyboard } from "lucide-react";
 
-const IMG = "https://images.unsplash.com/photo-1514820720301-4c4790309f46?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwdmljdG9yeSUyMGNlbGVicmF0aW9uJTIwY2hhbXBpb24lMjB0cm9waHklMjBhd2FyZCUyMHdpbiUyMHRlYW18ZW58MXx8fHwxNzcyODA1NDU5fDA&ixlib=rb-4.1.0&q=80&w=1080";
+import imgPc from "../../assets/pc.png";
+import imgMonitor from "../../assets/monitor.webp";
+import imgHeadphones from "../../assets/headphones.png";
 
 const PRIZES = [
   { Icon: Cpu,      title: "Игровые ПК",   color: "#00D4F5" },
@@ -10,6 +12,11 @@ const PRIZES = [
 ];
 
 const TAGS = ["Игровые ПК", "Мониторы", "Наушники"] as const;
+const TAG_TO_IMAGE: Record<(typeof TAGS)[number], string> = {
+  "Игровые ПК": imgPc,
+  Мониторы: imgMonitor,
+  Наушники: imgHeadphones,
+};
 const TAG_TO_TITLE: Record<string, string> = { "Игровые ПК": "Игровые ПК", "Мониторы": "Мониторы", "Наушники": "Периферия" };
 
 const TAG_TO_COLOR: Record<string, string> = { "Игровые ПК": "#00D4F5", "Мониторы": "#6B21E8", "Наушники": "#E8A800" };
@@ -88,54 +95,43 @@ export function PrizesSection() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden clip-both transition-all duration-500 max-md:order-1 max-md:rounded-md max-md:border max-md:border-white/10">
-            <img
-              src={IMG}
-              alt="Festival prizes"
-              className="w-full object-cover h-[clamp(200px,30vh,300px)] max-md:!h-[24dvh] max-md:!min-h-[100px] max-md:!max-h-[200px]"
-              style={{ filter: "brightness(0.35) saturate(0.6)" }}
-            />
+          <div
+            className="relative overflow-hidden clip-both transition-all duration-500 max-md:order-1 max-md:rounded-md max-md:border max-md:border-white/10 bg-[#0c0c18]"
+            style={{ minHeight: "clamp(200px,30vh,300px)" }}
+          >
+            <div className="h-[clamp(200px,30vh,300px)] max-md:!h-[24dvh] max-md:!min-h-[100px] max-md:!max-h-[200px]">
+              {selectedTag ? (
+                <img
+                  key={selectedTag}
+                  src={TAG_TO_IMAGE[selectedTag as (typeof TAGS)[number]]}
+                  alt=""
+                  className="w-full h-full object-contain p-4 max-md:p-3 transition-opacity duration-500"
+                />
+              ) : (
+                <div className="grid grid-cols-3 gap-0.5 h-full p-2 max-md:p-1.5">
+                  {TAGS.map((t) => (
+                    <div
+                      key={t}
+                      className="relative overflow-hidden rounded-sm bg-[#12121f]"
+                    >
+                      <img
+                        src={TAG_TO_IMAGE[t]}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-contain p-2 max-md:p-1"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             <div
-              className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
+              className="absolute inset-0 pointer-events-none transition-opacity duration-500"
               style={{
-                background: `radial-gradient(ellipse 80% 70% at 50% 50%, ${glowColor}25 0%, ${glowColor}08 40%, transparent 70%)`,
-                opacity: 1,
+                background: `radial-gradient(ellipse 70% 60% at 50% 45%, ${glowColor}18 0%, transparent 65%)`,
+                opacity: selectedTag ? 1 : 0.45,
               }}
             />
-            <div
-              className="absolute inset-0 transition-all duration-500 pointer-events-none"
-              style={{ boxShadow: `inset 0 0 80px ${glowColor}18, inset 0 0 140px ${glowColor}08` }}
-            />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(9,9,26,0.8), transparent, rgba(9,9,26,0.8))" }} />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent, rgba(9,9,26,0.7))" }} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center max-md:py-2">
-              <div
-                className="gh-title text-white max-md:!text-[clamp(1.5rem,6.5vw,2.25rem)] max-md:!leading-none"
-                style={{ fontSize: "clamp(3.5rem,9vw,6.5rem)" }}
-              >
-                ВЫИГРЫВАЙ
-              </div>
-              <div
-                className="gh-title transition-colors duration-500 max-md:!text-[clamp(1.5rem,6.5vw,2.25rem)] max-md:!leading-none"
-                style={{ fontSize: "clamp(3.5rem,9vw,6.5rem)", color: glowColor }}
-              >
-                КРУПНО
-              </div>
-              <div
-                className="max-md:!text-[0.45rem] max-md:!tracking-[0.25em] max-md:!mt-1"
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.58rem",
-                  letterSpacing: "0.45em",
-                  color: "rgba(255,255,255,0.3)",
-                  textTransform: "uppercase",
-                  marginTop: "12px",
-                }}
-              >
-                Тысячи в призах
-              </div>
-            </div>
-            <div className="absolute top-0 left-0 right-0 h-px transition-colors duration-500" style={{ background: `linear-gradient(90deg, transparent, ${glowColor}80, transparent)` }} />
+            <div className="absolute top-0 left-0 right-0 h-px transition-colors duration-500" style={{ background: `linear-gradient(90deg, transparent, ${glowColor}55, transparent)` }} />
           </div>
         </div>
 

@@ -124,44 +124,6 @@ export function AboutSection() {
               </div>
             </div>
 
-            {/* Stat strip */}
-            <div
-              className="grid grid-cols-2 sm:grid-cols-4 mt-px"
-              style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
-            >
-              {FACTS.map((f) => (
-                <div
-                  key={f.label}
-                  className="py-5 text-center"
-                  style={{ background: "#09091A" }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "'Barlow Condensed',sans-serif",
-                      fontWeight: 900,
-                      fontSize: "1.7rem",
-                      lineHeight: 1,
-                      color: "var(--c-cyan,#00E5FF)",
-                      letterSpacing: "0.03em",
-                    }}
-                  >
-                    {f.val}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Barlow Condensed',sans-serif",
-                      fontSize: "0.52rem",
-                      letterSpacing: "0.24em",
-                      color: "rgba(255,255,255,0.2)",
-                      textTransform: "uppercase",
-                      marginTop: "6px",
-                    }}
-                  >
-                    {f.label}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* ── Text column ── */}
@@ -203,6 +165,52 @@ export function AboutSection() {
             </div>
 
           </div>
+        </div>
+
+        {/* Stat strip (bottom centered) */}
+        <div
+          className="grid grid-cols-2 sm:grid-cols-4 mt-10 lg:mt-14 mx-auto"
+          style={{
+            gap: "1px",
+            background: "rgba(255,255,255,0.06)",
+            maxWidth: "900px",
+            width: "100%",
+          }}
+        >
+          {FACTS.map((f) => (
+            <div
+              key={f.label}
+              className="py-5 text-center"
+              style={{ background: "#09091A" }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Barlow Condensed',sans-serif",
+                  fontWeight: 900,
+                  fontSize: "clamp(2.2rem, 3.8vw, 2.9rem)",
+                  lineHeight: 1,
+                  color: "var(--c-cyan,#00E5FF)",
+                  letterSpacing: "0.03em",
+                  textShadow: "0 0 18px rgba(0,229,255,0.22)",
+                }}
+              >
+                {f.val}
+              </div>
+              <div
+                style={{
+                  fontFamily: "'Barlow Condensed',sans-serif",
+                  fontSize: "0.76rem",
+                  letterSpacing: "0.18em",
+                  color: "#E8F4EA",
+                  textTransform: "uppercase",
+                  marginTop: "10px",
+                  fontWeight: 700,
+                }}
+              >
+                {f.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

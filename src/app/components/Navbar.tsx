@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Menu, X, Ticket, Instagram, Youtube, MessageCircle } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 const LINKS = [
   { label: "Главная", href: "#hero" },
@@ -7,18 +7,11 @@ const LINKS = [
   { label: "Развлечения", href: "#games" },
   { label: "Выставка", href: "#brands" },
   { label: "Карта", href: "#map" },
-  { label: "Билеты", href: "#tickets" },
-];
-
-const SOCIALS = [
-  { Icon: Instagram, label: "Instagram", href: "#" },
-  { Icon: Youtube, label: "YouTube", href: "#" },
-  { Icon: MessageCircle, label: "Telegram", href: "#" },
 ];
 
 export function Navbar() {
   const [activeId, setActiveId] = useState<string>("hero");
-  const [open, setOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -28,17 +21,6 @@ export function Navbar() {
     window.addEventListener("snap-section-change", handler);
     return () => window.removeEventListener("snap-section-change", handler);
   }, []);
-
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
 
   const scrollTo = (href: string) => {
     const id = href.startsWith("#") ? href.slice(1) : "";
@@ -52,219 +34,204 @@ export function Navbar() {
     } else {
       target?.scrollIntoView({ behavior: "smooth" });
     }
-    setOpen(false);
   };
 
-  const linkStyle = (href: string) => ({
-    fontFamily: "'Barlow Condensed', sans-serif" as const,
-    fontWeight: 800,
-    letterSpacing: "0.22em",
-    fontSize: "0.72rem",
-    color: "rgba(255,255,255,0.92)",
-  });
+  const desktopLinks = useMemo(
+    () =>
+      LINKS.map((l, i) => {
+        const id = l.href.slice(1);
+        const active = activeId === id;
+        const isLast = i === LINKS.length - 1;
+        return (
+          <React.Fragment key={l.label}>
+            <a
+              href={l.href}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollTo(l.href);
+              }}
+              className="uppercase transition-colors duration-200 hover:text-white"
+              style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                fontSize: "0.78rem",
+                color: active ? "rgba(232, 244, 234, 1)" : "rgba(232, 244, 234, 0.65)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {l.label}
+            </a>
+            {!isLast && (
+              <span style={{ color: "rgba(232, 244, 234, 0.65)", userSelect: "none" }} aria-hidden="true">
+                /
+              </span>
+            )}
+          </React.Fragment>
+        );
+      }),
+    [activeId]
+  );
 
-  const linkContent = LINKS.map((l) => (
-    <a
-      key={l.label}
-      href={l.href}
-      onClick={(e) => {
-        e.preventDefault();
-        scrollTo(l.href);
-      }}
-      className="side-nav-link block uppercase py-2 hover:text-white transition-colors duration-200 group relative"
-      style={linkStyle(l.href)}
-    >
-      {l.label}
-      <span className="absolute bottom-0 right-0 left-0 h-px bg-[var(--c-cyan,#00D4F5)] origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-280" />
-    </a>
-  ));
+  const mobileLinks = useMemo(
+    () =>
+      LINKS.map((l) => {
+        const id = l.href.slice(1);
+        const active = activeId === id;
+        return (
+          <a
+            key={l.label}
+            href={l.href}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo(l.href);
+              setIsMobileMenuOpen(false);
+            }}
+            className="uppercase transition-colors duration-200"
+            style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              fontSize: "0.92rem",
+              color: active ? "rgba(232, 244, 234, 1)" : "rgba(232, 244, 234, 0.74)",
+            }}
+          >
+            {l.label}
+          </a>
+        );
+      }),
+    [activeId]
+  );
 
   return (
-    <>
-      <nav
-        className="fixed top-0 z-50 hidden lg:flex flex-col items-end justify-center h-screen py-20 pointer-events-none"
-        aria-label="Навигация по разделам"
-        style={{ right: "10px" }}
+    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+      <div
+        className="pointer-events-auto h-[64px] w-full"
+        style={{
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          background: "rgba(5,5,8,0.52)",
+          backdropFilter: "blur(8px)",
+        }}
       >
-        <div className="pointer-events-auto">
-          <div className="side-nav-panel flex flex-col items-end gap-0.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-4 shadow-[0_0_40px_rgba(0,0,0,0.85)]">
-            {linkContent}
-          </div>
-        </div>
-      </nav>
+        <div className="mx-auto h-full w-full max-w-[1296px] px-3 md:px-0 flex items-center justify-between">
+          <div className="flex items-center gap-8 md:gap-14">
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollTo("#hero");
+              }}
+              className="gh-logo text-white leading-none"
+              style={{ fontSize: "1.7rem", letterSpacing: "0.05em" }}
+            >
+              GAME<span style={{ color: "var(--c-cyan,#00E5FF)" }}>HUB</span>
+            </a>
 
-      {/* Мобилка: бургер в стиле сайта */}
-      <div className="fixed top-0 right-0 z-[60] lg:hidden p-3 pt-[max(12px,env(safe-area-inset-top))] pointer-events-auto">
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Закрыть меню" : "Меню"}
-          aria-expanded={open}
-          className="relative w-11 h-11 flex items-center justify-center text-white transition-all duration-200 active:scale-[0.98]"
-          style={{
-            background: "rgba(5,5,12,0.92)",
-            border: "1px solid rgba(0,229,255,0.35)",
-            boxShadow: "0 0 24px rgba(0,229,255,0.12), inset 0 1px 0 rgba(255,255,255,0.06)",
-            clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)",
-          }}
-        >
-          {open ? <X size={20} strokeWidth={2} style={{ color: "#00E5FF" }} /> : <Menu size={20} strokeWidth={2} />}
-        </button>
+            <nav className="hidden md:flex items-center gap-3" aria-label="Навигация по разделам">
+              {desktopLinks}
+            </nav>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => scrollTo("#tickets")}
+            className="hidden md:flex h-[40px] min-w-[172px] px-4 items-center justify-center gap-1 transition-opacity hover:opacity-90"
+            style={{
+              background: "#03E3FD",
+              color: "#1A4C52",
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 700,
+              fontSize: "0.95rem",
+              lineHeight: "1",
+              letterSpacing: "0.02em",
+              clipPath: "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)",
+              cursor: "pointer",
+            }}
+          >
+            <span>Получить билеты</span>
+            <ArrowRight size={15} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((v) => !v)}
+            aria-label={isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-expanded={isMobileMenuOpen}
+            className="md:hidden relative h-[40px] w-[40px] flex items-center justify-center transition-opacity hover:opacity-90"
+            style={{
+              border: "1px solid rgba(255,255,255,0.16)",
+              background: "rgba(255,255,255,0.03)",
+              color: "#E8F4EA",
+            }}
+          >
+            <span className="sr-only">{isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}</span>
+            <span className="relative block h-[14px] w-[18px]">
+              <span
+                className="absolute left-0 top-0 block h-[2px] w-full origin-center rounded-full transition-all duration-300"
+                style={{
+                  background: "#E8F4EA",
+                  transform: isMobileMenuOpen ? "translateY(6px) rotate(45deg)" : "translateY(0) rotate(0deg)",
+                }}
+              />
+              <span
+                className="absolute left-0 top-1/2 block h-[2px] w-full -translate-y-1/2 rounded-full transition-all duration-200"
+                style={{
+                  background: "#E8F4EA",
+                  opacity: isMobileMenuOpen ? 0 : 1,
+                }}
+              />
+              <span
+                className="absolute left-0 bottom-0 block h-[2px] w-full origin-center rounded-full transition-all duration-300"
+                style={{
+                  background: "#E8F4EA",
+                  transform: isMobileMenuOpen ? "translateY(-6px) rotate(-45deg)" : "translateY(0) rotate(0deg)",
+                }}
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
-      {open && (
-        <div
-          className="fixed inset-0 z-[55] lg:hidden flex flex-col overflow-hidden nav-mobile-drawer"
-          style={{
-            background: "#050508",
-            paddingTop: "env(safe-area-inset-top)",
-            paddingBottom: "env(safe-area-inset-bottom)",
-            height: "100dvh",
-            maxHeight: "100dvh",
-          }}
-        >
-          <div className="absolute inset-0 bg-dots opacity-[0.12] pointer-events-none" />
-          <div
-            className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent, rgba(0,229,255,0.5), rgba(240,180,41,0.25), transparent)",
+      <div
+        className={`pointer-events-auto md:hidden border-b border-white/10 transition-all duration-300 ease-out ${
+          isMobileMenuOpen
+            ? "opacity-100 translate-y-0 max-h-[320px]"
+            : "opacity-0 -translate-y-2 max-h-0 pointer-events-none"
+        }`}
+        style={{
+          background: "rgba(5,5,8,0.92)",
+          backdropFilter: "blur(10px)",
+          overflow: "hidden",
+        }}
+      >
+        <div className="mx-auto w-full max-w-[1296px] px-3 py-4 flex flex-col gap-3">
+          <nav className="flex flex-col gap-2" aria-label="Мобильная навигация по разделам">
+            {mobileLinks}
+          </nav>
+          <button
+            type="button"
+            onClick={() => {
+              scrollTo("#tickets");
+              setIsMobileMenuOpen(false);
             }}
-          />
-          <div
-            className="absolute top-1/4 right-0 w-[70%] h-[40%] pointer-events-none opacity-30"
+            className="h-[40px] w-full px-4 flex items-center justify-center gap-1 transition-opacity hover:opacity-90"
             style={{
-              background: "radial-gradient(ellipse at right center, rgba(0,229,255,0.08) 0%, transparent 70%)",
+              background: "#03E3FD",
+              color: "#1A4C52",
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 700,
+              fontSize: "0.95rem",
+              lineHeight: "1",
+              letterSpacing: "0.02em",
+              clipPath: "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)",
+              cursor: "pointer",
             }}
-          />
-
-          {/* Шапка: только лого (закрытие — кнопка-бургер справа) */}
-          <div
-            className="relative z-10 flex items-center px-5 py-5 shrink-0 pr-16"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
           >
-            <div className="flex items-center gap-2">
-              <div className="w-0.5 h-6 shrink-0" style={{ background: "var(--c-cyan,#00E5FF)" }} />
-              <span className="gh-logo text-white" style={{ fontSize: "1.15rem", letterSpacing: "0.14em" }}>
-                GAME<span style={{ color: "var(--c-cyan,#00E5FF)" }}>HUB</span>
-              </span>
-            </div>
-          </div>
-
-          <div
-            className="relative z-10 flex-1 min-h-0 overflow-hidden flex flex-col px-5 py-6 max-w-md mx-auto w-full"
-            style={{ maxHeight: "100%" }}
-          >
-            <nav className="flex flex-col gap-0 shrink-0" aria-label="Разделы">
-              {LINKS.map((l) => {
-                const id = l.href.slice(1);
-                const active = activeId === id;
-                return (
-                  <a
-                    key={l.label}
-                    href={l.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollTo(l.href);
-                    }}
-                    className="flex items-center gap-3 py-5 uppercase transition-colors"
-                    style={{
-                      fontFamily: "'Barlow Condensed',sans-serif",
-                      fontWeight: 800,
-                      letterSpacing: "0.2em",
-                      fontSize: "0.72rem",
-                      color: active ? "#00E5FF" : "rgba(255,255,255,0.88)",
-                      borderBottom: "1px solid rgba(255,255,255,0.06)",
-                    }}
-                  >
-                    <span
-                      className="w-1 h-6 shrink-0 rounded-sm transition-colors"
-                      style={{ background: active ? "#00E5FF" : "rgba(255,255,255,0.12)" }}
-                    />
-                    {l.label}
-                  </a>
-                );
-              })}
-            </nav>
-
-            <div className="w-full shrink-0 mt-3 space-y-2">
-              <button
-                type="button"
-                onClick={() => scrollTo("#tickets")}
-                className="btn-primary w-full flex items-center justify-center gap-2"
-                style={{
-                  padding: "12px 18px",
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.2em",
-                  clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-                }}
-              >
-                <Ticket size={14} />
-                Получить билет
-              </button>
-              <div className="text-center py-1">
-                <a
-                  href="/public-offer"
-                  onClick={() => setOpen(false)}
-                  style={{
-                    fontFamily: "'Barlow',sans-serif",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.06em",
-                    color: "rgba(255,255,255,0.28)",
-                  }}
-                  className="hover:text-white/45 transition-colors"
-                >
-                  Публичная оферта
-                </a>
-              </div>
-            </div>
-
-            <div className="flex-1 min-h-0 flex flex-col justify-end pb-1">
-              <p
-                className="text-center mb-2"
-                style={{
-                  fontFamily: "'Barlow Condensed',sans-serif",
-                  fontSize: "0.5rem",
-                  letterSpacing: "0.3em",
-                  color: "rgba(255,255,255,0.35)",
-                  textTransform: "uppercase",
-                }}
-              >
-                Мы в соцсетях
-              </p>
-              <div className="flex items-center justify-center gap-2">
-                {SOCIALS.map(({ Icon, label, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    onClick={() => setOpen(false)}
-                    className="w-10 h-10 flex items-center justify-center transition-all duration-200 active:scale-95 shrink-0"
-                    style={{
-                      border: "1px solid rgba(0,229,255,0.25)",
-                      background: "rgba(5,5,14,0.9)",
-                      clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)",
-                    }}
-                  >
-                    <Icon size={18} style={{ color: "#00E5FF" }} />
-                  </a>
-                ))}
-              </div>
-              <p
-                className="text-center mt-3"
-                style={{
-                  fontFamily: "'Barlow',sans-serif",
-                  fontSize: "0.6rem",
-                  color: "rgba(255,255,255,0.22)",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                11–12 апреля 2026 · Алматы
-              </p>
-            </div>
-          </div>
+            <span>Получить билеты</span>
+            <ArrowRight size={15} />
+          </button>
         </div>
-      )}
-    </>
+      </div>
+    </header>
   );
 }

@@ -309,11 +309,12 @@ body {
 }
 
 .gh-logo {
-  font-family: "Sternbach Bold Italic", var(--font-d);
-  font-weight: 700;
+  font-family: "Druk Cyr", sans-serif;
+  font-weight: 1000;
   font-style: italic;
+  line-height: 100%;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
 }
 
 .gh-mono {

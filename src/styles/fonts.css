@@ -7,3 +7,19 @@
   font-style: italic;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Druk Cyr";
+  src: url("../fonts/drukcyr-bold.ttf") format("truetype");
+  font-weight: 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Druk Cyr";
+  src: url("../fonts/drukcyr-bold.ttf") format("truetype");
+  font-weight: 1000;
+  font-style: italic;
+  font-display: swap;
+}

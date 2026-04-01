@@ -52,7 +52,7 @@ export function PublicOfferPage() {
             marginBottom: "40px",
           }}
         >
-          Фестиваль GAMEHUB 2026 · 11–12 апреля · Арена Балуан Шолак, Алматы
+          Фестиваль GAMEHUB 2026 · 30 мая — 1 июня · Арена Балуан Шолак, Алматы
         </p>
 
         <div

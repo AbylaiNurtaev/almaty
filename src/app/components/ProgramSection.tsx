@@ -225,8 +225,8 @@ export function ProgramSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-3 mb-5 max-md:gap-10 max-md:w-full min-w-0">
-          <DayCard label="День первый" date="11 апреля 2026" color="#00E5FF" events={D1} onEventClick={(ev, color) => setModal({ ev, color })} />
-          <DayCard label="День второй" date="12 апреля 2026" color="#7C3AED" events={D2} onEventClick={(ev, color) => setModal({ ev, color })} />
+          <DayCard label="День первый" date="30 мая 2026" color="#00E5FF" events={D1} onEventClick={(ev, color) => setModal({ ev, color })} />
+          <DayCard label="День второй" date="1 июня 2026" color="#7C3AED" events={D2} onEventClick={(ev, color) => setModal({ ev, color })} />
         </div>
 
         {/* Модалка события */}

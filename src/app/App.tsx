@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navbar }              from "./components/Navbar";
-import { Ticket }              from "lucide-react";
 import { HeroSection }         from "./components/HeroSection";
 import { AboutSection }        from "./components/AboutSection";
 import { ActivitiesSection }   from "./components/ActivitiesSection";
@@ -18,7 +17,7 @@ import { Footer }              from "./components/Footer";
 
 /* ─── Ticker items ─────────────────────────────────────────── */
 const TICKER_ITEMS = [
-  "GAMEHUB 2026", "11–12 апреля", "Арена Балуан Шолак",
+  "GAMEHUB 2026", "30 мая — 1 июня", "Арена Балуан Шолак",
   "CS2", "PUBG", "Dota 2", "7 000+ посетителей",
   "9+ стримеров", "40+ брендов", "Алматы · Казахстан",
   "Бесплатные билеты", "VIP-доступ",
@@ -83,10 +82,12 @@ function SnapSection({
   children,
   id,
   style,
+  snapEnabled = true,
 }: {
   children: React.ReactNode;
   id?: string;
   style?: React.CSSProperties;
+  snapEnabled?: boolean;
 }) {
   return (
     <section
@@ -94,8 +95,8 @@ function SnapSection({
       style={{
         /* На десктопе секция ≈ экран, на мобильных может быть выше */
         minHeight:       "100dvh",
-        scrollSnapAlign: "start",
-        scrollSnapStop:  "always",   /* ← ключевой флаг: не перепрыгивает блоки */
+        scrollSnapAlign: snapEnabled ? "start" : "none",
+        scrollSnapStop:  snapEnabled ? "always" : "normal",
         overflow:        "visible",
         position:        "relative",
         display:         "flex",
@@ -114,6 +115,7 @@ function SnapSection({
 export default function App() {
   /* ref на главный scroll-контейнер */
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   /* Scroll-spy: каждый блок ровно 100vh, делим scrollTop на высоту блока */
   const SECTION_ORDER = [
@@ -121,6 +123,15 @@ export default function App() {
     "program", "challenges", "prizes", "brands",
     "clubs", "owners", "map", "tickets",
   ];
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const updateIsMobile = () => setIsMobile(mediaQuery.matches);
+
+    updateIsMobile();
+    mediaQuery.addEventListener("change", updateIsMobile);
+    return () => mediaQuery.removeEventListener("change", updateIsMobile);
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -151,28 +162,6 @@ export default function App() {
       {/* ── Fixed Navbar ── */}
       <Navbar />
 
-      {/* ── Fixed CTA (desktop only) ── */}
-      <div className="hidden md:block">
-        <a
-          href="#tickets"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollRef.current
-              ?.querySelector<HTMLElement>("#tickets")
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="fixed bottom-[80px] right-6 xl:right-10 z-40 flex items-center justify-center gap-2 btn-primary"
-          style={{
-            padding:  "10px 22px",
-            fontSize: "0.7rem",
-            clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-          }}
-        >
-          <Ticket size={12} />
-          <span>Получить билет</span>
-        </a>
-      </div>
-
       {/* ══════════════════════════════════════════════════════
           ГЛАВНЫЙ СКРОЛЛ-КОНТЕЙНЕР
           • overflow-y: scroll  — скролл только здесь
@@ -187,7 +176,7 @@ export default function App() {
           inset:          0,
           overflowY:      "scroll",
           overflowX:      "hidden",
-          scrollSnapType: "y mandatory",
+          scrollSnapType: isMobile ? "none" : "y mandatory",
           paddingBottom:  "64px",
           scrollbarWidth: "none",
           touchAction:    "pan-y",
@@ -202,96 +191,92 @@ export default function App() {
           }
         `}</style>
 
-        {/* 0. HERO (ticker + hero = 100vh) */}
-        <SnapSection id="hero">
-          {/* Navbar-offset: ticker + hero занимают 100vh, navbar поверх */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-            <TickerBar accent="#00E5FF" />
-            <div style={{ flex: 1, overflow: "hidden" }}>
-              <HeroSection />
-            </div>
+        {/* 0. HERO */}
+        <SnapSection id="hero" snapEnabled={!isMobile}>
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <HeroSection />
           </div>
         </SnapSection>
 
         {/* 1. ABOUT */}
-        <SnapSection id="about">
+        <SnapSection id="about" snapEnabled={!isMobile}>
           <div style={{ flex: 1, overflow: "hidden" }}>
             <AboutSection />
           </div>
         </SnapSection>
 
         {/* 2. ACTIVITIES */}
-        <SnapSection id="activities">
+        <SnapSection id="activities" snapEnabled={!isMobile}>
           <div style={{flex: 1, overflow: "hidden" }}>
             <ActivitiesSection />
           </div>
         </SnapSection>
 
         {/* 3. STREAMERS */}
-        <SnapSection id="streamers">
+        <SnapSection id="streamers" snapEnabled={!isMobile}>
           <div style={{flex: 1, overflow: "hidden" }}>
             <StreamersSection />
           </div>
         </SnapSection>
 
         {/* 4. GAMES */}
-        <SnapSection id="games">
+        <SnapSection id="games" snapEnabled={!isMobile}>
           <div style={{ flex: 1, overflow: "hidden" }}>
             <GamesSection />
           </div>
         </SnapSection>
 
         {/* 5. PROGRAM */}
-        <SnapSection id="program">
+        <SnapSection id="program" snapEnabled={!isMobile}>
           <div style={{ flex: 1, overflow: "hidden" }}>
             <ProgramSection />
           </div>
         </SnapSection>
 
         {/* 6. VIRAL CHALLENGES */}
-        <SnapSection id="challenges">
+        <SnapSection id="challenges" snapEnabled={!isMobile}>
           <div style={{ flex: 1, overflow: "hidden" }}>
             <ViralChallengesSection />
           </div>
         </SnapSection>
 
         {/* 7. PRIZES */}
-        <SnapSection id="prizes">
+        <SnapSection id="prizes" snapEnabled={!isMobile}>
           <div style={{  flex: 1, overflow: "hidden" }}>
             <PrizesSection />
           </div>
         </SnapSection>
 
         {/* 8. BRANDS */}
-        <SnapSection id="brands">
+        <SnapSection id="brands" snapEnabled={!isMobile}>
           <div style={{  flex: 1, overflow: "hidden" }}>
             <BrandsSection />
           </div>
         </SnapSection>
 
         {/* 9. CLUB NETWORKS */}
-        <SnapSection id="clubs">
+        <SnapSection id="clubs" snapEnabled={!isMobile}>
           <div style={{  flex: 1, overflow: "hidden" }}>
             <ClubNetworksSection />
           </div>
         </SnapSection>
 
         {/* 10. CLUB OWNERS */}
-        <SnapSection id="owners">
+        <SnapSection id="owners" snapEnabled={!isMobile}>
           <div style={{  flex: 1, overflow: "hidden" }}>
             <ClubOwnersSection />
           </div>
         </SnapSection>
 
         {/* 11. MAP */}
-        <SnapSection id="map">
+        <SnapSection id="map" snapEnabled={!isMobile}>
           <div style={{ flex: 1, overflow: "hidden" }}>
             <MapSection />
           </div>
         </SnapSection>
 
         {/* 12. TICKETS */}
-        <SnapSection id="tickets">
+        <SnapSection id="tickets" snapEnabled={!isMobile}>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
             <TickerBar accent="#F0B429" />
             <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>

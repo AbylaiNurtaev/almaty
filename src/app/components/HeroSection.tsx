@@ -3,7 +3,7 @@ import { Zap, Star, ArrowRight } from "lucide-react";
 
 const BG = "https://images.unsplash.com/photo-1614609005636-648d357485c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwYXJlbmElMjBzcGVjdGFjdWxhciUyMGNvbmNlcnQlMjBsaWdodGluZyUyMG1hc3NpdmUlMjBjcm93ZCUyMHN0YWdlfGVufDF8fHx8MTc3MjgwNTQ1M3ww&ixlib=rb-4.1.0&q=80&w=1920";
 
-const TARGET = new Date("2026-04-11T10:00:00");
+const TARGET = new Date("2026-05-30T10:00:00");
 
 function useCountdown(t: Date) {
   const calc = () => {
@@ -38,7 +38,7 @@ export function HeroSection() {
     <section
       id="hero"
       className="relative w-full flex flex-col overflow-hidden"
-      style={{ background: "#050508", height: "95vh" }}
+      style={{ background: "#050508", height: "100%", minHeight: "100dvh" }}
     >
       {/* ════ BACKGROUND STACK ════ */}
       <div className="absolute inset-0">
@@ -103,7 +103,7 @@ export function HeroSection() {
       </div>
 
       {/* ════ TOP META BAR ════ */}
-      <div className="relative z-20" style={{ padding: "12px var(--sec-px) 0" }}>
+      <div className="relative z-20" style={{ padding: "84px var(--sec-px) 0" }}>
         <div
           style={{ maxWidth: "1380px", margin: "0 auto" }}
           className="flex flex-wrap items-center justify-center gap-4 pt-8"
@@ -130,7 +130,7 @@ export function HeroSection() {
                 textTransform: "uppercase",
               }}
             >
-              11–12 апреля 2026 · Арена Балуан Шолак · Алматы
+              30 мая — 1 июня 2026 · Арена Балуан Шолак · Алматы
             </span>
           </div>
 
