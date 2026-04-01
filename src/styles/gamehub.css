@@ -928,9 +928,15 @@ button.streamer-card {
 }
 
 /* Игры фестиваля — только мобилка: выше заголовок, не выше 100dvh */
+@media (min-width: 768px) {
+  #games.games-section-mobile {
+    padding-top: 78px !important;
+  }
+}
+
 @media (max-width: 767px) {
   #games.games-section-mobile {
-    padding-top: max(8px, env(safe-area-inset-top)) !important;
+    padding-top: max(2px, env(safe-area-inset-top)) !important;
     padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
     max-height: 100dvh;
     box-sizing: border-box;
