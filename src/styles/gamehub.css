@@ -313,19 +313,21 @@ body {
    ════════════════════════════════════════════════════════════ */
 
 .gh-display {
-  font-family: var(--font-d);
-  font-weight: 900;
+  font-family: "Druk Cyr", sans-serif;
+  font-weight: 1000;
+  font-style: italic;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  line-height: 0.84;
+  letter-spacing: 0.02em;
+  line-height: 100%;
 }
 
 .gh-title {
-  font-family: var(--font-d);
-  font-weight: 900;
+  font-family: "Druk Cyr", sans-serif;
+  font-weight: 1000;
+  font-style: italic;
   text-transform: uppercase;
-  line-height: 1.08;
-  letter-spacing: 0.03em;
+  line-height: 100%;
+  letter-spacing: 0.02em;
 }
 
 .gh-logo {
@@ -335,6 +337,20 @@ body {
   line-height: 100%;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Druk Cyr", sans-serif;
+  font-weight: 1000;
+  font-style: italic;
+  line-height: 100%;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .gh-mono {
