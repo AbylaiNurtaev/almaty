@@ -1,182 +1,203 @@
-import { useState } from "react";
-import { Cpu, Monitor, Keyboard } from "lucide-react";
+import { useMemo, useState } from "react";
+import priz1 from "../../assets/priz/image-1.png";
+import priz2 from "../../assets/priz/image-2.png";
+import priz3 from "../../assets/priz/image-3.png";
+import priz4 from "../../assets/priz/image-4.png";
+import priz5 from "../../assets/priz/image-5.png";
+import priz6 from "../../assets/priz/image-6.png";
+import priz7 from "../../assets/priz/image-7.png";
+import priz8 from "../../assets/priz/image.png";
+import monitor1 from "../../assets/monitors/1-36.webp";
+import monitor2 from "../../assets/monitors/73ea1099-6aed-4071-93f3-69c2a87959c6 (1).jpg";
+import monitor3 from "../../assets/monitors/73ea1099-6aed-4071-93f3-69c2a87959c6.jpg";
+import monitor4 from "../../assets/monitors/3079104ae6.jpg";
+import monitor5 from "../../assets/monitors/a049f3438a.jpg";
+import monitor6 from "../../assets/monitors/hi-37.jpg";
+import monitor7 from "../../assets/monitors/wide_pic.jpg";
+import monitor8 from "../../assets/monitors/ynahjg721a-700x394.jpg";
+import headphones1 from "../../assets/headphones/678c0c9cf0867ab0117ab1097ee8becc.webp";
+import headphones2 from "../../assets/headphones/6476335128.jpg";
+import headphones3 from "../../assets/headphones/best-gaming-headset.jpg";
+import headphones4 from "../../assets/headphones/DSC02867_1.webp";
+import headphones5 from "../../assets/headphones/hx-hero-audio-cloud-alpha-s-lg.jpg";
+import headphones6 from "../../assets/headphones/hyperx_cloud_alpha_002.jpg";
+import headphones7 from "../../assets/headphones/hyperx-cloud-alpha-s-review-07.jpg";
+import headphones8 from "../../assets/headphones/hyperx-cloud-alpha-s-review-11.jpg";
 
-import imgPc from "../../assets/pc.png";
-import imgMonitor from "../../assets/monitor.webp";
-import imgHeadphones from "../../assets/headphones.png";
+const TABS = ["Игровые ПК", "Мониторы", "Наушники"] as const;
 
-const PRIZES = [
-  { Icon: Cpu,      title: "Игровые ПК",   color: "#00D4F5" },
-  { Icon: Monitor,  title: "Мониторы",    color: "#6B21E8" },
-  { Icon: Keyboard, title: "Периферия",    color: "#E8A800" },
-];
+type TabId = (typeof TABS)[number];
 
-const TAGS = ["Игровые ПК", "Мониторы", "Наушники"] as const;
-const TAG_TO_IMAGE: Record<(typeof TAGS)[number], string> = {
-  "Игровые ПК": imgPc,
-  Мониторы: imgMonitor,
-  Наушники: imgHeadphones,
+type PrizeItem = {
+  id: string;
+  label: string;
+  image?: string;
 };
-const TAG_TO_TITLE: Record<string, string> = { "Игровые ПК": "Игровые ПК", "Мониторы": "Мониторы", "Наушники": "Периферия" };
 
-const TAG_TO_COLOR: Record<string, string> = { "Игровые ПК": "#00D4F5", "Мониторы": "#6B21E8", "Наушники": "#E8A800" };
-const DEFAULT_GLOW = "#00E5FF";
+const ITEMS_BY_TAB: Record<TabId, PrizeItem[]> = {
+  "Игровые ПК": [
+    { id: "pc-01", label: "Игровой ПК 01", image: priz1 },
+    { id: "pc-02", label: "Игровой ПК 02", image: priz2 },
+    { id: "pc-03", label: "Игровой ПК 03", image: priz3 },
+    { id: "pc-04", label: "Игровой ПК 04", image: priz4 },
+    { id: "pc-05", label: "Игровой ПК 05", image: priz5 },
+    { id: "pc-06", label: "Игровой ПК 06", image: priz6 },
+    { id: "pc-07", label: "Игровой ПК 07", image: priz7 },
+    { id: "pc-08", label: "Игровой ПК 08", image: priz8 },
+  ],
+  Мониторы: [
+    { id: "mn-01", label: "Монитор 01", image: monitor1 },
+    { id: "mn-02", label: "Монитор 02", image: monitor2 },
+    { id: "mn-03", label: "Монитор 03", image: monitor3 },
+    { id: "mn-04", label: "Монитор 04", image: monitor4 },
+    { id: "mn-05", label: "Монитор 05", image: monitor5 },
+    { id: "mn-06", label: "Монитор 06", image: monitor6 },
+    { id: "mn-07", label: "Монитор 07", image: monitor7 },
+    { id: "mn-08", label: "Монитор 08", image: monitor8 },
+  ],
+  Наушники: [
+    { id: "hp-01", label: "Наушники 01", image: headphones1 },
+    { id: "hp-02", label: "Наушники 02", image: headphones2 },
+    { id: "hp-03", label: "Наушники 03", image: headphones3 },
+    { id: "hp-04", label: "Наушники 04", image: headphones4 },
+    { id: "hp-05", label: "Наушники 05", image: headphones5 },
+    { id: "hp-06", label: "Наушники 06", image: headphones6 },
+    { id: "hp-07", label: "Наушники 07", image: headphones7 },
+    { id: "hp-08", label: "Наушники 08", image: headphones8 },
+  ],
+};
 
 export function PrizesSection() {
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const filteredPrizes = selectedTag
-    ? PRIZES.filter((p) => p.title === TAG_TO_TITLE[selectedTag])
-    : PRIZES;
-  const glowColor = selectedTag ? TAG_TO_COLOR[selectedTag] ?? DEFAULT_GLOW : DEFAULT_GLOW;
+  const [selectedTab, setSelectedTab] = useState<TabId>("Игровые ПК");
+  const items = useMemo(() => ITEMS_BY_TAB[selectedTab], [selectedTab]);
+
   return (
     <section
       id="prizes"
-      className="sec-fullscreen relative overflow-hidden max-md:!p-0 max-md:flex max-md:flex-col max-md:items-center max-md:min-h-0 max-md:py-[max(8px,env(safe-area-inset-top))] max-md:pb-[max(8px,env(safe-area-inset-bottom))]"
+      className="sec-fullscreen relative overflow-hidden"
       style={{
-        background: "#09091A",
-        paddingTop: "var(--sec-py)",
-        paddingBottom: "calc(var(--sec-py) * 0.65)",
+        background: "#020a18",
+        paddingTop: "max(64px, calc(var(--sec-py) * 0.7))",
+        paddingBottom: "max(38px, calc(var(--sec-py) * 0.45))",
         paddingLeft: "var(--sec-px)",
         paddingRight: "var(--sec-px)",
       }}
     >
-
-      <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-2/3 pointer-events-none max-md:hidden"
-        style={{ background: "radial-gradient(ellipse at left bottom, rgba(124,58,237,0.07) 0%, transparent 65%)" }} />
-      <div className="absolute top-0 right-0 w-1/2 h-2/3 pointer-events-none max-md:hidden"
-        style={{ background: "radial-gradient(ellipse at right top, rgba(0,229,255,0.05) 0%, transparent 65%)" }} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "linear-gradient(180deg, #020a18 0%, #030d1e 65%, #020a18 100%)" }}
+      />
+      <div className="absolute inset-0 bg-grid opacity-8 pointer-events-none" />
 
       <div
-        className="max-md:w-[95vw] max-md:max-w-[95vw] max-md:mx-auto max-md:flex max-md:flex-col max-md:items-center max-md:min-h-0 max-md:flex-1 max-md:self-stretch"
-        style={{ maxWidth: "1380px", margin: "0 auto", position: "relative", zIndex: 10 }}
+        className="w-full"
+        style={{ maxWidth: "1260px", margin: "0 auto", position: "relative", zIndex: 10 }}
       >
-
-        <div className="grid md:grid-cols-2 gap-16 items-center mb-10 max-md:grid-cols-1 max-md:gap-3 max-md:mb-2 max-md:shrink-0 max-md:w-full">
-          <div className="max-md:text-center max-md:order-2">
-            <div className="eyebrow max-md:!mb-1 max-md:!text-[0.55rem] max-md:!tracking-[0.2em]">Выигрывайте крупно</div>
+        <div className="grid md:grid-cols-[auto_1fr] gap-5 md:gap-10 items-start mb-7 md:mb-10">
+          <div>
             <h2
-              className="gh-title text-white mb-7 max-md:!mb-2 max-md:!text-[clamp(1.35rem,5vw,1.85rem)] max-md:!leading-tight"
-              style={{ fontSize: "var(--h2-sec)" }}
+              className="gh-title text-white leading-[0.96]"
+              style={{ fontSize: "clamp(2.1rem, 4vw, 4.4rem)" }}
             >
-              Призы<br />
+              Призы
+              <br />
               <span style={{ color: "var(--c-cyan,#00E5FF)" }}>фестиваля</span>
             </h2>
-            <p
-              className="mb-9 max-md:!mb-3 max-md:!text-[0.8rem] max-md:!leading-snug max-md:mx-auto max-md:max-w-[95%]"
-              style={{
-                fontFamily: "'Barlow',sans-serif",
-                fontSize: "1rem",
-                letterSpacing: "0.03em",
-                color: "rgba(255,255,255,0.38)",
-                lineHeight: 1.78,
-                maxWidth: "440px",
-              }}
-            >
-              Тысячи долларов в призах: игровые ПК, мониторы, периферия и эксклюзивная техника — ждут чемпионов.
-            </p>
-            <div className="flex flex-wrap gap-2 max-md:justify-center max-md:gap-1.5">
-              {TAGS.map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  onClick={() => setSelectedTag(selectedTag === t ? null : t)}
-                  className="tag-angled cursor-pointer transition-colors duration-200 hover:bg-cyan-500/15 hover:border-cyan-400/30 max-md:!py-1 max-md:!px-2.5 max-md:!text-[0.65rem]"
-                  style={{
-                    background: selectedTag === t ? "rgba(0,229,255,0.12)" : "rgba(0,229,255,0.05)",
-                    border: "1px solid " + (selectedTag === t ? "rgba(0,229,255,0.35)" : "rgba(0,229,255,0.15)"),
-                    color: "#fff",
-                    padding: "6px 15px",
-                  }}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
           </div>
-
           <div
-            className="relative overflow-hidden clip-both transition-all duration-500 max-md:order-1 max-md:rounded-md max-md:border max-md:border-white/10 bg-[#0c0c18]"
-            style={{ minHeight: "clamp(200px,30vh,300px)" }}
+            style={{
+              fontFamily: "'Barlow',sans-serif",
+              color: "rgba(255,255,255,0.55)",
+              letterSpacing: "0.03em",
+              lineHeight: 1.5,
+              fontSize: "clamp(0.95rem, 1.2vw, 1.5rem)",
+              maxWidth: "720px",
+              paddingTop: "8px",
+            }}
           >
-            <div className="h-[clamp(200px,30vh,300px)] max-md:!h-[24dvh] max-md:!min-h-[100px] max-md:!max-h-[200px]">
-              {selectedTag ? (
-                <img
-                  key={selectedTag}
-                  src={TAG_TO_IMAGE[selectedTag as (typeof TAGS)[number]]}
-                  alt=""
-                  className="w-full h-full object-contain p-4 max-md:p-3 transition-opacity duration-500"
-                />
-              ) : (
-                <div className="grid grid-cols-3 gap-0.5 h-full p-2 max-md:p-1.5">
-                  {TAGS.map((t) => (
-                    <div
-                      key={t}
-                      className="relative overflow-hidden rounded-sm bg-[#12121f]"
-                    >
-                      <img
-                        src={TAG_TO_IMAGE[t]}
-                        alt=""
-                        className="absolute inset-0 w-full h-full object-contain p-2 max-md:p-1"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div
-              className="absolute inset-0 pointer-events-none transition-opacity duration-500"
-              style={{
-                background: `radial-gradient(ellipse 70% 60% at 50% 45%, ${glowColor}18 0%, transparent 65%)`,
-                opacity: selectedTag ? 1 : 0.45,
-              }}
-            />
-            <div className="absolute top-0 left-0 right-0 h-px transition-colors duration-500" style={{ background: `linear-gradient(90deg, transparent, ${glowColor}55, transparent)` }} />
+            Тысячи долларов в призах: игровые ПК, мониторы, периферия и эксклюзивная техника — ждут чемпионов.
           </div>
         </div>
 
         <div
-          className={
-            (selectedTag
-              ? "grid grid-cols-1 max-w-xs max-md:!max-w-none max-md:flex-none max-md:self-start"
-              : "grid grid-cols-3 max-w-3xl max-md:!grid-cols-1 max-md:grid-rows-3 max-md:flex-1 max-md:min-h-0 max-md:auto-rows-fr") +
-            " max-md:w-full max-md:rounded-md max-md:overflow-hidden max-md:border max-md:border-white/[0.06]"
-          }
-          style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
+          className="flex flex-wrap gap-2 md:gap-3 mb-7 md:mb-8"
         >
-          {filteredPrizes.map((p) => {
-            const Icon = p.Icon;
+          {TABS.map((tab) => {
+            const isActive = tab === selectedTab;
             return (
-              <div
-                key={p.title}
-                className={
-                  "group relative overflow-hidden flex flex-col justify-center items-start cursor-default transition-all duration-300 bg-[#09091A] md:h-[88px] md:p-4 max-md:w-full max-md:px-3 max-md:py-3 " +
-                  (selectedTag
-                    ? "max-md:!h-[88px] max-md:min-h-[88px] max-md:max-h-[88px] max-md:shrink-0"
-                    : "max-md:min-h-0 max-md:h-full")
-                }
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setSelectedTab(tab)}
+                className="transition-all duration-200 text-white/90 hover:text-white"
+                style={{
+                  minWidth: "clamp(152px, 20vw, 220px)",
+                  padding: "14px 28px",
+                  background: isActive ? "#19d4ef" : "rgba(255,255,255,0.14)",
+                  color: isActive ? "#062034" : "rgba(255,255,255,0.85)",
+                  fontFamily: "'SF Pro',sans-serif",
+                  fontWeight: 500,
+                  fontSize: "clamp(0.98rem, 1.1vw, 1.4rem)",
+                  clipPath: "polygon(3% 0,100% 0,97% 100%,0 100%)",
+                }}
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none max-md:hidden"
-                  style={{ background: `radial-gradient(ellipse at 100% 0%, ${p.color}14 0%, transparent 65%)` }} />
-                <div className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-md:hidden"
-                  style={{ background: `linear-gradient(90deg, transparent, ${p.color}, transparent)` }} />
-                <div className="absolute top-0 left-0 bottom-0 w-[2px] opacity-0 group-hover:opacity-60 transition-opacity duration-300 max-md:hidden"
-                  style={{ background: p.color }} />
-
-                <div className="flex flex-row items-center gap-3 transition-all duration-350 group-hover:opacity-90 max-md:gap-2.5 max-md:w-full">
-                  <div
-                    className="flex shrink-0 items-center justify-center transition-transform duration-350 group-hover:scale-110 w-10 h-10 max-md:w-9 max-md:h-9"
-                    style={{ background: `${p.color}10`, border: `1px solid ${p.color}28`, clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)" }}
-                  >
-                    <Icon className="max-md:!w-3 max-md:!h-3" size={14} style={{ color: p.color }} />
-                  </div>
-                  <h3 className="gh-title text-white relative z-10 text-xl max-md:!text-[0.95rem]" style={{ fontSize: "1.25rem" }}>
-                    {p.title}
-                  </h3>
-                </div>
-              </div>
+                {tab}
+              </button>
             );
           })}
+        </div>
+
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-[12px]"
+          style={{ gridTemplateRows: "repeat(2, minmax(110px, 1fr))" }}
+        >
+          {items.map((item, index) => (
+            <div
+              key={item.id}
+              className="relative overflow-hidden"
+              style={{
+                minHeight: "clamp(92px, 12vw, 150px)",
+                background:
+                  index % 3 === 0
+                    ? "linear-gradient(135deg, #100f2a 0%, #431677 45%, #142f90 100%)"
+                    : index % 3 === 1
+                      ? "linear-gradient(135deg, #121a38 0%, #0b63b1 48%, #53106e 100%)"
+                      : "linear-gradient(135deg, #1b1039 0%, #9c0ddf 42%, #0e4ba5 100%)",
+              }}
+            >
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "radial-gradient(circle at 15% 25%, rgba(255,255,255,0.2), transparent 45%)",
+                }}
+              />
+              {item.image && (
+                <img
+                  src={item.image}
+                  alt={item.label}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              )}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(180deg, transparent 0%, rgba(2,10,24,0.5) 100%)",
+                }}
+              />
+              <span
+                className="absolute left-3 bottom-2 md:left-4 md:bottom-3"
+                style={{
+                  fontFamily: "'SF Pro',sans-serif",
+                  fontSize: "0.76rem",
+                  letterSpacing: "0.08em",
+                  color: "rgba(255,255,255,0.65)",
+                  textTransform: "uppercase",
+                }}
+              >
+                {item.label}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
