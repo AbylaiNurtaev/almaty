@@ -31,7 +31,7 @@ html {
   --c-bord2: rgba(255, 255, 255, 0.12);
 
   --font-d: "Barlow Condensed", sans-serif;
-  --font-b: "Barlow", sans-serif;
+  --font-b: "SF Pro", sans-serif;
 
   /* Spacing */
   --sec-py: clamp(72px, 7vw, 108px);
@@ -48,6 +48,10 @@ html {
 body {
   background: var(--c-bg);
   color: var(--c-text);
+  font-family: var(--font-b);
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: -0.02em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
