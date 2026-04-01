@@ -67,6 +67,22 @@ body {
   letter-spacing: 0.03em;
 }
 
+/* Глобальная замена Barlow/Barlow Condensed на SF Pro */
+[style*="'Barlow', sans-serif"],
+[style*="'Barlow',sans-serif"],
+[style*='Barlow", sans-serif'],
+[style*='Barlow",sans-serif'],
+[style*='"Barlow", sans-serif'],
+[style*='"Barlow",sans-serif'],
+[style*="'Barlow Condensed', sans-serif"],
+[style*="'Barlow Condensed',sans-serif"],
+[style*='Barlow Condensed", sans-serif'],
+[style*='Barlow Condensed",sans-serif'],
+[style*='"Barlow Condensed", sans-serif'],
+[style*='"Barlow Condensed",sans-serif'] {
+  font-family: "SF Pro", sans-serif !important;
+}
+
 /* То же для элементов, где Barlow задан через переменную или класс */
 .font-barlow,
 .barlow-text,
