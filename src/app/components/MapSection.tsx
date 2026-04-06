@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import mapImg from "../../assets/Carta.png";
+import { useLanguage } from "../context/LanguageContext";
 
 type Hotspot = {
   id: string;
@@ -104,6 +105,8 @@ const HOTSPOTS: Hotspot[] = [
 ];
 
 export function MapSection() {
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [openZoneModal, setOpenZoneModal] = useState(false);
 
   return (
@@ -136,8 +139,7 @@ export function MapSection() {
           height: "100%",
         }}
       >
-        <div className="mb-5 max-md:mb-2 max-md:px-4 max-md:pt-[max(4px,env(safe-area-inset-top))]">
-          <div className="eyebrow max-md:text-[0.58rem] max-md:mb-0.5">Навигация по фестивалю</div>
+        <div className="mb-5 mt-24 text-center max-md:mt-0 max-md:mb-2 max-md:px-4 max-md:pt-[max(4px,env(safe-area-inset-top))]">
           <h2
             className="gh-title text-white max-md:leading-snug"
             style={{
@@ -145,13 +147,14 @@ export function MapSection() {
               whiteSpace: "nowrap",
             }}
           >
-            Карта <span style={{ color: "var(--c-cyan,#00E5FF)" }}>площадки</span>
+            {isEn ? "Venue " : "Карта "}
+            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>{isEn ? "map" : "площадки"}</span>
           </h2>
         </div>
 
         <div className="flex-1 flex items-center justify-center max-md:px-4 max-md:pb-[max(4px,env(safe-area-inset-bottom))]">
           <div
-            className="w-full max-w-[960px] rounded-2xl overflow-hidden relative"
+            className="w-[92%] max-w-[840px] rounded-2xl overflow-hidden relative"
             style={{
               background: "#050508",
               border: "1px solid rgba(0,229,255,0.25)",
@@ -180,15 +183,15 @@ export function MapSection() {
               <div className="relative w-full max-w-full">
                 <img
                   src={mapImg}
-                  alt="Карта площадки фестиваля"
+                  alt={isEn ? "Festival venue map" : "Карта площадки фестиваля"}
                   className="w-full h-auto block select-none pointer-events-none"
                 />
-                {HOTSPOTS.map((h) => (
+                {HOTSPOTS.map((h, index) => (
                   <button
-                    key={h.id}
+                    key={`${h.id}-${index}`}
                     type="button"
                     onClick={() => setOpenZoneModal(true)}
-                    aria-label={`Зона ${h.id}`}
+                    aria-label={isEn ? `Zone ${h.id}` : `Зона ${h.id}`}
                     className="absolute pointer-events-auto"
                     style={{
                       left: h.left,
@@ -245,13 +248,13 @@ export function MapSection() {
                   color: "rgba(0,229,255,0.9)",
                 }}
               >
-                Свободная партнёрская зона
+                {isEn ? "Available Partner Zone" : "Свободная партнёрская зона"}
               </p>
               <h3
                 className="gh-title text-white mb-3"
                 style={{ fontSize: "1.3rem", lineHeight: 1.2 }}
               >
-                Площадка для вашего бренда
+                {isEn ? "Space for your brand" : "Площадка для вашего бренда"}
               </h3>
               <p
                 style={{
@@ -262,9 +265,9 @@ export function MapSection() {
                   lineHeight: 1.7,
                 }}
               >
-                Свободная партнёрская зона на карте фестиваля. Здесь может быть стенд вашего бренда,
-                активации, промо‑зона или интерактив для гостей. Наполнить блок можно финальной
-                информацией о партнёрах и формате размещения.
+                {isEn
+                  ? "A free partner zone on the festival map. This space can host your brand booth, activations, promo area, or interactive guest experience."
+                  : "Свободная партнёрская зона на карте фестиваля. Здесь может быть стенд вашего бренда, активации, промо‑зона или интерактив для гостей. Наполнить блок можно финальной информацией о партнёрах и формате размещения."}
               </p>
             </div>
             <div className="px-5 pb-4 flex justify-end">
@@ -278,7 +281,7 @@ export function MapSection() {
                   letterSpacing: "0.16em",
                 }}
               >
-                Закрыть
+                {isEn ? "Close" : "Закрыть"}
               </button>
             </div>
           </div>

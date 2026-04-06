@@ -11,6 +11,7 @@ import {
 } from "@/app/components/ui/dialog";
 import { Input } from "@/app/components/ui/input";
 import { cn } from "@/app/components/ui/utils";
+import { useLanguage } from "../context/LanguageContext";
 
 const formFieldClass =
   "w-full bg-[#0a0a10] border border-[rgba(255,255,255,0.1)] rounded px-4 py-3 text-white placeholder:text-[rgba(255,255,255,0.35)] text-sm outline-none transition-colors focus:border-[var(--c-cyan,#00E5FF)] focus:ring-1 focus:ring-[rgba(0,229,255,0.25)]";
@@ -45,6 +46,8 @@ export function SponsorApplicationModal({
 }) {
   if (!open) return null;
 
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [submitted, setSubmitted] = React.useState(false);
   const [phoneValue, setPhoneValue] = React.useState("");
   const formRef = React.useRef<HTMLFormElement>(null);
@@ -100,34 +103,38 @@ export function SponsorApplicationModal({
               className="text-[var(--c-cyan,#00E5FF)] font-bold text-[0.58rem] tracking-[0.42em] uppercase"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
-              Партнёрство
+              {isEn ? "Partnership" : "Партнёрство"}
             </div>
             <DialogTitle
               className="gh-title text-white text-xl sm:text-2xl leading-tight uppercase tracking-tight"
               style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900 }}
             >
-              Генеральный спонсор — возможности
+              {isEn ? "General Sponsor Opportunities" : "Генеральный спонсор — возможности"}
             </DialogTitle>
             <DialogDescription className="text-[rgba(255,255,255,0.4)] text-sm">
-              Станьте партнёром GAMEHUB. Оставьте заявку — обсудим условия и пакет возможностей.
+              {isEn
+                ? "Become a GAMEHUB partner. Leave a request and we will discuss terms and opportunity packages."
+                : "Станьте партнёром GAMEHUB. Оставьте заявку — обсудим условия и пакет возможностей."}
             </DialogDescription>
           </DialogHeader>
 
           {(submitted || inCooldown) ? (
             <div className="space-y-6">
               <div className="py-8 text-center text-white">
-                Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время.
+                {isEn
+                  ? "Thanks! Request sent. We will contact you shortly."
+                  : "Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время."}
               </div>
               <div className="flex justify-center">
                 <button type="button" onClick={() => onOpenChange(false)} className="btn-primary">
-                  Закрыть
+                  {isEn ? "Close" : "Закрыть"}
                 </button>
               </div>
             </div>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-              <Input name="name" required placeholder="Имя" className={formFieldClass} />
-              <Input name="company" required placeholder="Компания / бренд" className={formFieldClass} />
+              <Input name="name" required placeholder={isEn ? "Name" : "Имя"} className={formFieldClass} />
+              <Input name="company" required placeholder={isEn ? "Company / Brand" : "Компания / бренд"} className={formFieldClass} />
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   name="email"
@@ -147,10 +154,10 @@ export function SponsorApplicationModal({
               </div>
               <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
                 <button type="button" onClick={() => onOpenChange(false)} className="btn-outline">
-                  Отмена
+                  {isEn ? "Cancel" : "Отмена"}
                 </button>
                 <button type="submit" className="btn-primary">
-                  Отправить заявку
+                  {isEn ? "Submit Request" : "Отправить заявку"}
                 </button>
               </DialogFooter>
             </form>

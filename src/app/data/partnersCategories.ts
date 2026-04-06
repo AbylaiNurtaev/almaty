@@ -1,12 +1,17 @@
 /**
- * Категории и партнёры — данные из «Смета - Партнеры.pdf»
- * Используются в секции «Технологии и Выставка брендов»
+ * Категории выставки брендов (8 направлений)
+ * Используются в секции «Выставка брендов»
  */
 
 const PALETTE = [
-  "#00D4F5", "#6B21E8", "#E8A800", "#00C875", "#E8284A",
-  "#00E5FF", "#7C3AED", "#F0B429", "#00D97E", "#FF6500",
-  "#F5B800", "#00E5FF",
+  "#00D4F5",
+  "#6B21E8",
+  "#E8A800",
+  "#00C875",
+  "#E8284A",
+  "#00E5FF",
+  "#7C3AED",
+  "#F0B429",
 ];
 
 export interface PartnerCategory {
@@ -17,96 +22,99 @@ export interface PartnerCategory {
   brands: string[];
 }
 
-export const PARTNER_CATEGORIES: PartnerCategory[] = [
+function countLabel(n: number): string {
+  return String(n).padStart(2, "0");
+}
+
+const PARTNER_CATEGORIES_RAW: Omit<PartnerCategory, "count">[] = [
+  {
+    id: "soft",
+    cat: "СОФТ",
+    color: PALETTE[0],
+    brands: ["SmartShell", "SmartHybrid", "SpinClub"],
+  },
   {
     id: "devices",
-    cat: "Девайсы",
-    color: PALETTE[0],
-    count: "05",
+    cat: "ДЕВАЙСЫ",
+    color: PALETTE[1],
     brands: ["DarkProject", "AULA", "MCHOSE", "REDDRAGON", "Havit"],
   },
   {
-    id: "franchise",
-    cat: "Компании по франшизам",
-    color: PALETTE[1],
-    count: "11",
-    brands: ["COLIZEUM", "CYBERX", "1SHOT", "MYSKILL room", "TOPGAME", "CYBERSHOKE", "Т-Aрена", "Страйк арена", "Rave by Buster", "BRO arena", "TrueGamers"],
-  },
-  {
-    id: "software",
-    cat: "Софт",
+    id: "hardware",
+    cat: "ЖЕЛЕЗО",
     color: PALETTE[2],
-    count: "05",
-    brands: ["Senet", "Langame", "Smartshell", "Gizmo", "CCboot"],
-  },
-  {
-    id: "components",
-    cat: "Комплектующие",
-    color: PALETTE[3],
-    count: "10",
-    brands: ["MSI", "AOC", "Samsung", "Lenovo", "Dell Alienware", "PCcooler", "Ocypus", "ASUS", "Kingston", "XPG"],
-  },
-  {
-    id: "banks",
-    cat: "Банки",
-    color: PALETTE[4],
-    count: "04",
-    brands: ["Halyk bank", "Kaspi bank", "Bereke bank", "Eurasian bank"],
-  },
-  {
-    id: "chairs",
-    cat: "Кресла",
-    color: PALETTE[5],
-    count: "03",
-    brands: ["Aqniet Holding", "Knight", "Oubu"],
-  },
-  {
-    id: "drinks",
-    cat: "Хорека",
-    color: PALETTE[6],
-    count: "06",
-    brands: ["RedBull", "Monster", "Coca cola", "RG brands", "LIT energy", "Gorilla"],
+    brands: [
+      "MSI",
+      "AOC",
+      "Samsung",
+      "Lenovo",
+      "Dell Alienware",
+      "PCcooler",
+      "Ocypus",
+      "ASUS",
+      "Kingston",
+      "XPG",
+      "Aerostar",
+      "DAHUA",
+      "HIKVISION",
+    ],
   },
   {
     id: "telecom",
-    cat: "Операторы связи",
-    color: PALETTE[7],
-    count: "04",
+    cat: "ТЕЛЕКОМ",
+    color: PALETTE[3],
     brands: ["FREEDOM TELECOM", "BEELINE", "Казахтелеком", "NLS Kazakhstan"],
   },
   {
     id: "shops",
-    cat: "Магазины",
-    color: PALETTE[8],
-    count: "20",
-    brands: ["MYSKILL shop", "HappyPC", "HyperPC", "Starlinecomp", "KAMRAD"],
+    cat: "МАГАЗИНЫ",
+    color: PALETTE[4],
+    brands: ["HYPERPC", "MYSKILL shop", "HappyPC", "Starlinecomp", "KAMRAD"],
   },
   {
-    id: "equipment",
-    cat: "Оборудование",
-    color: PALETTE[9],
-    count: "03",
-    brands: ["Aerostar", "DAHUA", "HIKVISION"],
+    id: "business",
+    cat: "БИЗНЕС",
+    color: PALETTE[5],
+    brands: [
+      "COLIZEUM",
+      "CYBERX",
+      "1SHOT",
+      "MYSKILL room",
+      "TOPGAME",
+      "CYBERSHOKE",
+      "Т-Aрена",
+      "Страйк арена",
+      "Rave by Buster",
+      "BRO arena",
+      "TrueGamers",
+      "Halyk bank",
+      "Kaspi bank",
+      "Bereke bank",
+      "Eurasian bank",
+      "ASBIS",
+      "Azerti",
+      "Al-style",
+      "ELCO",
+      "Pulser",
+      "STN",
+      "Forcecom",
+    ],
   },
   {
-    id: "service",
-    cat: "Обслуживание",
-    color: PALETTE[10],
-    count: "03",
-    brands: ["—", "—", "—"],
+    id: "furniture",
+    cat: "МЕБЕЛЬ",
+    color: PALETTE[6],
+    brands: ["Aqniet Holding", "Knight", "Oubu", "ZONE"],
   },
   {
-    id: "distributors",
-    cat: "Дистрибьютеры",
-    color: PALETTE[11],
-    count: "07",
-    brands: ["ASBIS", "Azerti", "Al-style", "ELCO", "Pulser", "STN", "Forcecom"],
-  },
-  {
-    id: "delivery",
-    cat: "Развозка",
-    color: PALETTE[0],
-    count: "01",
-    brands: ["—"],
+    id: "horeca",
+    cat: "ХОРЕКА",
+    color: PALETTE[7],
+    brands: ["RedBull", "Monster", "Coca cola", "RG brands", "LIT energy", "Gorilla"],
   },
 ];
+
+export const PARTNER_CATEGORIES: PartnerCategory[] = PARTNER_CATEGORIES_RAW.map((c) => ({
+  ...c,
+  count: countLabel(c.brands.length),
+}));

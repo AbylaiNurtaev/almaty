@@ -1,17 +1,53 @@
 import { useState } from "react";
 import { Trophy, Swords, Gamepad2, Cake, MicVocal } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+import tournmBg from "../../assets/tournm.webp";
+import showBg from "../../assets/show.jpg";
+import concursBg from "../../assets/concurs.jpg";
+import challengBg from "../../assets/challeng.jpg";
+import authBg from "../../assets/auth.jpg";
 
 const ACTS = [
-  { n: "01", icon: Trophy,   title: "Турниры",            color: "#00E5FF", desc: "Официальные соревнования по CS2, Dota 2, PUBG и другим играм. Призовые фонды, рейтинг и звание чемпиона арены." },
-  { n: "02", icon: Swords,   title: "Шоу-матчи",          color: "#7C3AED", desc: "Звёздные стримеры против про-игроков на главной сцене. Зрелищные матчи и прямая трансляция для всей арены." },
-  { n: "03", icon: Gamepad2, title: "Игровые конкурсы",   color: "#F0B429", desc: "Интерактивные конкурсы для зрителей: скоростные забеги, челленджи на сцене и призы от партнёров." },
-  { n: "04", icon: Cake,     title: "Вирусные челленджи", color: "#F03558", desc: "Тренды из соцсетей оживают на сцене. Костюмы, эмодзи, мемы — судьи стримеры, призы лучшим." },
-  { n: "05", icon: MicVocal, title: "Автограф-сессии",    color: "#00D97E", desc: "Встречи со стримерами и гостями фестиваля. Фото, автографы и живое общение в отдельной зоне." },
+  { n: "01", icon: Trophy,   title: "Турниры",            color: "#00E5FF", bg: tournmBg, desc: "Официальные соревнования по CS2, Dota 2, PUBG и другим играм. Призовые фонды, рейтинг и звание чемпиона арены." },
+  { n: "02", icon: Swords,   title: "Шоу-матчи",          color: "#7C3AED", bg: showBg, desc: "Звёздные стримеры против про-игроков на главной сцене. Зрелищные матчи и прямая трансляция для всей арены." },
+  { n: "03", icon: Gamepad2, title: "Игровые конкурсы",   color: "#F0B429", bg: concursBg, desc: "Интерактивные конкурсы для зрителей: скоростные забеги, челленджи на сцене и призы от партнёров." },
+  { n: "04", icon: Cake,     title: "Вирусные челленджи", color: "#F03558", bg: challengBg, desc: "Тренды из соцсетей оживают на сцене. Костюмы, эмодзи, мемы — судьи стримеры, призы лучшим." },
+  { n: "05", icon: MicVocal, title: "Автограф-сессии",    color: "#00D97E", bg: authBg, desc: "Встречи со стримерами и гостями фестиваля. Фото, автографы и живое общение в отдельной зоне." },
 ];
 
 export function ActivitiesSection() {
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [activeIndex, setActiveIndex] = useState(0);
-  const active = ACTS[activeIndex];
+  const localizedActs = ACTS.map((a) => ({
+    ...a,
+    title:
+      isEn
+        ? {
+            "Турниры": "Tournaments",
+            "Шоу-матчи": "Showmatches",
+            "Игровые конкурсы": "Game Contests",
+            "Вирусные челленджи": "Viral Challenges",
+            "Автограф-сессии": "Autograph Sessions",
+          }[a.title] ?? a.title
+        : a.title,
+    desc:
+      isEn
+        ? {
+            "Официальные соревнования по CS2, Dota 2, PUBG и другим играм. Призовые фонды, рейтинг и звание чемпиона арены.":
+              "Official tournaments in CS2, Dota 2, PUBG, and more. Prize pools, rankings, and the arena champion title.",
+            "Звёздные стримеры против про-игроков на главной сцене. Зрелищные матчи и прямая трансляция для всей арены.":
+              "Top streamers versus pro players on the main stage. Spectacular matches streamed live for the whole arena.",
+            "Интерактивные конкурсы для зрителей: скоростные забеги, челленджи на сцене и призы от партнёров.":
+              "Interactive audience contests: speed runs, stage challenges, and partner prizes.",
+            "Тренды из соцсетей оживают на сцене. Костюмы, эмодзи, мемы — судьи стримеры, призы лучшим.":
+              "Social media trends come alive on stage. Costumes, emojis, memes - judged by streamers with prizes for winners.",
+            "Встречи со стримерами и гостями фестиваля. Фото, автографы и живое общение в отдельной зоне.":
+              "Meet streamers and festival guests. Photos, autographs, and live interaction in a dedicated area.",
+          }[a.desc] ?? a.desc
+        : a.desc,
+  }));
+  const active = localizedActs[activeIndex];
 
   return (
     <section
@@ -26,9 +62,12 @@ export function ActivitiesSection() {
       <div
         className="absolute inset-0 pointer-events-none transition-all duration-700 ease-out"
         style={{
-          background: `radial-gradient(ellipse 80% 70% at 50% 40%, ${active.color}18 0%, transparent 55%),
-                      radial-gradient(ellipse 60% 50% at 80% 80%, ${active.color}0C 0%, transparent 50%),
-                      #050508`,
+          backgroundImage: `radial-gradient(ellipse 80% 70% at 50% 40%, ${active.color}18 0%, transparent 55%),
+                            radial-gradient(ellipse 60% 50% at 80% 80%, ${active.color}0C 0%, transparent 50%),
+                            linear-gradient(180deg, rgba(5,5,8,0.72), rgba(5,5,8,0.88)),
+                            url(${active.bg})`,
+          backgroundSize: "auto, auto, auto, cover",
+          backgroundPosition: "center, center, center, center",
         }}
       />
       <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none transition-opacity duration-500" />
@@ -50,9 +89,9 @@ export function ActivitiesSection() {
 
         {/* Header + tabs сверху */}
         <div className="mb-3 md:mb-7">
-          <div className="flex flex-col items-start gap-2 mb-4 md:flex-row md:items-end md:justify-between md:gap-6 md:mb-8">
+          <div className="flex justify-center mb-4 md:mb-8">
             <h2
-              className="gh-title text-white uppercase"
+              className="gh-title text-white uppercase text-center"
               style={{
                 fontFamily: "\"Druk Cyr\", sans-serif",
                 fontSize: "clamp(1.7rem, 6.5vw, 3.6rem)",
@@ -61,18 +100,12 @@ export function ActivitiesSection() {
                 letterSpacing: "0.03em",
               }}
             >
-              Основные активности
+              {isEn ? "Main Activities" : "Основные активности"}
             </h2>
-            <div
-              className="hidden md:block"
-              style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.72)", fontSize: "1rem" }}
-            >
-              Что будет на фестивале
-            </div>
           </div>
 
           <div className="flex flex-wrap gap-2 md:flex-nowrap md:gap-2.5">
-            {ACTS.map((a, i) => {
+            {localizedActs.map((a, i) => {
               const Icon = a.icon;
               const isActive = activeIndex === i;
               return (
@@ -147,7 +180,9 @@ export function ActivitiesSection() {
           className="rounded-lg border transition-all duration-500 flex flex-col min-h-[220px] md:flex-none md:min-h-[460px]"
           style={{
             borderColor: `${active.color}25`,
-            background: "rgba(5,5,8,0.4)",
+            backgroundImage: `linear-gradient(180deg, rgba(5,5,8,0.48) 0%, rgba(5,5,8,0.74) 100%), url(${active.bg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             backdropFilter: "blur(8px)",
           }}
         >

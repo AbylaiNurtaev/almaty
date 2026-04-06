@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const CHALS = [
   { title: "Торт в лицо",   tag: "Главный",    color: "#E8284A" },
@@ -14,7 +15,23 @@ const TYPING_SPEED_MS = 60;
 const CURSOR_OFFSET = 16;
 
 export function ViralChallengesSection() {
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const localizedChals = CHALS.map((ch) => ({
+    ...ch,
+    title: isEn
+      ? {
+          "Торт в лицо": "Cake in the Face",
+          "Спидраны": "Speedruns",
+          "Голосование зала": "Audience Vote",
+          "Косплей-батл": "Cosplay Battle",
+          "Викторина": "Quiz",
+          "Битва эмодзи": "Emoji Battle",
+        }[ch.title] ?? ch.title
+      : ch.title,
+  }));
+
   const [hoveredCard, setHoveredCard] = useState<{ title: string; color: string } | null>(null);
   const [typedLen, setTypedLen] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -103,18 +120,12 @@ export function ViralChallengesSection() {
 
         {/* Мобилка: заголовок + сетка на всю высоту 100dvh */}
         <div className="mb-20 max-md:mb-4 max-md:mt-1 max-md:shrink-0 max-md:w-full max-md:text-center max-md:py-1">
-          <div
-            className="eyebrow max-md:!mb-2 max-md:!text-[0.55rem] max-md:!tracking-[0.18em] max-md:justify-center"
-            style={{ color: "#F03558" }}
-          >
-            Вирусные моменты
-          </div>
           <h2
             className="gh-title text-white max-md:!text-[clamp(1.35rem,5vw,1.85rem)] max-md:!leading-tight"
             style={{ fontSize: "var(--h2-sec)" }}
           >
-            Вирусные<br />
-            <span style={{ color: "#F03558" }}>челленджи</span>
+            {isEn ? "Viral" : "Вирусные"}<br />
+            <span style={{ color: "#F03558" }}>{isEn ? "challenges" : "челленджи"}</span>
           </h2>
         </div>
 
@@ -123,7 +134,7 @@ export function ViralChallengesSection() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-px w-full max-md:!grid-cols-1 max-md:grid-rows-6 max-md:auto-rows-fr max-md:flex-1 max-md:min-h-0 max-md:rounded-md max-md:border max-md:border-white/[0.06] max-md:overflow-hidden"
           style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}
         >
-          {CHALS.map((ch) => (
+          {localizedChals.map((ch) => (
               <div
                 key={ch.title}
                 className="group relative overflow-hidden bg-[#050508] min-h-[140px] p-6 max-md:min-h-0 max-md:h-full max-md:p-0 max-md:w-full max-md:flex max-md:flex-col"
@@ -142,7 +153,7 @@ export function ViralChallengesSection() {
                 <a
                   href="#tickets"
                   className="md:hidden relative z-10 flex min-h-[48px] h-full flex-1 items-center justify-between gap-3 py-2 px-4 w-full box-border no-underline active:opacity-90"
-                  aria-label={`${ch.title} — билеты`}
+                  aria-label={`${ch.title} - ${isEn ? "tickets" : "билеты"}`}
                   onClick={() => setHoveredCard(null)}
                 >
                   <h3
@@ -171,7 +182,7 @@ export function ViralChallengesSection() {
                     onMouseEnter={() => setHoveredCard(null)}
                     onMouseLeave={() => setHoveredCard({ title: ch.title, color: ch.color })}
                   >
-                    <span>Получить билет</span>
+                    <span>{isEn ? "Get Ticket" : "Получить билет"}</span>
                     <ArrowRight size={12} />
                   </a>
                 </div>

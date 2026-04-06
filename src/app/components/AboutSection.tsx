@@ -1,13 +1,14 @@
+import { useLanguage } from "../context/LanguageContext";
+
 const IMG = "https://images.unsplash.com/photo-1515295527612-cb8132ecb496?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwdG91cm5hbWVudCUyMHByb2Zlc3Npb25hbCUyMHBsYXllciUyMGhlYWRzZXQlMjBmb2N1c2VkJTIwY29tcGV0aXRpb258ZW58MXx8fHwxNzcyODA1NDU2fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
-const FACTS = [
-  { val: "7K+", label: "Посетителей" },
-  { val: "40+", label: "Брендов" },
-  { val: "9+",  label: "Стримеров" },
-  { val: "2",   label: "Дня" },
-];
-
 export function AboutSection() {
+  const { t } = useLanguage();
+  const facts = [
+    { val: "7K+", label: t.about.facts.visitors },
+    { val: "40+", label: t.about.facts.brands },
+    { val: "9+", label: t.about.facts.streamers },
+  ];
   return (
     <section
       id="about"
@@ -95,7 +96,7 @@ export function AboutSection() {
                       textTransform: "uppercase",
                     }}
                   >
-                    Ожидаемая посещаемость
+                    {t.about.attendanceLabel}
                   </span>
                 </div>
                 <div
@@ -119,7 +120,7 @@ export function AboutSection() {
                     marginTop: "4px",
                   }}
                 >
-                  Посетителей за 2 дня
+                  {t.about.visitorsTwoDays}
                 </div>
               </div>
             </div>
@@ -128,13 +129,11 @@ export function AboutSection() {
 
           {/* ── Text column ── */}
           <div className="order-1 lg:order-2">
-            <div className="eyebrow">О фестивале</div>
-
             <h2
               className="gh-title text-white"
               style={{ fontSize: "var(--h2-sec)", marginBottom: "32px" }}
             >
-              Что такое<br />
+              {t.about.title}<br />
               <span
                 className="gh-logo"
                 style={{ color: "var(--c-cyan,#00E5FF)" }}
@@ -154,13 +153,13 @@ export function AboutSection() {
               }}
             >
               <p style={{ marginBottom: "18px" }}>
-                GAMEHUB — это крупнейший фестиваль игровой и компьютерной клубной индустрии в Казахстане — встреча всей игровой экосистемы под одной крышей.
+                {t.about.p1}
               </p>
               <p style={{ marginBottom: "18px" }}>
-                Мероприятие объединяет геймеров, стримеров, владельцев компьютерных клубов и мировые игровые бренды на два незабываемых дня в Арене Балуан Шолак.
+                {t.about.p2}
               </p>
               <p>
-                Живые турниры, шоу-матчи, выставки брендов, вирусные челленджи на сцене и автограф-сессии — всё в одном месте.
+                {t.about.p3}
               </p>
             </div>
 
@@ -169,15 +168,15 @@ export function AboutSection() {
 
         {/* Stat strip (bottom centered) */}
         <div
-          className="grid grid-cols-2 sm:grid-cols-4 mt-10 lg:mt-14 mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-3 mt-10 lg:mt-14 mx-auto"
           style={{
             gap: "1px",
             background: "rgba(255,255,255,0.06)",
-            maxWidth: "900px",
+            maxWidth: "760px",
             width: "100%",
           }}
         >
-          {FACTS.map((f) => (
+          {facts.map((f) => (
             <div
               key={f.label}
               className="py-5 text-center"

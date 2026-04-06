@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Trophy, ChevronRight } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 import cs1 from "../../assets/cs1.webp";
 import pubg1 from "../../assets/pubg1.webp";
 import dota2 from "../../assets/dota2.jpg";
+import pubgVideo from "../../assets/PUBG.mp4";
 
 import csIcon from "../../icons/cs.png";
 import pubgIcon from "../../icons/pubg.png";
@@ -28,10 +30,42 @@ const GAMES = [
 ];
 
 export function GamesSection() {
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [activeIndex, setActiveIndex] = useState(0);
   const autoRotateRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const AUTO_DELAY = 7000;
-  const g = GAMES[activeIndex];
+  const localizedGames = GAMES.map((game) => ({
+    ...game,
+    stats: game.stats.map(([l, v]) => {
+      const label = isEn
+        ? {
+            "Формат": "Format",
+            "Режим": "Mode",
+            "Карты": "Maps",
+            "Игроков": "Players",
+            "Героев": "Heroes",
+            "Средняя игра": "Avg Match",
+            "Соревнов": "Competitive",
+            "Отряд": "Squad",
+            "Несколько": "Multiple",
+            "Мираж": "Mirage",
+          }[l] ?? l
+        : l;
+      return [label, v] as [string, string];
+    }),
+    desc: isEn
+      ? ({
+          "Самый популярный тактический шутер в мире. Элитные команды 5v5 сражаются в напряжённых раундах на выбывание — нужны стратегия, точность и стальные нервы.":
+            "The world's most popular tactical shooter. Elite 5v5 teams battle through high-pressure knockout rounds where strategy, precision, and nerves of steel decide everything.",
+          "100 игроков высаживаются на огромное поле боя. Сжимающаяся зона заставляет устраивать эпичные столкновения, пока не выживет только одна команда. Чистый survival-гейминг.":
+            "100 players drop into a huge battleground. The shrinking zone forces epic clashes until only one squad survives. Pure battle royale action.",
+          "Две команды по пять героев сражаются в одной из самых глубоких стратегических игр. Переиграйте соперника на линии и уничтожьте Древнего врага.":
+            "Two teams of five heroes compete in one of the deepest strategy games. Outplay your opponents in lane and destroy the enemy Ancient.",
+        }[game.desc] ?? game.desc)
+      : game.desc,
+  }));
+  const g = localizedGames[activeIndex];
 
   const startAutoRotate = () => {
     if (autoRotateRef.current) clearInterval(autoRotateRef.current);
@@ -76,16 +110,15 @@ export function GamesSection() {
       >
         {/* Заголовок — на мобилке выше */}
         <div className="max-md:mb-2 max-md:shrink-0 shrink-0" style={{ marginBottom: "16px", marginTop: "0px" }}>
-          <div className="eyebrow max-md:text-[0.55rem] max-md:mb-0" style={{ color: "rgba(255,255,255,0.72)" }}>Турнирные игры</div>
           <h2 className="gh-title text-white max-md:leading-tight max-md:mt-1" style={{ fontSize: "var(--h2-sec)" }}>
-            Игры 
-            <span style={{ color: "var(--c-cyan,#00E5FF)" }}> фестиваля</span>
+            {isEn ? "Festival " : "Игры "}
+            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>{isEn ? "games" : " фестиваля"}</span>
           </h2>
         </div>
 
         {/* Переключатель игр как у франшиз (мобилка) */}
         <div className="flex md:hidden gap-2 mb-3 shrink-0">
-          {GAMES.map((gm, i) => {
+          {localizedGames.map((gm, i) => {
             const isA = g.id === gm.id;
             return (
               <div key={gm.id} className="club-pill-wrapper shrink-0">
@@ -131,7 +164,7 @@ export function GamesSection() {
               padding: "4px",
             }}
           >
-            {GAMES.map((game, i) => {
+            {localizedGames.map((game, i) => {
               const isActive = i === activeIndex;
               return (
                 <div key={game.id} className="club-pill-wrapper">
@@ -167,7 +200,19 @@ export function GamesSection() {
             style={{ width: "100%", background: "rgba(3,10,20,0.98)" }}
           >
             <div className="relative h-[320px] lg:h-[400px] w-full">
-              <img src={IMGS[g.id as keyof typeof IMGS]} alt={g.name} className="absolute inset-0 w-full h-full object-cover" />
+              {g.id === "pubg" ? (
+                <video
+                  src={pubgVideo}
+                  poster={pubg1}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <img src={IMGS[g.id as keyof typeof IMGS]} alt={g.name} className="absolute inset-0 w-full h-full object-cover" />
+              )}
               <div className="absolute inset-0 bg-black/10" />
             </div>
             <div className="p-5 lg:p-6 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
@@ -186,7 +231,7 @@ export function GamesSection() {
                   style={{ border: "none", color: "#031325", fontSize: "0.82rem", clipPath: "none", background: "#00D9FF", fontWeight: 800, paddingInline: "18px" }}
                 >
                   <Trophy size={13} />
-                  <span>Зарегистрироваться</span>
+                  <span>{isEn ? "Register" : "Зарегистрироваться"}</span>
                   <ChevronRight size={13} />
                 </a>
               </div>
@@ -209,7 +254,19 @@ export function GamesSection() {
         <div className="md:hidden max-md:flex-1 max-md:min-h-0">
           <article className="border h-full w-full flex flex-col overflow-hidden" style={{ borderColor: `${g.color}55`, background: "rgba(5,5,8,0.82)" }}>
             <div className="relative h-[220px] w-full">
-              <img src={IMGS[g.id as keyof typeof IMGS]} alt={g.name} className="absolute inset-0 w-full h-full object-cover" />
+              {g.id === "pubg" ? (
+                <video
+                  src={pubgVideo}
+                  poster={pubg1}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <img src={IMGS[g.id as keyof typeof IMGS]} alt={g.name} className="absolute inset-0 w-full h-full object-cover" />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508ac] to-transparent" />
             </div>
             <div className="p-4 flex-1 min-h-0 overflow-y-auto">
@@ -238,7 +295,7 @@ export function GamesSection() {
                 style={{ border: `1px solid ${g.color}`, color: "#ffffff", fontSize: "0.76rem", clipPath: "none", background: "rgba(5,5,12,0.85)" }}
               >
                 <Trophy size={13} />
-                <span>Зарегистрироваться</span>
+                <span>{isEn ? "Register" : "Зарегистрироваться"}</span>
                 <ChevronRight size={13} />
               </a>
             </div>

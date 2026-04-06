@@ -12,6 +12,7 @@ import {
 import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { cn } from "@/app/components/ui/utils";
+import { useLanguage } from "../context/LanguageContext";
 
 const formFieldClass =
   "w-full bg-[#0a0a10] border border-[rgba(255,255,255,0.1)] rounded px-4 py-3 text-white placeholder:text-[rgba(255,255,255,0.35)] text-sm outline-none transition-colors focus:border-[var(--c-cyan,#00E5FF)] focus:ring-1 focus:ring-[rgba(0,229,255,0.25)]";
@@ -48,6 +49,8 @@ export function ExhibitorApplicationModal({
   // ⭐ ГЛАВНЫЙ ФИКС — если закрыто, компонент не рендерится
   if (!open) return null;
 
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [submitted, setSubmitted] = React.useState(false);
   const [phoneValue, setPhoneValue] = React.useState("");
   const formRef = React.useRef<HTMLFormElement>(null);
@@ -127,7 +130,7 @@ export function ExhibitorApplicationModal({
                 fontFamily: "'Barlow Condensed', sans-serif",
               }}
             >
-              Заявка на участие
+              {isEn ? "Application" : "Заявка на участие"}
             </div>
 
             <DialogTitle
@@ -137,18 +140,22 @@ export function ExhibitorApplicationModal({
                 fontWeight: 900,
               }}
             >
-              Стать экспонентом GAMEHUB
+              {isEn ? "Become a GAMEHUB Exhibitor" : "Стать экспонентом GAMEHUB"}
             </DialogTitle>
 
             <DialogDescription className="text-[rgba(255,255,255,0.4)] text-sm">
-              Оставьте заявку — мы свяжемся с вами и обсудим условия участия.
+              {isEn
+                ? "Leave a request - we will contact you to discuss participation terms."
+                : "Оставьте заявку — мы свяжемся с вами и обсудим условия участия."}
             </DialogDescription>
           </DialogHeader>
 
           {(submitted || inCooldown) ? (
             <div className="space-y-6">
               <div className="py-8 text-center text-white">
-                Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время.
+                {isEn
+                  ? "Thanks! Request sent. We will contact you shortly."
+                  : "Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время."}
               </div>
 
               <div className="flex justify-center">
@@ -157,7 +164,7 @@ export function ExhibitorApplicationModal({
                   onClick={() => onOpenChange(false)}
                   className="btn-primary"
                 >
-                  Закрыть
+                  {isEn ? "Close" : "Закрыть"}
                 </button>
               </div>
             </div>
@@ -170,14 +177,14 @@ export function ExhibitorApplicationModal({
               <Input
                 name="name"
                 required
-                placeholder="Имя"
+                placeholder={isEn ? "Name" : "Имя"}
                 className={formFieldClass}
               />
 
               <Input
                 name="company"
                 required
-                placeholder="Компания"
+                placeholder={isEn ? "Company" : "Компания"}
                 className={formFieldClass}
               />
 
@@ -202,7 +209,7 @@ export function ExhibitorApplicationModal({
 
               <Textarea
                 name="message"
-                placeholder="Сообщение"
+                placeholder={isEn ? "Message" : "Сообщение"}
                 rows={4}
                 className={cn(formFieldClass, "min-h-[100px] resize-none")}
               />
@@ -213,14 +220,14 @@ export function ExhibitorApplicationModal({
                   onClick={() => onOpenChange(false)}
                   className="btn-outline"
                 >
-                  Отмена
+                  {isEn ? "Cancel" : "Отмена"}
                 </button>
 
                 <button
                   type="submit"
                   className="btn-primary"
                 >
-                  Отправить заявку
+                  {isEn ? "Submit Request" : "Отправить заявку"}
                 </button>
               </DialogFooter>
             </form>

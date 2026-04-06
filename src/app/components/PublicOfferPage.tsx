@@ -1,7 +1,10 @@
 import { ArrowLeft } from "lucide-react";
 import { Navbar } from "./Navbar";
+import { useLanguage } from "../context/LanguageContext";
 
 export function PublicOfferPage() {
+  const { language } = useLanguage();
+  const isEn = language === "en";
   return (
     <div
       className="min-h-screen film-grain"
@@ -32,7 +35,7 @@ export function PublicOfferPage() {
           }}
         >
           <ArrowLeft size={16} />
-          На главную
+          {isEn ? "Back to Home" : "На главную"}
         </a>
 
         <h1
@@ -43,7 +46,7 @@ export function PublicOfferPage() {
             color: "white",
           }}
         >
-          Публичная оферта
+          {isEn ? "Public Offer" : "Публичная оферта"}
         </h1>
         <p
           style={{
@@ -52,7 +55,9 @@ export function PublicOfferPage() {
             marginBottom: "40px",
           }}
         >
-          Фестиваль GAMEHUB 2026 · 30 мая — 1 июня · Арена Балуан Шолак, Алматы
+          {isEn
+            ? "GAMEHUB Festival 2026 · May 7 · Baluan Sholak Arena, Almaty"
+            : "Фестиваль GAMEHUB 2026 · 7 мая · Арена Балуан Шолак, Алматы"}
         </p>
 
         <div
@@ -62,6 +67,31 @@ export function PublicOfferPage() {
             color: "rgba(255,255,255,0.75)",
           }}
         >
+          {isEn && (
+            <section style={{ marginBottom: "32px" }}>
+              <p>
+                This Public Offer is the official agreement between the Organizer and any participant or
+                visitor of GAMEHUB. By registering, purchasing a ticket, entering the venue, or taking part
+                in activities, you fully accept these terms.
+              </p>
+              <p style={{ marginTop: "12px" }}>
+                The Organizer may change the schedule, guests, activities, and venue configuration. All
+                participation is subject to event rules and safety requirements. Entry may be denied for
+                rule violations. Photos/videos are recorded during the event and may be used by the Organizer
+                without additional compensation.
+              </p>
+              <p style={{ marginTop: "12px" }}>
+                Paid options are generally non-refundable unless explicitly stated otherwise by the Organizer.
+                The Organizer's liability is limited by applicable law and direct payment amount for the
+                purchased service.
+              </p>
+              <p style={{ marginTop: "12px" }}>
+                Applicable law: Republic of Kazakhstan. For full legal text in Russian, switch language to RU.
+              </p>
+            </section>
+          )}
+          {!isEn && (
+          <>
           {/* Вводная часть */}
           <section style={{ marginBottom: "32px" }}>
             <p>
@@ -650,6 +680,8 @@ export function PublicOfferPage() {
           >
             Настоящая редакция оферты действует до её обновления на официальном сайте Организатора.
           </p>
+          </>
+          )}
         </div>
       </div>
     </div>

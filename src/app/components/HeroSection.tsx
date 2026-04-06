@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Zap, Star, ArrowRight } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const BG = "https://images.unsplash.com/photo-1614609005636-648d357485c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3BvcnRzJTIwYXJlbmElMjBzcGVjdGFjdWxhciUyMGNvbmNlcnQlMjBsaWdodGluZyUyMG1hc3NpdmUlMjBjcm93ZCUyMHN0YWdlfGVufDF8fHx8MTc3MjgwNTQ1M3ww&ixlib=rb-4.1.0&q=80&w=1920";
 
-const TARGET = new Date("2026-05-30T10:00:00");
+const TARGET = new Date("2026-05-07T10:00:00");
 
 function useCountdown(t: Date) {
   const calc = () => {
@@ -24,15 +25,14 @@ function useCountdown(t: Date) {
   return v;
 }
 
-const STATS = [
-  { val: "7,000+", label: "Посетителей",  accent: true },
-  { val: "40+",    label: "Брендов",     accent: false },
-  { val: "9+",     label: "Стримеров",  accent: false },
-  { val: "2",      label: "Дня",       accent: false },
-];
-
 export function HeroSection() {
+  const { t } = useLanguage();
   const { D, H, M, S } = useCountdown(TARGET);
+  const stats = [
+    { val: "7,000+", label: t.hero.stats.visitors, accent: true },
+    { val: "40+", label: t.hero.stats.brands, accent: false },
+    { val: "9+", label: t.hero.stats.streamers, accent: false },
+  ];
 
   return (
     <section
@@ -130,7 +130,7 @@ export function HeroSection() {
                 textTransform: "uppercase",
               }}
             >
-              30 мая — 1 июня 2026 · Арена Балуан Шолак · Алматы
+              {t.hero.meta}
             </span>
           </div>
 
@@ -144,9 +144,6 @@ export function HeroSection() {
       >
         <div style={{ maxWidth: "1380px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ maxWidth: "900px", width: "100%", textAlign: "center" }}>
-
-            {/* Eyebrow */}
-            <div className="eyebrow eyebrow-no-deco">Крупнейший игровой фестиваль Казахстана</div>
 
             {/* ── GAMEHUB TITLE ── */}
             <h1
@@ -187,30 +184,17 @@ export function HeroSection() {
                 fontWeight: 700,
               }}
             >
-              Турниры, выставки брендов, шоу-матчи, франшизы и вирусные челленджи на сцене —
-              два незабываемых дня, определяющих игровую сцену Казахстана.
+              {t.hero.description}
             </p>
 
             {/* ── COUNTDOWN ── */}
             <div className="mb-10 flex flex-col items-center">
-              <div
-                className="eyebrow eyebrow-no-deco"
-                style={{
-                  marginBottom: "16px",
-                  color: "var(--c-cyan,#00E5FF)",
-                  fontWeight: 700,
-                  fontSize: "clamp(0.75rem, 1.2vw, 0.9rem)",
-                }}
-              >
-                <Zap size={10} />
-                Обратный отсчёт
-              </div>
               <div className="flex items-start justify-center gap-1">
                 {[
-                  { v: D, l: "Дней" },
-                  { v: H, l: "Час" },
-                  { v: M, l: "Мин" },
-                  { v: S, l: "Сек" },
+                  { v: D, l: t.hero.days },
+                  { v: H, l: t.hero.hours },
+                  { v: M, l: t.hero.mins },
+                  { v: S, l: t.hero.secs },
                 ].map(({ v, l }, i) => (
                   <div key={l} className="flex items-start gap-2">
                     <div className="cd-box">
@@ -227,14 +211,14 @@ export function HeroSection() {
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               <a href="#tickets" className="btn-primary">
                 <Zap size={14} />
-                <span>Бесплатный билет</span>
+                <span>{t.hero.freeTicket}</span>
               </a>
               <a href="#tickets" className="btn-gold">
                 <Star size={14} />
-                <span>VIP-доступ</span>
+                <span>{t.hero.vipAccess}</span>
               </a>
               <a href="#clubs" className="btn-outline">
-                <span>Регистрация клуба</span>
+                <span>{t.hero.clubRegistration}</span>
                 <ArrowRight size={14} />
               </a>
             </div>
@@ -251,7 +235,7 @@ export function HeroSection() {
                 gap: 0,
               }}
             >
-              {STATS.map((s, i) => (
+              {stats.map((s, i) => (
                 <div
                   className="hero-stat-item"
                   key={s.label}
@@ -259,7 +243,7 @@ export function HeroSection() {
                     paddingLeft: i === 0 ? 0 : "clamp(20px,4vw,40px)",
                     paddingRight: "clamp(20px,4vw,40px)",
                     borderRight:
-                      i < STATS.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
+                      i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
                   }}
                 >
                   <div

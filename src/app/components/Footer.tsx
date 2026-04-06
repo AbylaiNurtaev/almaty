@@ -1,4 +1,5 @@
 import { Instagram, Youtube, MessageCircle } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 const SOCIALS = [
   { Icon: Instagram, label: "Instagram", href: "#" },
@@ -7,6 +8,7 @@ const SOCIALS = [
 ];
 
 export function Footer() {
+  const { t } = useLanguage();
   return (
     <footer
       className="relative overflow-hidden"
@@ -62,8 +64,8 @@ export function Footer() {
           </div>
 
           {/* Даты и описание места */}
-          <span className="whitespace-nowrap">30 мая — 1 июня 2026</span>
-          <span className="whitespace-nowrap">Арена Балуан Шолак</span>
+          <span className="whitespace-nowrap">{t.footer.date}</span>
+          <span className="whitespace-nowrap">{t.footer.venue}</span>
 
           {/* Правовой блок + соцсети справа */}
           <div className="flex items-center gap-3 sm:ml-auto">
@@ -76,7 +78,7 @@ export function Footer() {
                 fontSize: "0.7rem",
               }}
             >
-              2026 Фестиваль GAMEHUB. Все права защищены. Алматы, Казахстан.
+              {t.footer.legal}
             </span>
 
             <a
@@ -89,7 +91,7 @@ export function Footer() {
                 fontSize: "0.7rem",
               }}
             >
-              Публичная оферта
+              {t.footer.offer}
             </a>
 
             {/* Соцсети */}

@@ -6,25 +6,17 @@ import { ActivitiesSection }   from "./components/ActivitiesSection";
 import { StreamersSection }    from "./components/StreamersSection";
 import { GamesSection }        from "./components/GamesSection";
 import { ProgramSection }      from "./components/ProgramSection";
-import { ViralChallengesSection } from "./components/ViralChallengesSection";
 import { PrizesSection }       from "./components/PrizesSection";
 import { BrandsSection }       from "./components/BrandsSection";
 import { ClubNetworksSection } from "./components/ClubNetworksSection";
-import { ClubOwnersSection }   from "./components/ClubOwnersSection";
 import { MapSection }          from "./components/MapSection";
 import { TicketsSection }           from "./components/TicketsSection";
 import { Footer }              from "./components/Footer";
+import { useLanguage } from "./context/LanguageContext";
 
 /* ─── Ticker items ─────────────────────────────────────────── */
-const TICKER_ITEMS = [
-  "GAMEHUB 2026", "30 мая — 1 июня", "Арена Балуан Шолак",
-  "CS2", "PUBG", "Dota 2", "7 000+ посетителей",
-  "9+ стримеров", "40+ брендов", "Алматы · Казахстан",
-  "Бесплатные билеты", "VIP-доступ",
-];
-
-function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
+function TickerBar({ accent = "#00E5FF", items }: { accent?: string; items: string[] }) {
+  const renderedItems = [...items, ...items];
   return (
     <div
       style={{
@@ -47,7 +39,7 @@ function TickerBar({ accent = "#00E5FF" }: { accent?: string }) {
       }} />
       <div className="ticker-wrap">
         <div className="ticker-track">
-          {items.map((item, i) => (
+          {renderedItems.map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
               <span style={{
                 fontFamily:    "'Barlow Condensed', sans-serif",
@@ -113,6 +105,7 @@ function SnapSection({
    APP
    ════════════════════════════════════════════════════════════ */
 export default function App() {
+  const { t } = useLanguage();
   /* ref на главный scroll-контейнер */
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -120,8 +113,8 @@ export default function App() {
   /* Scroll-spy: каждый блок ровно 100vh, делим scrollTop на высоту блока */
   const SECTION_ORDER = [
     "hero", "about", "activities", "streamers", "games",
-    "program", "challenges", "prizes", "brands",
-    "clubs", "owners", "map", "tickets",
+    "program", "prizes", "brands",
+    "clubs", "map", "tickets",
   ];
 
   useEffect(() => {
@@ -177,7 +170,7 @@ export default function App() {
           overflowY:      "scroll",
           overflowX:      "hidden",
           scrollSnapType: isMobile ? "none" : "y mandatory",
-          paddingBottom:  "64px",
+          paddingBottom:  isMobile ? "0px" : "64px",
           scrollbarWidth: "none",
           touchAction:    "pan-y",
           WebkitOverflowScrolling: "touch",
@@ -233,14 +226,7 @@ export default function App() {
           </div>
         </SnapSection>
 
-        {/* 6. VIRAL CHALLENGES */}
-        <SnapSection id="challenges" snapEnabled={!isMobile}>
-          <div style={{ flex: 1, overflow: "hidden" }}>
-            <ViralChallengesSection />
-          </div>
-        </SnapSection>
-
-        {/* 7. PRIZES */}
+        {/* 6. PRIZES */}
         <SnapSection id="prizes" snapEnabled={!isMobile}>
           <div style={{  flex: 1, overflow: "hidden" }}>
             <PrizesSection />
@@ -261,25 +247,31 @@ export default function App() {
           </div>
         </SnapSection>
 
-        {/* 10. CLUB OWNERS */}
-        <SnapSection id="owners" snapEnabled={!isMobile}>
-          <div style={{  flex: 1, overflow: "hidden" }}>
-            <ClubOwnersSection />
-          </div>
-        </SnapSection>
-
-        {/* 11. MAP */}
-        <SnapSection id="map" snapEnabled={!isMobile}>
-          <div style={{ flex: 1, overflow: "hidden" }}>
+        {/* 9. MAP */}
+        <SnapSection
+          id="map"
+          snapEnabled={!isMobile}
+          style={isMobile ? { minHeight: "auto" } : undefined}
+        >
+          <div
+            style={
+              isMobile
+                ? { overflow: "visible" }
+                : { flex: 1, overflow: "hidden" }
+            }
+          >
             <MapSection />
           </div>
         </SnapSection>
 
-        {/* 12. TICKETS */}
+        {/* 10. TICKETS */}
         <SnapSection id="tickets" snapEnabled={!isMobile}>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-            <TickerBar accent="#F0B429" />
-            <div style={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
+            <TickerBar accent="#F0B429" items={t.app.tickerItems} />
+            <div
+              className="tickets-body-wrap"
+              style={{ flex: 1, overflow: "hidden", minHeight: 0 }}
+            >
               <TicketsSection />
             </div>
           </div>

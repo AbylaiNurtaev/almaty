@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 import priz1 from "../../assets/priz/image-1.png";
 import priz2 from "../../assets/priz/image-2.png";
 import priz3 from "../../assets/priz/image-3.png";
@@ -68,13 +69,27 @@ const ITEMS_BY_TAB: Record<TabId, PrizeItem[]> = {
 };
 
 export function PrizesSection() {
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [selectedTab, setSelectedTab] = useState<TabId>("Игровые ПК");
-  const items = useMemo(() => ITEMS_BY_TAB[selectedTab], [selectedTab]);
+  const tabMap: Record<string, string> = {
+    "Игровые ПК": "Gaming PCs",
+    Мониторы: "Monitors",
+    Наушники: "Headsets",
+  };
+  const reverseTabMap: Record<string, TabId> = {
+    "Gaming PCs": "Игровые ПК",
+    Monitors: "Мониторы",
+    Headsets: "Наушники",
+  };
+  const displayTabs = isEn ? (TABS.map((t) => tabMap[t]) as string[]) : (TABS as unknown as string[]);
+  const internalTab = (isEn ? reverseTabMap[selectedTab] ?? selectedTab : selectedTab) as TabId;
+  const items = useMemo(() => ITEMS_BY_TAB[internalTab], [internalTab]);
 
   return (
     <section
       id="prizes"
-      className="sec-fullscreen relative overflow-hidden"
+      className="sec-fullscreen relative overflow-hidden md:flex md:items-center"
       style={{
         background: "#020a18",
         paddingTop: "max(64px, calc(var(--sec-py) * 0.7))",
@@ -99,36 +114,24 @@ export function PrizesSection() {
               className="gh-title text-white leading-[0.96]"
               style={{ fontSize: "clamp(2.1rem, 4vw, 4.4rem)" }}
             >
-              Призы
+              {isEn ? "Festival" : "Призы"}
               <br />
-              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>фестиваля</span>
+              <span style={{ color: "var(--c-cyan,#00E5FF)" }}>{isEn ? "Prizes" : "фестиваля"}</span>
             </h2>
-          </div>
-          <div
-            style={{
-              fontFamily: "'Barlow',sans-serif",
-              color: "rgba(255,255,255,0.55)",
-              letterSpacing: "0.03em",
-              lineHeight: 1.5,
-              fontSize: "clamp(0.95rem, 1.2vw, 1.5rem)",
-              maxWidth: "720px",
-              paddingTop: "8px",
-            }}
-          >
-            Тысячи долларов в призах: игровые ПК, мониторы, периферия и эксклюзивная техника — ждут чемпионов.
           </div>
         </div>
 
         <div
           className="flex flex-wrap gap-2 md:gap-3 mb-7 md:mb-8"
         >
-          {TABS.map((tab) => {
-            const isActive = tab === selectedTab;
+          {displayTabs.map((tab) => {
+            const sourceTab = isEn ? reverseTabMap[tab] : (tab as TabId);
+            const isActive = sourceTab === internalTab;
             return (
               <button
                 key={tab}
                 type="button"
-                onClick={() => setSelectedTab(tab)}
+                onClick={() => setSelectedTab((sourceTab as TabId))}
                 className="transition-all duration-200 text-white/90 hover:text-white"
                 style={{
                   minWidth: "clamp(152px, 20vw, 220px)",
@@ -184,18 +187,6 @@ export function PrizesSection() {
                   background: "linear-gradient(180deg, transparent 0%, rgba(2,10,24,0.5) 100%)",
                 }}
               />
-              <span
-                className="absolute left-3 bottom-2 md:left-4 md:bottom-3"
-                style={{
-                  fontFamily: "'SF Pro',sans-serif",
-                  fontSize: "0.76rem",
-                  letterSpacing: "0.08em",
-                  color: "rgba(255,255,255,0.65)",
-                  textTransform: "uppercase",
-                }}
-              >
-                {item.label}
-              </span>
             </div>
           ))}
         </div>

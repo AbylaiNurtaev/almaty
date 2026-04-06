@@ -153,6 +153,27 @@ body {
     padding-top: max(10px, env(safe-area-inset-top)) !important;
   }
 
+  /* Карта площадки — отдельная высота на мобилке */
+  #map.sec-fullscreen {
+    min-height: 60dvh !important;
+    height: 60dvh !important;
+    max-height: 60dvh !important;
+    box-sizing: border-box;
+    padding-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  }
+
+  #map .map-section-outer {
+    height: auto !important;
+  }
+
+  #map .map-stage-wrap {
+    flex: 0 0 auto !important;
+  }
+
+  #map .map-frame {
+    min-height: 0 !important;
+  }
+
   /* Владельцы клубов — компактнее CTA на мобилке */
   .club-owners-section .club-owner-cta {
     margin: 8px !important;
@@ -176,9 +197,9 @@ body {
 
   /* Приглашенные франшизы — полная высота + горизонтальный скролл плашек */
   #networks.sec-fullscreen {
-    min-height: 100dvh !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
+    min-height: 85dvh !important;
+    height: 85dvh !important;
+    max-height: 85dvh !important;
     box-sizing: border-box;
     padding-left: max(10px, env(safe-area-inset-left)) !important;
     padding-right: max(10px, env(safe-area-inset-right)) !important;
@@ -196,6 +217,31 @@ body {
     flex-wrap: nowrap !important;
     width: max-content;
     min-width: min(100%, max-content);
+  }
+
+  /* Билеты: контент не обрезается — скролл внутри области под тикер */
+  #tickets .tickets-body-wrap {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  #tickets .tickets-section-root.sec-fullscreen {
+    height: auto !important;
+    min-height: 100% !important;
+    max-height: none;
+    box-sizing: border-box;
+    padding-left: max(12px, env(safe-area-inset-left)) !important;
+    padding-right: max(12px, env(safe-area-inset-right)) !important;
+    padding-top: max(6px, env(safe-area-inset-top)) !important;
+    padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    background: #09091a !important;
+  }
+
+  #tickets,
+  #tickets .tickets-body-wrap {
+    background: #09091a;
   }
 }
 
@@ -601,8 +647,260 @@ h6 {
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* Выставка брендов: макет как в референсе */
+.brands-showcase-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 46%) minmax(480px, 54%);
+  gap: clamp(18px, 2.5vw, 36px);
+  min-height: 68vh;
+}
+
+.brands-left-pane {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: clamp(14px, 1.7vw, 24px);
+  display: flex;
+  flex-direction: column;
+}
+
+.brands-product-visual {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  height: clamp(250px, 36vh, 420px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.brands-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 0.4s ease;
+}
+
+.brands-product-image.is-visible {
+  opacity: 1;
+}
+
+.brands-product-image.is-hidden {
+  opacity: 0.15;
+}
+
+.brands-product-placeholder {
+  color: rgba(255, 255, 255, 0.35);
+  font-family: "SF Pro", sans-serif;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+}
+
+.brands-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.brands-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.brands-dot.is-active {
+  background: #fff;
+}
+
+.brands-tab-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.brands-tab-btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+.brands-tab-btn.is-active {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.brands-tab-content {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  min-height: 96px;
+}
+
+.brands-right-pane {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px;
+  gap: 12px;
+}
+
+.brands-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.brands-logo-card {
+  /* Размер квадрата только от ширины колонки; логотип не может раздуть ячейку */
+  aspect-ratio: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.62rem;
+  padding: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.brands-logo-card:hover {
+  border-color: rgba(255, 255, 255, 0.44);
+}
+
+.brands-logo-card.is-active {
+  border-color: var(--c-cyan, #00e5ff);
+  background: rgba(0, 229, 255, 0.12);
+}
+
+.brands-logo-card.is-empty {
+  cursor: default;
+  color: rgba(255, 255, 255, 0.44);
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px;
+}
+
+.brands-empty-plus {
+  width: 30px;
+  height: 30px;
+  color: rgba(255, 255, 255, 0.62);
+  stroke-width: 2.2px;
+}
+
+.brands-logo-image {
+  display: block;
+  flex: 0 1 auto;
+  min-width: 0;
+  min-height: 0;
+  width: auto;
+  height: auto;
+  max-width: 78%;
+  max-height: 72%;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+}
+
+.brands-category-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.brands-category-btn {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.brands-category-btn.is-active {
+  border-color: var(--c-cyan, #00e5ff);
+  color: #fff;
+  background: rgba(0, 229, 255, 0.1);
+}
+
+/* Выставка брендов: брендовый фон по выбранной плашке */
+#brands .brand-switch-bg {
+  background-size:
+    100% 100%,
+    auto 70%;
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center;
+}
+
 /* Выставка брендов — мобилка: плашки брендов переносятся на несколько строк */
 @media (max-width: 768px) {
+  .brands-showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    min-height: auto;
+  }
+
+  .brands-right-pane {
+    grid-template-columns: 1fr;
+  }
+
+  .brands-category-sidebar {
+    order: -1;
+  }
+
+  .brands-logo-grid {
+    order: 1;
+  }
+
+  .brands-logo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .brands-category-sidebar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .brands-category-btn {
+    min-height: 38px;
+    font-size: 0.52rem;
+  }
+
+  #brands .brand-switch-bg {
+    background-size:
+      100% 100%,
+      auto 52%;
+    background-position:
+      center,
+      center 56%;
+  }
+
   #brands .brand-pill {
     white-space: normal;
     text-align: center;
@@ -819,6 +1117,50 @@ button.streamer-card {
   animation: ticket-sweep 5s ease-in-out infinite;
   pointer-events: none;
   z-index: 4;
+}
+
+.ticket-mobile-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background:
+    linear-gradient(90deg, rgba(0, 229, 255, 0.08), rgba(0, 229, 255, 0.02) 40%, rgba(255, 255, 255, 0.02) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(0, 229, 255, 0.28);
+  color: rgba(255, 255, 255, 0.95);
+  font-family: "SF Pro", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-right: 2.4rem;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.12);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(0, 229, 255, 0.9) 50%),
+    linear-gradient(135deg, rgba(0, 229, 255, 0.9) 50%, transparent 50%),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.08), rgba(0, 229, 255, 0.02) 40%, rgba(255, 255, 255, 0.02) 100%);
+  background-position:
+    calc(100% - 18px) calc(50% - 2px),
+    calc(100% - 12px) calc(50% - 2px),
+    center;
+  background-size:
+    6px 6px,
+    6px 6px,
+    100% 100%;
+  background-repeat: no-repeat;
+}
+
+.ticket-mobile-select:focus {
+  outline: none;
+  border-color: rgba(0, 229, 255, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(0, 229, 255, 0.34),
+    0 0 16px rgba(0, 229, 255, 0.2);
+}
+
+.ticket-mobile-select option {
+  background: #09091a;
+  color: rgba(255, 255, 255, 0.95);
 }
 @keyframes ticket-sweep {
   0% {

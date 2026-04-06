@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 const IMG = "https://images.unsplash.com/photo-1558324190-c940eb141401?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMGdhbWluZyUyMGNsdWIlMjByb29tJTIwZGFyayUyMG5lb24lMjByb3dzJTIwc2V0dXB8ZW58MXx8fHwxNzcyODAzOTE5fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
 import broArenaImg from "@/assets/clubs/BRO Arena.jpg";
@@ -26,6 +27,8 @@ const CLUBS = [
 ];
 
 export function ClubNetworksSection() {
+  const { language } = useLanguage();
+  const isEn = language === "en";
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
   const autoRotateRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const AUTO_DELAY = 7000;
@@ -137,8 +140,8 @@ export function ClubNetworksSection() {
             className="gh-title text-white max-md:!text-[clamp(1.35rem,5.2vw,1.9rem)] max-md:!leading-tight"
             style={{ fontSize: "var(--h2-sec)" }}
           >
-            Приглашенные<br />
-            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>франшизы</span>
+            {isEn ? "Invited" : "Приглашенные"}<br />
+            <span style={{ color: "var(--c-cyan,#00E5FF)" }}>{isEn ? "franchises" : "франшизы"}</span>
           </h2>
         </div>
       </div>

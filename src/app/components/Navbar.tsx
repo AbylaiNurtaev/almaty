@@ -1,17 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ArrowRight } from "lucide-react";
-
-const LINKS = [
-  { label: "Главная", href: "#hero" },
-  { label: "Гости", href: "#streamers" },
-  { label: "Развлечения", href: "#games" },
-  { label: "Выставка", href: "#brands" },
-  { label: "Карта", href: "#map" },
-];
+import { useLanguage } from "../context/LanguageContext";
 
 export function Navbar() {
+  const { t, toggleLanguage } = useLanguage();
   const [activeId, setActiveId] = useState<string>("hero");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const links = useMemo(
+    () => [
+      { label: t.navbar.links.home, href: "#hero" },
+      { label: t.navbar.links.guests, href: "#streamers" },
+      { label: t.navbar.links.activities, href: "#games" },
+      { label: t.navbar.links.expo, href: "#brands" },
+      { label: t.navbar.links.map, href: "#map" },
+    ],
+    [t],
+  );
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -38,10 +42,10 @@ export function Navbar() {
 
   const desktopLinks = useMemo(
     () =>
-      LINKS.map((l, i) => {
+      links.map((l, i) => {
         const id = l.href.slice(1);
         const active = activeId === id;
-        const isLast = i === LINKS.length - 1;
+        const isLast = i === links.length - 1;
         return (
           <React.Fragment key={l.label}>
             <a
@@ -70,12 +74,12 @@ export function Navbar() {
           </React.Fragment>
         );
       }),
-    [activeId]
+    [activeId, links]
   );
 
   const mobileLinks = useMemo(
     () =>
-      LINKS.map((l) => {
+      links.map((l) => {
         const id = l.href.slice(1);
         const active = activeId === id;
         return (
@@ -100,7 +104,7 @@ export function Navbar() {
           </a>
         );
       }),
-    [activeId]
+    [activeId, links]
   );
 
   return (
@@ -113,8 +117,8 @@ export function Navbar() {
           backdropFilter: "blur(8px)",
         }}
       >
-        <div className="mx-auto h-full w-full max-w-[1296px] px-3 md:px-0 flex items-center justify-between">
-          <div className="flex items-center gap-8 md:gap-14">
+        <div className="mx-auto h-full w-full max-w-[1296px] px-3 md:px-0 flex items-center justify-between relative">
+          <div className="flex items-center">
             <a
               href="#hero"
               onClick={(e) => {
@@ -126,11 +130,21 @@ export function Navbar() {
             >
               GAME<span style={{ color: "var(--c-cyan,#00E5FF)" }}>HUB</span>
             </a>
-
-            <nav className="hidden md:flex items-center gap-3" aria-label="Навигация по разделам">
-              {desktopLinks}
-            </nav>
           </div>
+
+          <nav className="hidden md:flex items-center gap-3 absolute left-1/2 -translate-x-1/2" aria-label="Site navigation">
+            {desktopLinks}
+          </nav>
+
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              type="button"
+              onClick={toggleLanguage}
+              className="h-[40px] min-w-[56px] px-3 border border-white/20 text-white/80 hover:text-white transition-colors"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: "0.08em" }}
+            >
+              {t.navbar.switchTo}
+            </button>
 
           <button
             type="button"
@@ -144,18 +158,19 @@ export function Navbar() {
               fontSize: "0.95rem",
               lineHeight: "1",
               letterSpacing: "0.02em",
-              clipPath: "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)",
+              borderRadius: "0px",
               cursor: "pointer",
             }}
           >
-            <span>Получить билеты</span>
+            <span>{t.navbar.tickets}</span>
             <ArrowRight size={15} />
           </button>
+          </div>
 
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen((v) => !v)}
-            aria-label={isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-label={isMobileMenuOpen ? t.navbar.closeMenu : t.navbar.openMenu}
             aria-expanded={isMobileMenuOpen}
             className="md:hidden relative h-[40px] w-[40px] flex items-center justify-center transition-opacity hover:opacity-90"
             style={{
@@ -164,7 +179,7 @@ export function Navbar() {
               color: "#E8F4EA",
             }}
           >
-            <span className="sr-only">{isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}</span>
+            <span className="sr-only">{isMobileMenuOpen ? t.navbar.closeMenu : t.navbar.openMenu}</span>
             <span className="relative block h-[14px] w-[18px]">
               <span
                 className="absolute left-0 top-0 block h-[2px] w-full origin-center rounded-full transition-all duration-300"
@@ -205,9 +220,17 @@ export function Navbar() {
         }}
       >
         <div className="mx-auto w-full max-w-[1296px] px-3 py-4 flex flex-col gap-3">
-          <nav className="flex flex-col gap-2" aria-label="Мобильная навигация по разделам">
+          <nav className="flex flex-col gap-2" aria-label="Mobile site navigation">
             {mobileLinks}
           </nav>
+          <button
+            type="button"
+            onClick={toggleLanguage}
+            className="h-[40px] w-full px-4 flex items-center justify-center border border-white/20 text-white/80 hover:text-white transition-colors"
+            style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: "0.08em" }}
+          >
+            {t.navbar.switchTo}
+          </button>
           <button
             type="button"
             onClick={() => {
@@ -223,11 +246,11 @@ export function Navbar() {
               fontSize: "0.95rem",
               lineHeight: "1",
               letterSpacing: "0.02em",
-              clipPath: "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)",
+              borderRadius: "0px",
               cursor: "pointer",
             }}
           >
-            <span>Получить билеты</span>
+            <span>{t.navbar.tickets}</span>
             <ArrowRight size={15} />
           </button>
         </div>
