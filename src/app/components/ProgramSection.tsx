@@ -36,8 +36,8 @@ const FESTIVAL_PROGRAM: Ev[] = [
   {
     time: "13:00 - 14:00",
     title: "Перерыв Redbull",
-    desc: "",
-    modalText: "Перерыв Redbull.",
+    desc: "Музыкальное сопровождение",
+    modalText: "Перерыв Redbull. Музыкальное сопровождение.",
     Icon: Clock, hot: true
   },
   {
@@ -78,8 +78,8 @@ const FESTIVAL_PROGRAM: Ev[] = [
   {
     time: "17:00 - 17:30",
     title: "Перерыв Redbull",
-    desc: "",
-    modalText: "Перерыв Redbull.",
+    desc: "Музыкальное сопровождение",
+    modalText: "Перерыв Redbull. Музыкальное сопровождение.",
     Icon: Clock, hot: true
   },
   {
@@ -247,12 +247,6 @@ function DayCard({
                     }}
                   >
                     {ev.title}
-                    {isHot && (
-                      <span
-                        className="inline-block w-1.5 h-1.5 rounded-full shrink-0 align-middle ml-1"
-                        style={{ background: color, boxShadow: `0 0 5px ${color}` }}
-                      />
-                    )}
                   </span>
                   {!!ev.desc && (
                     <p
@@ -298,6 +292,8 @@ export function ProgramSection() {
           "2 дорожки с препятствиями и рулеткой.": "2 lanes with obstacles and a roulette.",
           "Перерыв Redbull": "Redbull Break",
           "Перерыв Redbull.": "Redbull Break.",
+          "Музыкальное сопровождение": "Music accompaniment",
+          "Перерыв Redbull. Музыкальное сопровождение.": "Redbull Break. Music accompaniment.",
           "СБОРКА КОМПЬЮТЕРНОГО КЛУБА (ЭТАП 1)": "PC CLUB BUILD (STAGE 1)",
           "Сборка сервера на скорость с отбором на финал": "Speed server build with final qualification",
           "Сборка сервера на скорость с отбором на финал.": "Speed server build with final qualification.",
@@ -341,6 +337,7 @@ export function ProgramSection() {
       return true;
     }).slice(0, 15);
   }, [isEn]);
+  const badgeCount = 10;
   const firstPart = events.slice(0, 8);
   const secondPart = events.slice(8);
   return (
@@ -389,7 +386,7 @@ export function ProgramSection() {
               padding: "7px 12px",
             }}
           >
-            {events.length} {isEn ? "events" : "мероприятий"}
+            {badgeCount} {isEn ? "events" : "мероприятий"}
           </span>
         </div>
 

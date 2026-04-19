@@ -17,12 +17,6 @@ const BRAND_GLOW_COLORS = [
 
 type BrandTab = "description" | "specs" | "users";
 
-const BRAND_TABS: { id: BrandTab; label: string }[] = [
-  { id: "description", label: "Описание" },
-  { id: "specs", label: "Характеристики" },
-  { id: "users", label: "Пользуются" },
-];
-
 const MOCK_BRAND_TEXT: Record<BrandTab, string> = {
   description:
     "Премиальная игровая линейка с фокусом на комфорт во время долгих сессий. Модель сочетает лёгкий корпус, плотную посадку и чистое позиционирование звука для соревновательных дисциплин.",
@@ -59,7 +53,6 @@ export function BrandsSection() {
       : v;
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>("soft");
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<BrandTab>("description");
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
 
   const activeCategory = selectedCategoryId
@@ -135,20 +128,7 @@ export function BrandsSection() {
               <div className="brands-product-placeholder">{selectedBrand ?? (isEn ? "Brand" : "Бренд")}</div>
             </div>
 
-            <div className="brands-tab-buttons">
-              {BRAND_TABS.map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`brands-tab-btn ${activeTab === tab.id ? "is-active" : ""}`}
-                >
-                  {tr(tab.label)}
-                </button>
-              ))}
-            </div>
-
-            <div className="brands-tab-content">{tr(MOCK_BRAND_TEXT[activeTab])}</div>
+            <div className="brands-tab-content">{tr(MOCK_BRAND_TEXT.description)}</div>
           </div>
 
           <div className="brands-right-pane">

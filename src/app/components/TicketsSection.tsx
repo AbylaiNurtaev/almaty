@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Check,
   Star,
@@ -47,7 +47,7 @@ const TICKETS: TicketDef[] = [
     name: "5000",
     display: "5 000 ТГ",
     price: "5 000 тг",
-    priceSub: "Количество: 2000",
+    priceSub: "Количество: 1000",
     Icon: Zap,
     color: "#00D4F5",
     bg: "rgba(0,212,245,0.04)",
@@ -177,14 +177,14 @@ const B2B: B2BDef[] = [
   },
   {
     id: "smartshell",
-    navTitle: "Презентация Smart Shell",
-    navShort: "Smart Shell",
-    label: "B2B · smart shell",
-    display: "SMART SHELL",
+    navTitle: "Презентация SmartShell",
+    navShort: "SmartShell",
+    label: "B2B · SmartShell",
+    display: "SMARTSHELL",
     priceSub: "Бесплатно · Количество: 150",
     desc: "Даёт доступ:",
     perks: [
-      "Бесплатный билет на презентацию Smart Shell",
+      "Бесплатный билет на презентацию SmartShell",
       "Нетворкинг с представителями индустрии",
       "Q&A с командой проекта",
     ],
@@ -286,23 +286,6 @@ export function TicketsSection() {
   const [clubReqSubmitting, setClubReqSubmitting] = useState(false);
   const [clubReqError, setClubReqError] = useState<string | null>(null);
   const [reqModalAudience, setReqModalAudience] = useState<"clubs" | "smartshell" | "franchise" | "shops" | "stands" | "company">("clubs");
-  const getPromoDeadline = () => {
-    const now = new Date();
-    let year = now.getFullYear();
-    let month = now.getMonth();
-    let deadline = new Date(year, month, 15, 23, 59, 59, 999);
-    if (now > deadline) {
-      month += 1;
-      if (month > 11) {
-        month = 0;
-        year += 1;
-      }
-      deadline = new Date(year, month, 15, 23, 59, 59, 999);
-    }
-    return deadline;
-  };
-  const [promoDeadline, setPromoDeadline] = useState<Date>(() => getPromoDeadline());
-  const [promoTimeLeft, setPromoTimeLeft] = useState(() => promoDeadline.getTime() - Date.now());
   const n = TICKETS.length;
   const tr = (value: string) =>
     isEn
@@ -310,7 +293,7 @@ export function TicketsSection() {
           "Для посетителей": "For Visitors",
           "1 000 ТГ": "1,000 KZT",
           "1 000 тг": "1,000 KZT",
-          "Количество: 2000": "Quantity: 2000",
+          "Количество: 1000": "Quantity: 1000",
           "Даёт доступ:": "Includes access to:",
           "Вход на мероприятие": "Event entry",
           "Доступ в expo-зону": "Access to expo zone",
@@ -334,19 +317,19 @@ export function TicketsSection() {
           "Детская зона на всё мероприятие": "Kids zone for full event",
           "Для клубов": "For Clubs",
           "Клубы": "Clubs",
-          "Презентация Smart Shell": "Smart Shell Presentation",
-          "Smart Shell": "Smart Shell",
+          "Презентация SmartShell": "SmartShell Presentation",
+          "SmartShell": "SmartShell",
           "B2B · клубы": "B2B · Clubs",
-          "B2B · smart shell": "B2B · Smart Shell",
+          "B2B · SmartShell": "B2B · SmartShell",
           "КЛУБАМ": "FOR CLUBS",
-          "SMART SHELL": "SMART SHELL",
+          "SMARTSHELL": "SMARTSHELL",
           "500 000 тг · Количество: 100": "500,000 KZT · Quantity: 100",
           "Бесплатно · Количество: 150": "Free · Quantity: 150",
           "Участие в \"Битва Основателей\"": "Participation in \"Founders Battle\"",
           "Участие в \"10 FPS\"": "Participation in \"10 FPS\"",
           "Участие в \"Сборка клуба\"": "Participation in \"Club Build\"",
           "Участие в \"DRIFT SHOW\"": "Participation in \"DRIFT SHOW\"",
-          "Бесплатный билет на презентацию Smart Shell": "Free ticket to the Smart Shell presentation",
+          "Бесплатный билет на презентацию SmartShell": "Free ticket to the SmartShell presentation",
           "Нетворкинг с представителями индустрии": "Networking with industry representatives",
           "Q&A с командой проекта": "Q&A with the project team",
           "Брендированная стойка": "Branded counter",
@@ -354,8 +337,6 @@ export function TicketsSection() {
           "Участие в закрытом мероприятии": "Participation in private event",
           "Билет 1+1": "1+1 ticket",
           "Возможность докупить +1 человек за 50 000 тг": "Add +1 person for 50,000 KZT",
-          "Спецпредложение до 15-го апреля": "Special offer until the 15th of April",
-          "Вместо": "Instead of",
           "Осталось": "Time left",
           "Для франшиз": "For Franchises",
           "Франшиза": "Franchise",
@@ -426,23 +407,6 @@ export function TicketsSection() {
   const goNext = useCallback(() => {
     setIndex((i) => (i + 1) % n);
   }, [n]);
-
-  useEffect(() => {
-    const tick = () => {
-      const now = Date.now();
-      if (now >= promoDeadline.getTime()) {
-        const next = getPromoDeadline();
-        setPromoDeadline(next);
-        setPromoTimeLeft(next.getTime() - now);
-        return;
-      }
-      setPromoTimeLeft(promoDeadline.getTime() - now);
-    };
-
-    tick();
-    const timer = window.setInterval(tick, 1000);
-    return () => window.clearInterval(timer);
-  }, [promoDeadline]);
 
   const formFieldClass =
     "w-full bg-[#0a0a10] border border-[rgba(255,255,255,0.1)] rounded px-4 py-3 text-white placeholder:text-[rgba(255,255,255,0.35)] text-sm outline-none transition-colors focus:border-[var(--c-cyan,#00E5FF)] focus:ring-1 focus:ring-[rgba(0,229,255,0.25)]";
@@ -519,14 +483,14 @@ export function TicketsSection() {
     reqModalAudience === "franchise"
       ? tr("Для франшиз")
       : reqModalAudience === "smartshell"
-        ? tr("Презентация Smart Shell")
-      : reqModalAudience === "shops"
-        ? tr("Для магазинов")
-        : reqModalAudience === "stands"
-          ? tr("Для стендов")
-          : reqModalAudience === "company"
-            ? tr("Корпоративное участие")
-      : tr("Для клубов");
+        ? tr("Презентация SmartShell")
+        : reqModalAudience === "shops"
+          ? tr("Для магазинов")
+          : reqModalAudience === "stands"
+            ? tr("Для стендов")
+            : reqModalAudience === "company"
+              ? tr("Корпоративное участие")
+              : tr("Для клубов");
 
   const detailBody = (ticket: TicketDef) => {
     const Icon = ticket.Icon;
@@ -670,12 +634,7 @@ export function TicketsSection() {
 
   const b2bBody = (block: B2BDef) => {
     const Icon = block.Icon;
-    const totalSeconds = Math.max(0, Math.floor(promoTimeLeft / 1000));
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    const countdownLabel = `${String(days).padStart(2, "0")}д ${String(hours).padStart(2, "0")}ч ${String(minutes).padStart(2, "0")}м ${String(seconds).padStart(2, "0")}с`;
+    const clubsCountdownLabel = isEn ? "26d 03h 42m 15s" : "26д 03ч 42м 15с";
     return (
       <>
         {!block.featured && (
@@ -782,53 +741,6 @@ export function TicketsSection() {
                       }}
                     >
                       <div
-                        style={{
-                          fontFamily: "'Barlow Condensed',sans-serif",
-                          fontSize: "0.58rem",
-                          letterSpacing: "0.24em",
-                          textTransform: "uppercase",
-                          color: "#00D4F5",
-                          marginBottom: "6px",
-                        }}
-                      >
-                        {tr("Спецпредложение до 15-го апреля")}
-                      </div>
-                      <div className="flex items-end gap-2.5 mb-1.5">
-                        <span
-                          style={{
-                            fontFamily: "'Barlow',sans-serif",
-                            fontSize: "0.78rem",
-                            color: "rgba(255,255,255,0.55)",
-                          }}
-                        >
-                          {tr("Вместо")}
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "'Barlow Condensed',sans-serif",
-                            fontSize: "0.89rem",
-                            fontWeight: 700,
-                            letterSpacing: "0.04em",
-                            color: "rgba(255,255,255,0.45)",
-                            textDecoration: "line-through",
-                          }}
-                        >
-                          500 000 тг
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "'Barlow Condensed',sans-serif",
-                            fontSize: "1.15rem",
-                            fontWeight: 900,
-                            letterSpacing: "0.04em",
-                            color: "#00D4F5",
-                            textShadow: "0 0 14px rgba(0,212,245,0.35)",
-                          }}
-                        >
-                          300 000 тг
-                        </span>
-                      </div>
-                      <div
                         className="inline-flex items-center rounded px-2 py-1"
                         style={{
                           background: "rgba(4,8,18,0.58)",
@@ -854,7 +766,7 @@ export function TicketsSection() {
                             color: "#A9F3FF",
                           }}
                         >
-                          {countdownLabel}
+                          {clubsCountdownLabel}
                         </span>
                       </div>
                     </div>

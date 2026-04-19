@@ -37,7 +37,7 @@ const PARTNER_CATEGORIES_RAW: Omit<PartnerCategory, "count">[] = [
     id: "devices",
     cat: "ДЕВАЙСЫ",
     color: PALETTE[1],
-    brands: ["DarkProject", "AULA", "MCHOSE", "REDDRAGON", "Havit"],
+    brands: ["AULA", "MCHOSE", "ZONE 51", "ATK", "WLmouse", "LAMZU"],
   },
   {
     id: "hardware",
@@ -49,10 +49,8 @@ const PARTNER_CATEGORIES_RAW: Omit<PartnerCategory, "count">[] = [
       "Samsung",
       "Dell Alienware",
       "Ocypus",
-      "XPG",
       "Aerostar",
       "DAHUA",
-      "HIKVISION",
     ],
   },
   {
@@ -79,8 +77,6 @@ const PARTNER_CATEGORIES_RAW: Omit<PartnerCategory, "count">[] = [
       "CYBERSHOKE",
       "Т-Aрена",
       "Rave by Buster",
-      "BRO arena",
-      "TrueGamers",
       "Halyk bank",
       "Kaspi bank",
       "Bereke bank",
@@ -98,7 +94,7 @@ const PARTNER_CATEGORIES_RAW: Omit<PartnerCategory, "count">[] = [
     id: "furniture",
     cat: "МЕБЕЛЬ",
     color: PALETTE[6],
-    brands: ["Aqniet Holding", "ZONE"],
+    brands: ["Aqniet Holding", "ZONE 51"],
   },
   {
     id: "horeca",

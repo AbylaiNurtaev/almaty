@@ -23,6 +23,13 @@ const IMGS = {
   nfs: nfsCarbonGameplay,
 };
 
+const GAME_VIDEOS: Partial<Record<keyof typeof IMGS, string>> = {
+  cs2: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/cs.mp4",
+  dota: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/dota.mp4",
+  nfs: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/nfs.mp4",
+  wrestlemania: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/wrestl.mp4",
+};
+
 const GAME_ICONS = {
   cs2: csIcon,
   pubg: pubgIcon,
@@ -44,6 +51,7 @@ export function GamesSection() {
   const isEn = language === "en";
   const [activeIndex, setActiveIndex] = useState(0);
   const autoRotateRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const warmVideoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
   const AUTO_DELAY = 7000;
   const localizedGames = GAMES.map((game) => ({
     ...game,
@@ -106,6 +114,17 @@ export function GamesSection() {
     };
   }, []);
 
+  // Warm up remote MP4s early so switching games doesn't show the poster for a while.
+  useEffect(() => {
+    Object.values(warmVideoRefs.current).forEach((v) => {
+      try {
+        v?.load();
+      } catch {
+        // ignore
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const resetToPubg = () => {
       setActiveIndex(0);
@@ -143,6 +162,24 @@ export function GamesSection() {
       className="games-section-mobile sec-fullscreen relative overflow-hidden flex flex-col max-md:max-h-[100dvh] max-md:min-h-0"
       style={{ background: "#030d1a", padding: "var(--sec-py) var(--sec-px)" }}
     >
+      {/* Hidden preloader videos to keep buffers warm */}
+      <div aria-hidden="true" style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}>
+        {Object.entries(GAME_VIDEOS).map(([id, src]) =>
+          src ? (
+            <video
+              key={id}
+              ref={(el) => {
+                warmVideoRefs.current[id] = el;
+              }}
+              src={src}
+              muted
+              playsInline
+              preload="auto"
+            />
+          ) : null
+        )}
+      </div>
+
       <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, #031325 0%, #030d1a 65%)" }} />
 
       <div
@@ -259,6 +296,18 @@ export function GamesSection() {
                   muted
                   loop
                   playsInline
+                  preload="auto"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : GAME_VIDEOS[g.id as keyof typeof GAME_VIDEOS] ? (
+                <video
+                  src={GAME_VIDEOS[g.id as keyof typeof GAME_VIDEOS]}
+                  poster={IMGS[g.id as keyof typeof IMGS]}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               ) : (
@@ -271,25 +320,6 @@ export function GamesSection() {
               <div className="absolute inset-0 bg-black/10" />
             </div>
             <div className="p-5 lg:p-6 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-              <div className="flex items-center gap-4 mb-4">
-                <img
-                  src={GAME_ICONS[g.id as keyof typeof GAME_ICONS]}
-                  alt={g.name}
-                  className="h-12 w-auto max-w-[160px] object-contain shrink-0"
-                />
-                <h3
-                  style={{
-                    fontFamily: "'Barlow Condensed',sans-serif",
-                    color: "#fff",
-                    fontSize: "1.6rem",
-                    letterSpacing: "0.04em",
-                    textTransform: "uppercase",
-                    lineHeight: 1,
-                  }}
-                >
-                  {g.name}
-                </h3>
-              </div>
               <p style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.68)", lineHeight: 1.6, marginBottom: "14px", fontSize: "0.98rem" }}>
                 {g.desc}
               </p>
@@ -330,6 +360,18 @@ export function GamesSection() {
                   muted
                   loop
                   playsInline
+                  preload="auto"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : GAME_VIDEOS[g.id as keyof typeof GAME_VIDEOS] ? (
+                <video
+                  src={GAME_VIDEOS[g.id as keyof typeof GAME_VIDEOS]}
+                  poster={IMGS[g.id as keyof typeof IMGS]}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               ) : (
@@ -342,25 +384,6 @@ export function GamesSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508ac] to-transparent" />
             </div>
             <div className="p-4 flex-1 min-h-0 overflow-y-auto flex flex-col">
-              <div className="flex items-center gap-3 mb-3">
-                <img
-                  src={GAME_ICONS[g.id as keyof typeof GAME_ICONS]}
-                  alt={g.name}
-                  className="h-9 w-auto max-w-[120px] object-contain shrink-0"
-                />
-                <h3
-                  style={{
-                    fontFamily: "'Barlow Condensed',sans-serif",
-                    color: "#fff",
-                    fontSize: "1.2rem",
-                    letterSpacing: "0.04em",
-                    textTransform: "uppercase",
-                    lineHeight: 1,
-                  }}
-                >
-                  {g.name}
-                </h3>
-              </div>
               <p style={{ fontFamily: "'Barlow',sans-serif", color: "rgba(255,255,255,0.78)", lineHeight: 1.65, fontSize: "0.9rem", marginBottom: "12px" }}>
                 {g.desc}
               </p>
