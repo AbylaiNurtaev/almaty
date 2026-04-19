@@ -9,65 +9,8 @@ import { ProgramSection }      from "./components/ProgramSection";
 import { PrizesSection }       from "./components/PrizesSection";
 import { BrandsSection }       from "./components/BrandsSection";
 import { ClubNetworksSection } from "./components/ClubNetworksSection";
-import { MapSection }          from "./components/MapSection";
 import { TicketsSection }           from "./components/TicketsSection";
 import { Footer }              from "./components/Footer";
-import { useLanguage } from "./context/LanguageContext";
-
-/* ─── Ticker items ─────────────────────────────────────────── */
-function TickerBar({ accent = "#00E5FF", items }: { accent?: string; items: string[] }) {
-  const renderedItems = [...items, ...items];
-  return (
-    <div
-      style={{
-        position:     "relative",
-        overflow:     "hidden",
-        borderTop:    "1px solid rgba(255,255,255,0.06)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-        background:   "rgba(255,255,255,0.015)",
-        padding:      "13px 0",
-        flexShrink:   0,
-      }}
-    >
-      <div style={{
-        position: "absolute", left: 0, top: 0, bottom: 0, width: "80px",
-        background: "linear-gradient(to right, #050508, transparent)", zIndex: 2, pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "absolute", right: 0, top: 0, bottom: 0, width: "80px",
-        background: "linear-gradient(to left, #050508, transparent)", zIndex: 2, pointerEvents: "none",
-      }} />
-      <div className="ticker-wrap">
-        <div className="ticker-track">
-          {renderedItems.map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-              <span style={{
-                fontFamily:    "'Barlow Condensed', sans-serif",
-                fontWeight:    700,
-                fontSize:      "clamp(0.8rem, 1.2vw, 1rem)",
-                letterSpacing: "0.3em",
-                textTransform: "uppercase",
-                color:         "#ffffff",
-                whiteSpace:    "nowrap",
-                padding:       "0 28px",
-              }}>
-                {item}
-              </span>
-              <span style={{
-                display:    "inline-block",
-                width:      "3px",
-                height:     "3px",
-                background: `${accent}30`,
-                transform:  "rotate(45deg)",
-                flexShrink: 0,
-              }} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ─── Snap Section wrapper ──────────────────────────────────── */
 function SnapSection({
@@ -105,16 +48,16 @@ function SnapSection({
    APP
    ════════════════════════════════════════════════════════════ */
 export default function App() {
-  const { t } = useLanguage();
   /* ref на главный scroll-контейнер */
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   /* Scroll-spy: каждый блок ровно 100vh, делим scrollTop на высоту блока */
   const SECTION_ORDER = [
     "hero", "about", "activities", "streamers", "games",
     "program", "prizes", "brands",
-    "clubs", "map", "tickets",
+    "clubs", "tickets",
   ];
 
   useEffect(() => {
@@ -140,6 +83,25 @@ export default function App() {
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onScrollVisibility = () => {
+      setShowScrollTop(el.scrollTop > 280);
+    };
+
+    onScrollVisibility();
+    el.addEventListener("scroll", onScrollVisibility, { passive: true });
+    return () => el.removeEventListener("scroll", onScrollVisibility);
+  }, []);
+
+  const handleScrollToTop = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div
@@ -247,7 +209,25 @@ export default function App() {
           </div>
         </SnapSection>
 
-        {/* 9. MAP */}
+        {/* 9. COMPUTERS
+        <SnapSection
+          id="computers"
+          snapEnabled={!isMobile}
+          style={isMobile ? { minHeight: "auto" } : undefined}
+        >
+          <div
+            style={
+              isMobile
+                ? { overflow: "visible" }
+                : { flex: 1, overflow: "hidden" }
+            }
+          >
+            <ComputersSection />
+          </div>
+        </SnapSection>
+        */}
+
+        {/* 10. MAP
         <SnapSection
           id="map"
           snapEnabled={!isMobile}
@@ -263,11 +243,23 @@ export default function App() {
             <MapSection />
           </div>
         </SnapSection>
+        */}
 
-        {/* 10. TICKETS */}
-        <SnapSection id="tickets" snapEnabled={!isMobile}>
+        {/* 11. TICKETS */}
+        <SnapSection
+          id="tickets"
+          snapEnabled={!isMobile}
+          style={
+            isMobile
+              ? undefined
+              : {
+                  minHeight: "calc(100dvh - 128px)",
+                  paddingTop: "64px",
+                  boxSizing: "border-box",
+                }
+          }
+        >
           <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-            <TickerBar accent="#F0B429" items={t.app.tickerItems} />
             <div
               className="tickets-body-wrap"
               style={{ flex: 1, overflow: "hidden", minHeight: 0 }}
@@ -290,6 +282,37 @@ export default function App() {
       >
         <Footer />
       </div>
+
+      {showScrollTop && (
+        <button
+          type="button"
+          aria-label="Scroll to top"
+          onClick={handleScrollToTop}
+          style={{
+            position: "fixed",
+            right: isMobile ? "14px" : "24px",
+            bottom: isMobile ? "14px" : "88px",
+            width: "48px",
+            height: "48px",
+            borderRadius: "9999px",
+            border: "1px solid rgba(255,255,255,0.2)",
+            background: "rgba(10,10,14,0.88)",
+            color: "#FFFFFF",
+            fontSize: "20px",
+            lineHeight: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            zIndex: 60,
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.35)",
+            backdropFilter: "blur(6px)",
+            transition: "opacity 0.2s ease, transform 0.2s ease",
+          }}
+        >
+          ↑
+        </button>
+      )}
     </div>
   );
 }

@@ -28,11 +28,6 @@ function useCountdown(t: Date) {
 export function HeroSection() {
   const { t } = useLanguage();
   const { D, H, M, S } = useCountdown(TARGET);
-  const stats = [
-    { val: "7,000+", label: t.hero.stats.visitors, accent: true },
-    { val: "40+", label: t.hero.stats.brands, accent: false },
-    { val: "9+", label: t.hero.stats.streamers, accent: false },
-  ];
 
   return (
     <section
@@ -223,7 +218,7 @@ export function HeroSection() {
               </a>
             </div>
 
-            {/* ── STATS ROW ── */}
+            {/* ── STATS ROW (temporary hidden) ──
             <div
               className="hero-stats-row"
               style={{
@@ -259,6 +254,7 @@ export function HeroSection() {
                 </div>
               ))}
             </div>
+            */}
           </div>
         </div>
       </div>

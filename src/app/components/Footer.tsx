@@ -4,7 +4,7 @@ import { useLanguage } from "../context/LanguageContext";
 const SOCIALS = [
   { Icon: Instagram, label: "Instagram", href: "#" },
   { Icon: Youtube,   label: "YouTube",   href: "#" },
-  { Icon: MessageCircle, label: "Telegram", href: "#" },
+  { Icon: MessageCircle, label: "Telegram", href: "https://t.me/m_gamehub" },
 ];
 
 export function Footer() {

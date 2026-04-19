@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Check,
   Star,
@@ -18,8 +18,9 @@ import { Input } from "@/app/components/ui/input";
 import { Textarea } from "@/app/components/ui/textarea";
 import { cn } from "@/app/components/ui/utils";
 import { useLanguage } from "../context/LanguageContext";
+import { submitRequest } from "../services/submitRequest";
 
-type AudienceId = "guests" | "clubs" | "franchise" | "shops" | "stands" | "company";
+type AudienceId = "guests" | "clubs" | "smartshell" | "franchise" | "shops" | "stands" | "company";
 
 type TicketDef = {
   id: string;
@@ -43,9 +44,9 @@ const TICKETS: TicketDef[] = [
   {
     id: "basic",
     label: "Для посетителей",
-    name: "1000",
-    display: "1 000 ТГ",
-    price: "1 000 тг",
+    name: "5000",
+    display: "5 000 ТГ",
+    price: "5 000 тг",
     priceSub: "Количество: 2000",
     Icon: Zap,
     color: "#00D4F5",
@@ -150,8 +151,8 @@ const B2B: B2BDef[] = [
     color: "#00D4F5",
     bg: "rgba(0,212,245,0.04)",
     border: "rgba(0,212,245,0.22)",
-    cta: "Зарегестрироваться",
-    ctaMobile: "Зарегестрироваться",
+    cta: "Оставить заявку",
+    ctaMobile: "Оставить заявку",
   },
   {
     id: "franchise",
@@ -171,6 +172,26 @@ const B2B: B2BDef[] = [
     bg: "rgba(232,168,0,0.06)",
     border: "rgba(232,168,0,0.45)",
     featured: true,
+    cta: "Оставить заявку",
+    ctaMobile: "Оставить заявку",
+  },
+  {
+    id: "smartshell",
+    navTitle: "Презентация Smart Shell",
+    navShort: "Smart Shell",
+    label: "B2B · smart shell",
+    display: "SMART SHELL",
+    priceSub: "Бесплатно · Количество: 150",
+    desc: "Даёт доступ:",
+    perks: [
+      "Бесплатный билет на презентацию Smart Shell",
+      "Нетворкинг с представителями индустрии",
+      "Q&A с командой проекта",
+    ],
+    Icon: Monitor,
+    color: "#4BC0FF",
+    bg: "rgba(75,192,255,0.05)",
+    border: "rgba(75,192,255,0.26)",
     cta: "Зарегестрироваться",
     ctaMobile: "Зарегестрироваться",
   },
@@ -197,8 +218,8 @@ const B2B: B2BDef[] = [
     color: "#1FD080",
     bg: "rgba(31,208,128,0.05)",
     border: "rgba(31,208,128,0.3)",
-    cta: "Зарегестрироваться",
-    ctaMobile: "Зарегестрироваться",
+    cta: "Оставить заявку",
+    ctaMobile: "Оставить заявку",
   },
   {
     id: "stands",
@@ -220,8 +241,8 @@ const B2B: B2BDef[] = [
     color: "#FF6A3D",
     bg: "rgba(255,106,61,0.05)",
     border: "rgba(255,106,61,0.3)",
-    cta: "Зарегестрироваться",
-    ctaMobile: "Зарегестрироваться",
+    cta: "Оставить заявку",
+    ctaMobile: "Оставить заявку",
   },
   {
     id: "company",
@@ -256,9 +277,32 @@ export function TicketsSection() {
   const [audience, setAudience] = useState<AudienceId>("guests");
   const [index, setIndex] = useState(0);
   const [rulesModalOpen, setRulesModalOpen] = useState(false);
+  const [guestReqModalOpen, setGuestReqModalOpen] = useState(false);
+  const [guestReqSubmitted, setGuestReqSubmitted] = useState(false);
+  const [guestReqSubmitting, setGuestReqSubmitting] = useState(false);
+  const [guestReqError, setGuestReqError] = useState<string | null>(null);
   const [clubReqModalOpen, setClubReqModalOpen] = useState(false);
   const [clubReqSubmitted, setClubReqSubmitted] = useState(false);
-  const [reqModalAudience, setReqModalAudience] = useState<"clubs" | "franchise" | "shops" | "stands" | "company">("clubs");
+  const [clubReqSubmitting, setClubReqSubmitting] = useState(false);
+  const [clubReqError, setClubReqError] = useState<string | null>(null);
+  const [reqModalAudience, setReqModalAudience] = useState<"clubs" | "smartshell" | "franchise" | "shops" | "stands" | "company">("clubs");
+  const getPromoDeadline = () => {
+    const now = new Date();
+    let year = now.getFullYear();
+    let month = now.getMonth();
+    let deadline = new Date(year, month, 15, 23, 59, 59, 999);
+    if (now > deadline) {
+      month += 1;
+      if (month > 11) {
+        month = 0;
+        year += 1;
+      }
+      deadline = new Date(year, month, 15, 23, 59, 59, 999);
+    }
+    return deadline;
+  };
+  const [promoDeadline, setPromoDeadline] = useState<Date>(() => getPromoDeadline());
+  const [promoTimeLeft, setPromoTimeLeft] = useState(() => promoDeadline.getTime() - Date.now());
   const n = TICKETS.length;
   const tr = (value: string) =>
     isEn
@@ -290,18 +334,29 @@ export function TicketsSection() {
           "Детская зона на всё мероприятие": "Kids zone for full event",
           "Для клубов": "For Clubs",
           "Клубы": "Clubs",
+          "Презентация Smart Shell": "Smart Shell Presentation",
+          "Smart Shell": "Smart Shell",
           "B2B · клубы": "B2B · Clubs",
+          "B2B · smart shell": "B2B · Smart Shell",
           "КЛУБАМ": "FOR CLUBS",
+          "SMART SHELL": "SMART SHELL",
           "500 000 тг · Количество: 100": "500,000 KZT · Quantity: 100",
+          "Бесплатно · Количество: 150": "Free · Quantity: 150",
           "Участие в \"Битва Основателей\"": "Participation in \"Founders Battle\"",
           "Участие в \"10 FPS\"": "Participation in \"10 FPS\"",
           "Участие в \"Сборка клуба\"": "Participation in \"Club Build\"",
           "Участие в \"DRIFT SHOW\"": "Participation in \"DRIFT SHOW\"",
+          "Бесплатный билет на презентацию Smart Shell": "Free ticket to the Smart Shell presentation",
+          "Нетворкинг с представителями индустрии": "Networking with industry representatives",
+          "Q&A с командой проекта": "Q&A with the project team",
           "Брендированная стойка": "Branded counter",
           "VIP место в выделенной зоне": "VIP seat in dedicated zone",
           "Участие в закрытом мероприятии": "Participation in private event",
           "Билет 1+1": "1+1 ticket",
           "Возможность докупить +1 человек за 50 000 тг": "Add +1 person for 50,000 KZT",
+          "Спецпредложение до 15-го апреля": "Special offer until the 15th of April",
+          "Вместо": "Instead of",
+          "Осталось": "Time left",
           "Для франшиз": "For Franchises",
           "Франшиза": "Franchise",
           "B2B · франшиза": "B2B · Franchise",
@@ -332,6 +387,7 @@ export function TicketsSection() {
           "Покупка до 5 мест в шоу-матчах для сотрудников": "Purchase up to 5 showmatch slots for employees",
           "1 место = 50 000 тг": "1 slot = 50,000 KZT",
           "Участие в \"Битва корпораций\"": "Participation in \"Corporate Battle\"",
+          "Оставить заявку": "Submit request",
           "Посетители": "Visitors",
         }[value] ?? value)
       : value;
@@ -371,21 +427,99 @@ export function TicketsSection() {
     setIndex((i) => (i + 1) % n);
   }, [n]);
 
+  useEffect(() => {
+    const tick = () => {
+      const now = Date.now();
+      if (now >= promoDeadline.getTime()) {
+        const next = getPromoDeadline();
+        setPromoDeadline(next);
+        setPromoTimeLeft(next.getTime() - now);
+        return;
+      }
+      setPromoTimeLeft(promoDeadline.getTime() - now);
+    };
+
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, [promoDeadline]);
+
   const formFieldClass =
     "w-full bg-[#0a0a10] border border-[rgba(255,255,255,0.1)] rounded px-4 py-3 text-white placeholder:text-[rgba(255,255,255,0.35)] text-sm outline-none transition-colors focus:border-[var(--c-cyan,#00E5FF)] focus:ring-1 focus:ring-[rgba(0,229,255,0.25)]";
 
-  const handleClubRequestSubmit = (e: React.FormEvent) => {
+  const handleClubRequestSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setClubReqSubmitted(true);
-    setTimeout(() => {
-      setClubReqModalOpen(false);
-      setClubReqSubmitted(false);
-    }, 1400);
+    if (clubReqSubmitting) return;
+
+    setClubReqSubmitting(true);
+    setClubReqError(null);
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      audience: reqModalAudience,
+      companyName: String(formData.get("companyName") ?? ""),
+      contactName: String(formData.get("contactName") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      requisites: String(formData.get("requisites") ?? ""),
+    };
+
+    try {
+      await submitRequest({
+        title: "Заявка на B2B участие",
+        source: `site/tickets-b2b-${reqModalAudience}`,
+        payload,
+      });
+      setClubReqSubmitted(true);
+      setTimeout(() => {
+        setClubReqModalOpen(false);
+        setClubReqSubmitted(false);
+      }, 1400);
+    } catch (error) {
+      setClubReqError(error instanceof Error ? error.message : "Не удалось отправить заявку");
+    } finally {
+      setClubReqSubmitting(false);
+    }
+  };
+
+  const handleGuestRequestSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (guestReqSubmitting) return;
+
+    setGuestReqSubmitting(true);
+    setGuestReqError(null);
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      ticketId: TICKETS[index].id,
+      ticketName: TICKETS[index].name,
+      ticketPrice: TICKETS[index].price,
+      name: String(formData.get("name") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      comment: String(formData.get("comment") ?? ""),
+    };
+
+    try {
+      await submitRequest({
+        title: "Заявка на билет для посетителя",
+        source: `site/tickets-guests-${TICKETS[index].id}`,
+        payload,
+      });
+      setGuestReqSubmitted(true);
+      setTimeout(() => {
+        setGuestReqModalOpen(false);
+        setGuestReqSubmitted(false);
+      }, 1400);
+    } catch (error) {
+      setGuestReqError(error instanceof Error ? error.message : "Не удалось отправить заявку");
+    } finally {
+      setGuestReqSubmitting(false);
+    }
   };
 
   const requisitesAudienceTitle =
     reqModalAudience === "franchise"
       ? tr("Для франшиз")
+      : reqModalAudience === "smartshell"
+        ? tr("Презентация Smart Shell")
       : reqModalAudience === "shops"
         ? tr("Для магазинов")
         : reqModalAudience === "stands"
@@ -449,7 +583,7 @@ export function TicketsSection() {
               fontFamily: "'Barlow',sans-serif",
               fontSize: "0.78rem",
               letterSpacing: "0.03em",
-              color: "rgba(255,255,255,0.28)",
+              color: "rgba(255,255,255,0.95)",
               marginBottom: "10px",
             }}
           >
@@ -461,7 +595,7 @@ export function TicketsSection() {
               fontFamily: "'Barlow',sans-serif",
               fontSize: "0.9rem",
               letterSpacing: "0.03em",
-              color: "rgba(255,255,255,0.36)",
+              color: "rgba(255,255,255,0.95)",
               lineHeight: 1.7,
               marginBottom: "14px",
             }}
@@ -479,7 +613,7 @@ export function TicketsSection() {
                       fontFamily: "'Barlow',sans-serif",
                       fontSize: "0.88rem",
                       letterSpacing: "0.03em",
-                      color: "rgba(255,255,255,0.4)",
+                      color: "rgba(255,255,255,0.95)",
                       lineHeight: 1.5,
                     }}
                   >
@@ -492,10 +626,8 @@ export function TicketsSection() {
           <a
             href="#"
             onClick={(e) => {
-              if (block.id === "clubs") {
-                e.preventDefault();
-                setClubReqModalOpen(true);
-              }
+              e.preventDefault();
+              setGuestReqModalOpen(true);
             }}
             className={
               "ticket-cta-btn mt-4 md:mt-5 w-full flex items-center justify-center gap-2 py-3.5 max-md:py-3 max-md:px-2 max-md:gap-1 max-md:min-h-[46px] relative overflow-hidden transition-all duration-240 shrink-0 " +
@@ -538,59 +670,70 @@ export function TicketsSection() {
 
   const b2bBody = (block: B2BDef) => {
     const Icon = block.Icon;
+    const totalSeconds = Math.max(0, Math.floor(promoTimeLeft / 1000));
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const countdownLabel = `${String(days).padStart(2, "0")}д ${String(hours).padStart(2, "0")}ч ${String(minutes).padStart(2, "0")}м ${String(seconds).padStart(2, "0")}с`;
     return (
       <>
         {!block.featured && (
           <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${block.color}55, transparent)` }} />
         )}
         <div className="flex-1 flex flex-col items-start min-h-0 px-4 pt-4 pb-4 md:px-6 md:pt-6 md:pb-6">
-          <div className="flex items-center justify-start gap-2.5 md:gap-3 mb-3 md:mb-4 shrink-0 w-full">
-            <div
-              className="flex items-center justify-center shrink-0 max-md:scale-90 max-md:origin-left"
-              style={{
-                width: "46px",
-                height: "46px",
-                background: `${block.color}12`,
-                border: `1px solid ${block.color}32`,
-                clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)",
-              }}
-            >
-              <Icon size={16} style={{ color: block.color }} />
+          <div className="w-full flex flex-col md:flex-row md:items-start md:justify-between md:gap-4 shrink-0">
+            <div className="min-w-0 w-full">
+              <div className="flex items-center justify-start gap-2.5 md:gap-3 mb-3 md:mb-4 shrink-0 w-full">
+                <div
+                  className="flex items-center justify-center shrink-0 max-md:scale-90 max-md:origin-left"
+                  style={{
+                    width: "46px",
+                    height: "46px",
+                    background: `${block.color}12`,
+                    border: `1px solid ${block.color}32`,
+                    clipPath: "polygon(10% 0,100% 0,90% 100%,0 100%)",
+                  }}
+                >
+                  <Icon size={16} style={{ color: block.color }} />
+                </div>
+                <div
+                  className="max-md:tracking-[0.2em] max-md:text-[0.5rem]"
+                  style={{
+                    fontFamily: "'Barlow Condensed',sans-serif",
+                    fontSize: "0.54rem",
+                    letterSpacing: "0.32em",
+                    color: block.color,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {block.label}
+                </div>
+              </div>
+              <div
+                className="gh-title mb-1.5 md:mb-2 shrink-0 leading-none max-md:pr-1 text-left w-full"
+                style={{
+                  fontSize: "clamp(1.55rem, 7.5vw, 2.2rem)",
+                  color: block.color,
+                  letterSpacing: "0.03em",
+                }}
+              >
+                {block.display}
+              </div>
+              <div
+                className="shrink-0 max-md:text-[0.72rem] text-left w-full"
+                style={{
+                  fontFamily: "'Barlow',sans-serif",
+                  fontSize: "0.78rem",
+                  letterSpacing: "0.03em",
+                  color: "rgba(255,255,255,0.95)",
+                  marginBottom: "10px",
+                }}
+              >
+                {block.priceSub}
+              </div>
             </div>
-            <div
-              className="max-md:tracking-[0.2em] max-md:text-[0.5rem]"
-              style={{
-                fontFamily: "'Barlow Condensed',sans-serif",
-                fontSize: "0.54rem",
-                letterSpacing: "0.32em",
-                color: block.color,
-                textTransform: "uppercase",
-              }}
-            >
-              {block.label}
-            </div>
-          </div>
-          <div
-            className="gh-title mb-1.5 md:mb-2 shrink-0 leading-none max-md:pr-1 text-left w-full"
-            style={{
-              fontSize: "clamp(1.55rem, 7.5vw, 2.2rem)",
-              color: block.color,
-              letterSpacing: "0.03em",
-            }}
-          >
-            {block.display}
-          </div>
-          <div
-            className="shrink-0 max-md:text-[0.72rem] text-left w-full"
-            style={{
-              fontFamily: "'Barlow',sans-serif",
-              fontSize: "0.78rem",
-              letterSpacing: "0.03em",
-              color: "rgba(255,255,255,0.28)",
-              marginBottom: "10px",
-            }}
-          >
-            {block.priceSub}
+
           </div>
           <p
             className="shrink-0 max-md:text-[0.84rem] max-md:leading-relaxed max-md:mb-2.5 text-left w-full"
@@ -598,7 +741,7 @@ export function TicketsSection() {
               fontFamily: "'Barlow',sans-serif",
               fontSize: "0.9rem",
               letterSpacing: "0.03em",
-              color: "rgba(255,255,255,0.36)",
+              color: "rgba(255,255,255,0.95)",
               lineHeight: 1.7,
               marginBottom: "14px",
             }}
@@ -606,30 +749,163 @@ export function TicketsSection() {
             {block.desc}
           </p>
           <div className="perf-edge perf-top pt-3 md:pt-4 pb-1 min-h-0 flex-1 overflow-y-auto max-md:overflow-visible max-md:flex-none w-full max-w-[560px]">
-            <ul className="space-y-2 md:space-y-2.5">
-              {block.perks.map((p) => (
-                <li key={p} className="flex items-start gap-3">
-                  <Check size={12} style={{ color: block.color, marginTop: "3px", flexShrink: 0 }} />
-                  <span
-                    className="max-md:text-[0.8125rem] max-md:leading-snug"
-                    style={{
-                      fontFamily: "'Barlow',sans-serif",
-                      fontSize: "0.88rem",
-                      letterSpacing: "0.03em",
-                      color: "rgba(255,255,255,0.4)",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {p}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            {block.id === "clubs" ? (
+              <>
+                <div className="md:flex md:items-start md:gap-4">
+                  <ul className="space-y-2 md:space-y-2.5 md:flex-1">
+                    {block.perks.slice(0, 4).map((p) => (
+                      <li key={p} className="flex items-start gap-3">
+                        <Check size={12} style={{ color: block.color, marginTop: "3px", flexShrink: 0 }} />
+                        <span
+                          className="max-md:text-[0.8125rem] max-md:leading-snug"
+                          style={{
+                            fontFamily: "'Barlow',sans-serif",
+                            fontSize: "0.88rem",
+                            letterSpacing: "0.03em",
+                            color: "rgba(255,255,255,0.95)",
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          {p}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="shrink-0 w-full md:w-[290px] mt-3 md:mt-0">
+                    <div
+                      className="rounded-sm px-3 py-2.5"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, rgba(0,212,245,0.14), rgba(0,212,245,0.06) 40%, rgba(255,255,255,0.03) 100%)",
+                        border: "1px solid rgba(0,212,245,0.38)",
+                        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05), 0 10px 26px rgba(0,212,245,0.12)",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontFamily: "'Barlow Condensed',sans-serif",
+                          fontSize: "0.58rem",
+                          letterSpacing: "0.24em",
+                          textTransform: "uppercase",
+                          color: "#00D4F5",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        {tr("Спецпредложение до 15-го апреля")}
+                      </div>
+                      <div className="flex items-end gap-2.5 mb-1.5">
+                        <span
+                          style={{
+                            fontFamily: "'Barlow',sans-serif",
+                            fontSize: "0.78rem",
+                            color: "rgba(255,255,255,0.55)",
+                          }}
+                        >
+                          {tr("Вместо")}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "'Barlow Condensed',sans-serif",
+                            fontSize: "0.89rem",
+                            fontWeight: 700,
+                            letterSpacing: "0.04em",
+                            color: "rgba(255,255,255,0.45)",
+                            textDecoration: "line-through",
+                          }}
+                        >
+                          500 000 тг
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "'Barlow Condensed',sans-serif",
+                            fontSize: "1.15rem",
+                            fontWeight: 900,
+                            letterSpacing: "0.04em",
+                            color: "#00D4F5",
+                            textShadow: "0 0 14px rgba(0,212,245,0.35)",
+                          }}
+                        >
+                          300 000 тг
+                        </span>
+                      </div>
+                      <div
+                        className="inline-flex items-center rounded px-2 py-1"
+                        style={{
+                          background: "rgba(4,8,18,0.58)",
+                          border: "1px solid rgba(0,212,245,0.25)",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "'Barlow',sans-serif",
+                            fontSize: "0.74rem",
+                            color: "rgba(255,255,255,0.7)",
+                            marginRight: "8px",
+                          }}
+                        >
+                          {tr("Осталось")}:
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "'Barlow Condensed',sans-serif",
+                            fontSize: "0.86rem",
+                            fontWeight: 700,
+                            letterSpacing: "0.08em",
+                            color: "#A9F3FF",
+                          }}
+                        >
+                          {countdownLabel}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ul className="space-y-2 md:space-y-2.5 mt-2.5">
+                  {block.perks.slice(4).map((p) => (
+                    <li key={p} className="flex items-start gap-3">
+                      <Check size={12} style={{ color: block.color, marginTop: "3px", flexShrink: 0 }} />
+                      <span
+                        className="max-md:text-[0.8125rem] max-md:leading-snug"
+                        style={{
+                          fontFamily: "'Barlow',sans-serif",
+                          fontSize: "0.88rem",
+                          letterSpacing: "0.03em",
+                          color: "rgba(255,255,255,0.95)",
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {p}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <ul className="space-y-2 md:space-y-2.5">
+                {block.perks.map((p) => (
+                  <li key={p} className="flex items-start gap-3">
+                    <Check size={12} style={{ color: block.color, marginTop: "3px", flexShrink: 0 }} />
+                    <span
+                      className="max-md:text-[0.8125rem] max-md:leading-snug"
+                      style={{
+                        fontFamily: "'Barlow',sans-serif",
+                        fontSize: "0.88rem",
+                        letterSpacing: "0.03em",
+                        color: "rgba(255,255,255,0.95)",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {p}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <a
             href="#"
             onClick={(e) => {
-              if (block.id === "clubs" || block.id === "franchise" || block.id === "shops" || block.id === "stands" || block.id === "company") {
+              if (block.id === "clubs" || block.id === "smartshell" || block.id === "franchise" || block.id === "shops" || block.id === "stands" || block.id === "company") {
                 e.preventDefault();
                 setReqModalAudience(block.id);
                 setClubReqModalOpen(true);
@@ -664,8 +940,8 @@ export function TicketsSection() {
                   }
             }
           >
-            <span className="max-md:hidden">{isEn ? "Register" : (block.cta ?? "Зарегистрироваться")}</span>
-            <span className="md:hidden">{isEn ? "Register" : (block.ctaMobile ?? "Регистрация")}</span>
+            <span className="max-md:hidden">{block.cta ?? tr("Зарегестрироваться")}</span>
+            <span className="md:hidden">{block.ctaMobile ?? tr("Регистрация")}</span>
             <ChevronRight size={14} className="max-md:size-3 shrink-0" />
           </a>
         </div>
@@ -684,7 +960,7 @@ export function TicketsSection() {
       aria-labelledby="tickets-heading"
       style={{
         background: "#09091A",
-        padding: "clamp(10px, 1.6vw, 20px) var(--sec-px) var(--sec-py) var(--sec-px)",
+        padding: "clamp(26px, 3.2vw, 44px) var(--sec-px) var(--sec-py) var(--sec-px)",
       }}
     >
       <div className="absolute inset-0 bg-dots opacity-14 pointer-events-none" />
@@ -698,7 +974,7 @@ export function TicketsSection() {
       />
 
       <div className="flex flex-col flex-1 min-h-0 w-full max-w-[1380px] mx-auto relative z-10">
-        <div className="text-center mb-2 md:mb-3 shrink-0 max-md:mt-3">
+        <div className="text-center mb-2 md:mb-3 shrink-0 max-md:mt-5">
           <h2
             id="tickets-heading"
             className="gh-title text-white max-md:text-[clamp(2.175rem,9.6vw,2.925rem)] md:[font-size:var(--h2-sec)]"
@@ -886,7 +1162,7 @@ export function TicketsSection() {
                         <div
                           className="gh-title leading-snug text-[0.78rem] md:text-[clamp(0.95rem,2.8vw,1.2rem)] md:leading-tight tracking-wide"
                           style={{
-                            color: selected ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.55)",
+                            color: selected ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.95)",
                             letterSpacing: "0.02em",
                           }}
                         >
@@ -1005,10 +1281,87 @@ export function TicketsSection() {
         </DialogContent>
       </Dialog>
       <Dialog
+        open={guestReqModalOpen}
+        onOpenChange={(open) => {
+          setGuestReqModalOpen(open);
+          if (!open) {
+            setGuestReqSubmitted(false);
+            setGuestReqError(null);
+          }
+        }}
+      >
+        <DialogContent
+          className={cn(
+            "border-[rgba(255,255,255,0.08)] bg-[#050508] text-white p-0 gap-0 overflow-hidden",
+            "[&>button]:z-20 [&>button]:text-white [&>button]:opacity-90 [&>button:hover]:opacity-100 [&>button]:right-6 [&>button]:top-6",
+            "max-h-[90dvh] w-[calc(100%-2rem)] sm:max-w-[520px]",
+            "rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.6)] overflow-y-auto",
+          )}
+          style={{ fontFamily: "'Barlow', sans-serif", letterSpacing: "0.03em" }}
+        >
+          <div className="absolute inset-0 bg-dots opacity-10 pointer-events-none rounded-lg" />
+          <div className="relative z-10 p-6 pt-12 pr-12 sm:p-8 sm:pt-12 sm:pr-14">
+            <DialogHeader className="text-left space-y-2 mb-5">
+              <div
+                className="text-[var(--c-cyan,#00E5FF)] font-bold text-[0.58rem] tracking-[0.42em] uppercase"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+              >
+                {isEn ? "Visitor registration" : "Регистрация посетителя"}
+              </div>
+              <DialogTitle
+                className="gh-title text-white text-lg sm:text-xl leading-tight uppercase tracking-tight"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900 }}
+              >
+                {isEn ? "Ticket request" : "Заявка на билет"}
+              </DialogTitle>
+              <DialogDescription className="text-[rgba(255,255,255,0.4)] text-sm">
+                {isEn ? "Leave your contact details and we will contact you." : "Оставьте контакты, и мы свяжемся с вами."}
+              </DialogDescription>
+            </DialogHeader>
+
+            {guestReqSubmitted ? (
+              <div className="space-y-5">
+                <div className="py-6 text-center text-white text-sm">
+                  {isEn ? "Request sent. We will contact you shortly." : "Заявка отправлена. Мы свяжемся с вами в ближайшее время."}
+                </div>
+                <div className="flex justify-center">
+                  <button type="button" onClick={() => setGuestReqModalOpen(false)} className="btn-primary">
+                    {isEn ? "Close" : "Закрыть"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleGuestRequestSubmit} className="space-y-4">
+                <Input name="name" required placeholder={isEn ? "Name" : "Имя"} className={formFieldClass} />
+                <Input name="phone" type="tel" required placeholder="+7 (777) 000-00-00" className={formFieldClass} />
+                <Textarea
+                  name="comment"
+                  placeholder={isEn ? "Comment" : "Комментарий"}
+                  rows={4}
+                  className={cn(formFieldClass, "min-h-[100px] resize-none")}
+                />
+                {guestReqError && <p className="text-sm text-red-400">{guestReqError}</p>}
+                <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
+                  <button type="button" onClick={() => setGuestReqModalOpen(false)} className="btn-outline">
+                    {isEn ? "Cancel" : "Отмена"}
+                  </button>
+                  <button type="submit" className="btn-primary" disabled={guestReqSubmitting}>
+                    {guestReqSubmitting ? (isEn ? "Sending..." : "Отправка...") : (isEn ? "Submit request" : "Отправить заявку")}
+                  </button>
+                </DialogFooter>
+              </form>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog
         open={clubReqModalOpen}
         onOpenChange={(open) => {
           setClubReqModalOpen(open);
-          if (!open) setClubReqSubmitted(false);
+          if (!open) {
+            setClubReqSubmitted(false);
+            setClubReqError(null);
+          }
         }}
       >
         <DialogContent
@@ -1066,12 +1419,13 @@ export function TicketsSection() {
                   rows={4}
                   className={cn(formFieldClass, "min-h-[100px] resize-none")}
                 />
+                {clubReqError && <p className="text-sm text-red-400">{clubReqError}</p>}
                 <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
                   <button type="button" onClick={() => setClubReqModalOpen(false)} className="btn-outline">
                     {isEn ? "Cancel" : "Отмена"}
                   </button>
-                  <button type="submit" className="btn-primary">
-                    {isEn ? "Submit request" : "Отправить заявку"}
+                  <button type="submit" className="btn-primary" disabled={clubReqSubmitting}>
+                    {clubReqSubmitting ? (isEn ? "Sending..." : "Отправка...") : (isEn ? "Submit request" : "Отправить заявку")}
                   </button>
                 </DialogFooter>
               </form>

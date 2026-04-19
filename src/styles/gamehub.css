@@ -794,19 +794,12 @@ h6 {
 }
 
 .brands-logo-card.is-empty {
-  cursor: default;
+  cursor: pointer;
   color: rgba(255, 255, 255, 0.44);
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  gap: 10px;
+  gap: 0;
   padding: 8px;
-}
-
-.brands-empty-plus {
-  width: 30px;
-  height: 30px;
-  color: rgba(255, 255, 255, 0.62);
-  stroke-width: 2.2px;
 }
 
 .brands-logo-image {

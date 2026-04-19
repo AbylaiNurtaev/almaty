@@ -1,37 +1,77 @@
 import { useEffect, useRef, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/app/components/ui/dialog";
+import { Input } from "@/app/components/ui/input";
+import { cn } from "@/app/components/ui/utils";
 import { useLanguage } from "../context/LanguageContext";
+import { submitRequest } from "../services/submitRequest";
 const IMG = "https://images.unsplash.com/photo-1558324190-c940eb141401?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMGdhbWluZyUyMGNsdWIlMjByb29tJTIwZGFyayUyMG5lb24lMjByb3dzJTIwc2V0dXB8ZW58MXx8fHwxNzcyODAzOTE5fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
-import broArenaImg from "@/assets/clubs/BRO Arena.jpg";
 import colizeumImg from "@/assets/clubs/COLIZEUM.png";
 import cybershokeImg from "@/assets/clubs/CYBERSHOKE.jpg";
 import cyberxImg from "@/assets/clubs/CYBERX.jpg";
+import topgameImg from "@/assets/clubs/topgame.webp";
 import trueGamersImg from "@/assets/clubs/TrueGamers.png";
 
 const CLUB_IMAGES: Record<string, string> = {
   "COLIZEUM": colizeumImg,
   "CYBERX": cyberxImg,
   "CYBERSHOKE": cybershokeImg,
+  "TOPGAME": topgameImg,
   "TrueGamers": trueGamersImg,
-  "BRO Arena": broArenaImg,
 };
 
 const CLUBS = [
   { name: "COLIZEUM",     locs: "50+", region: "Nationwide" },
   { name: "CYBERX",       locs: "30+", region: "Nationwide" },
-  { name: "MYSKILL Room", locs: "20+", region: "Kazakhstan" },
   { name: "TOPGAME",      locs: "15+", region: "Kazakhstan" },
   { name: "CYBERSHOKE",   locs: "12+", region: "Almaty" },
   { name: "TrueGamers",   locs: "10+", region: "Almaty" },
-  { name: "BRO Arena",    locs: "8+",  region: "Kazakhstan" },
 ];
+
+const formFieldClass =
+  "w-full bg-[#0a0a10] border border-[rgba(255,255,255,0.1)] rounded px-4 py-3 text-white placeholder:text-[rgba(255,255,255,0.35)] text-sm outline-none transition-colors focus:border-[var(--c-cyan,#00E5FF)] focus:ring-1 focus:ring-[rgba(0,229,255,0.25)]";
+
+const STORAGE_KEY = "gamehub_franchise_submitted";
+const COOLDOWN_MS = 30 * 60 * 1000;
+
+function getStoredSubmission(): { submittedAt: number } | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw) as { submittedAt: number };
+    return typeof data?.submittedAt === "number" ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+function isInCooldown(): boolean {
+  const stored = getStoredSubmission();
+  if (!stored) return false;
+  return Date.now() - stored.submittedAt < COOLDOWN_MS;
+}
 
 export function ClubNetworksSection() {
   const { language } = useLanguage();
   const isEn = language === "en";
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
+  const [isFranchiseModalOpen, setIsFranchiseModalOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [phoneValue, setPhoneValue] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const autoRotateRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const AUTO_DELAY = 7000;
+  const AUTO_DELAY = 10000;
+  const inCooldown = isInCooldown();
 
   const startAutoRotate = () => {
     if (autoRotateRef.current) clearInterval(autoRotateRef.current);
@@ -55,6 +95,14 @@ export function ClubNetworksSection() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isFranchiseModalOpen) {
+      setPhoneValue("");
+      setSubmitError(null);
+      if (!inCooldown) setIsSubmitted(false);
+    }
+  }, [isFranchiseModalOpen, inCooldown]);
+
   const bgImage = selectedIndex !== null && CLUB_IMAGES[CLUBS[selectedIndex].name]
     ? CLUB_IMAGES[CLUBS[selectedIndex].name]
     : IMG;
@@ -75,10 +123,10 @@ export function ClubNetworksSection() {
           type="button"
           onClick={() => handleSelect(i)}
           className={
-            "club-pill-button group flex items-center justify-center transition-all duration-300 cursor-pointer text-center w-full " +
+            "club-pill-button group flex items-center justify-center transition-all duration-300 cursor-pointer text-center w-full h-[58px] max-md:h-[44px] " +
             (mobileCompact
-              ? "!py-2 !px-1 min-h-[44px] gap-0"
-              : "gap-5 text-left max-md:gap-2 max-md:!py-2.5 max-md:!px-3 max-md:min-h-[44px]")
+              ? "!py-2 !px-1 gap-0"
+              : "gap-5 text-left max-md:gap-2 max-md:!py-2.5 max-md:!px-3")
           }
           style={{
             background: isSelected ? "rgba(0,229,255,0.08)" : "#09091A",
@@ -100,6 +148,96 @@ export function ClubNetworksSection() {
       </div>
     );
   };
+
+  const formatPhone = (raw: string): string => {
+    const digits = raw.replace(/\D/g, "").slice(0, 11);
+    if (digits.length === 0) return "";
+
+    let i = 0;
+    if (digits[0] === "8") i = 1;
+    else if (digits[0] === "7") i = 1;
+
+    const rest = digits.slice(i);
+
+    if (rest.length <= 3) return `+7 (${rest}`;
+    if (rest.length <= 6) return `+7 (${rest.slice(0, 3)}) ${rest.slice(3)}`;
+
+    return `+7 (${rest.slice(0, 3)}) ${rest.slice(3, 6)}-${rest.slice(
+      6,
+      8
+    )}-${rest.slice(8, 10)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneValue(formatPhone(e.target.value));
+  };
+
+  const handleFranchiseSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    const formData = new FormData(formRef.current);
+    const payload = {
+      representativeFullName: String(formData.get("representativeFullName") ?? ""),
+      franchiseWebsite: String(formData.get("franchiseWebsite") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+    };
+
+    try {
+      await submitRequest({
+        title: "Заявка на франшизу",
+        source: "site/franchise-registration-modal",
+        payload,
+      });
+      setIsSubmitted(true);
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({ submittedAt: Date.now() })
+        );
+      } catch {}
+      setTimeout(() => setIsFranchiseModalOpen(false), 1500);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Не удалось отправить заявку");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderPlusPill = (mobileCompact?: boolean) => (
+    <div key="club-plus-pill" className={`club-pill-wrapper ${mobileCompact ? "min-w-0 flex-1" : "max-md:shrink-0"}`}>
+      <button
+        type="button"
+        onClick={() => setIsFranchiseModalOpen(true)}
+        className={
+          "club-pill-button group flex items-center justify-center transition-all duration-300 cursor-pointer text-center w-full h-[58px] max-md:h-[44px] " +
+          (mobileCompact
+            ? "!py-2 !px-1 gap-0"
+            : "gap-5 text-left max-md:gap-2 max-md:!py-2.5 max-md:!px-3")
+        }
+        style={{
+          background: "#09091A",
+          padding: mobileCompact ? undefined : "16px 22px",
+        }}
+        aria-label={isEn ? "Open franchise application" : "Открыть заявку на франшизу"}
+      >
+        <span
+          className={
+            "gh-title text-white group-hover:text-white/80 transition-colors duration-200 leading-tight " +
+            (mobileCompact
+              ? "!text-[0.55rem] !leading-tight break-words hyphens-auto px-0.5"
+              : "flex-1 max-md:!text-[0.72rem] max-md:!tracking-wide whitespace-nowrap")
+          }
+          style={{ fontSize: mobileCompact ? undefined : "1.08rem" }}
+        >
+          {isEn ? "Registration" : "Регистрация"}
+        </span>
+      </button>
+    </div>
+  );
 
   return (
     <section
@@ -164,6 +302,7 @@ export function ClubNetworksSection() {
               }}
             >
               {CLUBS.map((_, i) => renderPill(i))}
+              {renderPlusPill()}
             </div>
           </div>
 
@@ -173,14 +312,106 @@ export function ClubNetworksSection() {
             style={{ background: "rgba(255,255,255,0.06)" }}
           >
             <div className="grid grid-cols-4 gap-px w-full min-w-0">
-              {[0, 1, 2, 3].map((i) => renderPill(i, true))}
+              {CLUBS.slice(0, 4).map((_, i) => renderPill(i, true))}
             </div>
-            <div className="grid grid-cols-3 gap-px w-full min-w-0">
-              {[4, 5, 6].map((i) => renderPill(i, true))}
+            <div className="grid grid-cols-4 gap-px w-full min-w-0">
+              {CLUBS.slice(4).map((_, offset) => renderPill(4 + offset, true))}
+              {renderPlusPill(true)}
             </div>
           </div>
         </div>
       </div>
+
+      <Dialog open={isFranchiseModalOpen} onOpenChange={setIsFranchiseModalOpen}>
+        <DialogContent
+          className={cn(
+            "border-[rgba(255,255,255,0.08)] bg-[#050508] text-white p-0 gap-0 overflow-hidden",
+            "[&>button]:z-20 [&>button]:text-white [&>button]:opacity-90 [&>button:hover]:opacity-100 [&>button]:right-6 [&>button]:top-6",
+            "max-h-[90dvh] w-[calc(100%-2rem)] sm:max-w-[420px]",
+            "rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.6)] overflow-y-auto"
+          )}
+          style={{ fontFamily: "'Barlow', sans-serif", letterSpacing: "0.03em" }}
+        >
+          <div className="absolute inset-0 bg-dots opacity-10 pointer-events-none rounded-lg" />
+          <div className="relative z-10 p-6 pt-12 pr-12 sm:p-8 sm:pt-12 sm:pr-14">
+            <DialogHeader className="text-left space-y-2 mb-5">
+              <div
+                className="text-[var(--c-cyan,#00E5FF)] font-bold text-[0.58rem] tracking-[0.42em] uppercase"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+              >
+                {isEn ? "Franchise" : "Франшиза"}
+              </div>
+              <DialogTitle
+                className="gh-title text-white text-lg sm:text-xl leading-tight uppercase tracking-tight"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900 }}
+              >
+                {isEn ? "Franchise Application" : "Заявка на франшизу"}
+              </DialogTitle>
+              <DialogDescription className="text-[rgba(255,255,255,0.4)] text-sm">
+                {isEn
+                  ? "Leave your contacts - we will discuss franchise terms."
+                  : "Оставьте контакты — обсудим условия подключения к франшизе."}
+              </DialogDescription>
+            </DialogHeader>
+
+            {(isSubmitted || inCooldown) ? (
+              <div className="space-y-5">
+                <div className="py-6 text-center text-white text-sm">
+                  {isEn
+                    ? "Request sent. We will contact you shortly."
+                    : "Заявка отправлена. Мы свяжемся с вами в ближайшее время."}
+                </div>
+                <div className="flex justify-center">
+                  <button type="button" onClick={() => setIsFranchiseModalOpen(false)} className="btn-primary">
+                    {isEn ? "Close" : "Закрыть"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form ref={formRef} onSubmit={handleFranchiseSubmit} className="space-y-4">
+                <Input
+                  name="representativeFullName"
+                  required
+                  placeholder={isEn ? "Representative full name" : "ФИО представителя"}
+                  className={formFieldClass}
+                />
+                <Input
+                  name="franchiseWebsite"
+                  required
+                  type="url"
+                  placeholder={isEn ? "Franchise website" : "Сайт франшизы"}
+                  className={formFieldClass}
+                />
+                <Input
+                  name="email"
+                  required
+                  type="email"
+                  placeholder={isEn ? "Email" : "Электронная почта"}
+                  className={formFieldClass}
+                />
+                <Input
+                  name="phone"
+                  type="tel"
+                  required
+                  placeholder="+7 (777) 000-00-00"
+                  value={phoneValue}
+                  onChange={handlePhoneChange}
+                  className={formFieldClass}
+                />
+                {submitError && <p className="text-sm text-red-400">{submitError}</p>}
+                <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
+                  <button type="button" onClick={() => setIsFranchiseModalOpen(false)} className="btn-outline">
+                    {isEn ? "Cancel" : "Отмена"}
+                  </button>
+                  <button type="submit" className="btn-primary" disabled={isSubmitting}>
+                    {isSubmitting ? (isEn ? "Sending..." : "Отправка...") : (isEn ? "Submit Request" : "Отправить заявку")}
+                  </button>
+                </DialogFooter>
+              </form>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

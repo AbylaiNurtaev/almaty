@@ -13,108 +13,108 @@ type Ev = {
 
 const FESTIVAL_PROGRAM: Ev[] = [
   {
-    time: "11:00",
+    time: "11:00 - 11:30",
     title: "Торжественное открытие",
     desc: "Интро ролик, представление партнёров, объявление программы",
     modalText: "Интро ролик, представление партнёров, объявление программы.",
     Icon: Mic, hot: true
   },
   {
-    time: "11:30",
+    time: "11:30 - 12:00",
+    title: "10 FPS",
+    desc: "Режим Deathmatch ИГРАЮТ С 10 FPS",
+    modalText: "Режим Deathmatch ИГРАЮТ С 10 FPS.",
+    Icon: Gamepad2, hot: true
+  },
+  {
+    time: "12:00 - 13:00",
+    title: "СОБРАТЬ ЗА 60 СЕКУНД (Sulpak / Technodom)",
+    desc: "2 дорожки с препятствиями и рулеткой",
+    modalText: "2 дорожки с препятствиями и рулеткой.",
+    Icon: Zap
+  },
+  {
+    time: "13:00 - 14:00",
+    title: "Перерыв Redbull",
+    desc: "",
+    modalText: "Перерыв Redbull.",
+    Icon: Clock, hot: true
+  },
+  {
+    time: "14:00 - 15:00",
     title: "БИТВА ОСНОВАТЕЛЕЙ (СРАЗУ ХАЙП)",
-    desc: "100 владельцев клубов",
-    modalText: "100 владельцев клубов. Дисциплина: PUBG.",
+    desc: "100 владельцев клубов с рулеткой TeFal",
+    modalText: "100 владельцев клубов с рулеткой TeFal.",
     Icon: Trophy, hot: true
   },
   {
-    time: "12:30",
-    title: "СОБРАТЬ ЗА 60 СЕКУНД (Sulpak / Technodom)",
-    desc: "2 дорожки",
-    modalText: "2 дорожки. Дисциплина: Sulpak / Technodom зона.",
-    Icon: Zap
-  },
-  {
-    time: "13:00",
-    title: "МЯСОРУБКА",
-    desc: "Режим Deathmatch на ножах с 1 удар = 1 xp Gravity 250",
-    modalText: "Режим Deathmatch на ножах с 1 удар = 1 xp Gravity 250. Дисциплина: CS2.",
-    Icon: Swords
-  },
-  {
-    time: "14:00",
-    title: "10 FPS",
-    desc: "Режим Deathmatch ИГРАЮТ С 10 FPS",
-    modalText: "Режим Deathmatch ИГРАЮТ С 10 FPS. Дисциплина: CS2.",
-    Icon: Gamepad2
-  },
-  {
-    time: "15:00",
+    time: "15:00 - 15:30",
     title: "СБОРКА КОМПЬЮТЕРНОГО КЛУБА (ЭТАП 1)",
     desc: "Сборка сервера на скорость с отбором на финал",
-    modalText: "Сборка сервера на скорость с отбором на финал. Сборка 5 ПК на скорость с отбором на финал. Зона 1 и Зона 2.",
+    modalText: "Сборка сервера на скорость с отбором на финал.",
     Icon: Zap
   },
   {
-    time: "16:00",
+    time: "15:30 - 16:00",
     title: "ОДИН НА ВСЕХ И ВСЕ НА ОДНОГО (DOTA 2)",
-    desc: "1 vs 25",
-    modalText: "1 vs 25. Дисциплина: Dota2.",
+    desc: "1 vs 25 (4 группы) с рулеткой",
+    modalText: "1 vs 25 (4 группы) с рулеткой.",
     Icon: Swords, hot: true
   },
   {
-    time: "17:00",
-    title: "СБОРКА КОМПЬЮТЕРНОГО КЛУБА (ЭТАП 1)",
-    desc: "Сборка сервера на скорость с отбором на финал",
-    modalText: "Сборка сервера на скорость с отбором на финал. Сборка 5 ПК на скорость с отбором на финал. Зона 1 и Зона 2.",
+    time: "16:00 - 16:30",
+    title: "БЫСТРЫЕ ШОУ-БЛОКИ",
+    desc: "По разам",
+    modalText: "Быстрые шоу-блоки. По разам.",
+    Icon: Gamepad2
+  },
+  {
+    time: "16:30 - 17:00",
+    title: "СБОРКА КОМПЬЮТЕРНОГО КЛУБА (ЭТАП 2)",
+    desc: "Сборка 5 ПК на скорость финал",
+    modalText: "Сборка 5 ПК на скорость финал.",
     Icon: Zap
   },
   {
-    time: "18:00",
-    title: "БЫСТРЫЕ ШОУ-БЛОКИ",
+    time: "17:00 - 17:30",
+    title: "Перерыв Redbull",
     desc: "",
-    modalText: "Быстрые шоу-блоки. Дисциплина: Wrestlemania 2x2.",
-    Icon: Gamepad2
+    modalText: "Перерыв Redbull.",
+    Icon: Clock, hot: true
   },
   {
-    time: "18:30",
+    time: "17:30 - 18:00",
+    title: "БИТВА КОРПОРАЦИЙ",
+    desc: "100 представителей бизнеса",
+    modalText: "100 представителей бизнеса.",
+    Icon: Trophy, hot: true
+  },
+  {
+    time: "18:00 - 18:30",
     title: "БЫСТРЫЕ ШОУ-БЛОКИ",
-    desc: "Царь горы",
-    modalText: "Быстрые шоу-блоки. Дисциплина: MK1.",
+    desc: "RED BULL DRIFT SHOW",
+    modalText: "Быстрые шоу-блоки. RED BULL DRIFT SHOW.",
     Icon: Gamepad2
   },
   {
-    time: "19:00",
-    title: "БЫСТРЫЕ ШОУ-БЛОКИ",
-    desc: "DRIFT SHOW кто наберет больше всего очков",
-    modalText: "Быстрые шоу-блоки. Дисциплина: NFSU2.",
-    Icon: Gamepad2
-  },
-  {
-    time: "19:30",
+    time: "18:30 - 19:00",
     title: "АУКЦИОН",
     desc: "Реализация подарков от брендов",
-    modalText: "Реализация подарков от брендов. Дисциплина: Sulpak / Technodom зона.",
+    modalText: "Реализация подарков от брендов.",
     Icon: Gift
   },
   {
-    time: "20:00",
+    time: "19:00 - 19:30",
     title: "ПАРТНЁРСКИЙ БЛОК (НО В ФОРМАТЕ ШОУ)",
     desc: "Благодарственные слова за мероприятие",
-    modalText: "Благодарственные слова за мероприятие. Дисциплина: Зона 1.",
+    modalText: "Благодарственные слова за мероприятие.",
     Icon: Mic
   },
   {
-    time: "20:30",
-    title: "РОЗЫГРЫШ ПРИЗОВ",
-    desc: "Лучший ПК, Лучший клуб (по фото),",
-    modalText: "Лучший ПК, Лучший клуб (по фото). Дисциплина: Зона 1.",
-    Icon: Gift, hot: true
-  },
-  {
-    time: "21:00",
-    title: "ФИНАЛ НАГРАЖДЕНИЕ",
+    time: "19:30 - 20:00",
+    title: "ФИНАЛ награждение и розыгрыш подарков",
     desc: "Номинации мероприятия GAMEHUB",
-    modalText: "Номинации мероприятия GAMEHUB. Дисциплина: Зона 1.",
+    modalText: "Номинации мероприятия GAMEHUB.",
     Icon: Award, hot: true
   },
 ];
@@ -287,40 +287,43 @@ export function ProgramSection() {
           "Торжественное открытие": "Grand Opening",
           "Интро ролик, представление партнёров, объявление программы": "Intro video, partner presentation, program announcement",
           "Интро ролик, представление партнёров, объявление программы.": "Intro video, partner presentation, program announcement.",
-          "БИТВА ОСНОВАТЕЛЕЙ (СРАЗУ ХАЙП)": "FOUNDERS BATTLE (INSTANT HYPE)",
-          "100 владельцев клубов": "100 club owners",
-          "100 владельцев клубов. Дисциплина: PUBG.": "100 club owners. Discipline: PUBG.",
-          "СОБРАТЬ ЗА 60 СЕКУНД (Sulpak / Technodom)": "BUILD IN 60 SECONDS (Sulpak / Technodom)",
-          "2 дорожки": "2 lanes",
-          "2 дорожки. Дисциплина: Sulpak / Technodom зона.": "2 lanes. Discipline: Sulpak / Technodom zone.",
-          "МЯСОРУБКА": "MAYHEM",
-          "Режим Deathmatch на ножах с 1 удар = 1 xp Gravity 250": "Knife Deathmatch mode with 1 hit = 1 xp Gravity 250",
-          "Режим Deathmatch на ножах с 1 удар = 1 xp Gravity 250. Дисциплина: CS2.": "Knife Deathmatch mode with 1 hit = 1 xp Gravity 250. Discipline: CS2.",
+          "10 FPS": "10 FPS",
           "Режим Deathmatch ИГРАЮТ С 10 FPS": "Deathmatch mode played at 10 FPS",
-          "Режим Deathmatch ИГРАЮТ С 10 FPS. Дисциплина: CS2.": "Deathmatch mode played at 10 FPS. Discipline: CS2.",
+          "Режим Deathmatch ИГРАЮТ С 10 FPS.": "Deathmatch mode played at 10 FPS.",
+          "БИТВА ОСНОВАТЕЛЕЙ (СРАЗУ ХАЙП)": "FOUNDERS BATTLE (INSTANT HYPE)",
+          "100 владельцев клубов с рулеткой TeFal": "100 club owners with a TeFal roulette",
+          "100 владельцев клубов с рулеткой TeFal.": "100 club owners with a TeFal roulette.",
+          "СОБРАТЬ ЗА 60 СЕКУНД (Sulpak / Technodom)": "BUILD IN 60 SECONDS (Sulpak / Technodom)",
+          "2 дорожки с препятствиями и рулеткой": "2 lanes with obstacles and a roulette",
+          "2 дорожки с препятствиями и рулеткой.": "2 lanes with obstacles and a roulette.",
+          "Перерыв Redbull": "Redbull Break",
+          "Перерыв Redbull.": "Redbull Break.",
           "СБОРКА КОМПЬЮТЕРНОГО КЛУБА (ЭТАП 1)": "PC CLUB BUILD (STAGE 1)",
           "Сборка сервера на скорость с отбором на финал": "Speed server build with final qualification",
-          "Сборка сервера на скорость с отбором на финал. Сборка 5 ПК на скорость с отбором на финал. Зона 1 и Зона 2.": "Speed server build with final qualification. Speed build of 5 PCs with final qualification. Zone 1 and Zone 2.",
+          "Сборка сервера на скорость с отбором на финал.": "Speed server build with final qualification.",
           "ОДИН НА ВСЕХ И ВСЕ НА ОДНОГО (DOTA 2)": "ONE VS ALL, ALL VS ONE (DOTA 2)",
-          "1 vs 25. Дисциплина: Dota2.": "1 vs 25. Discipline: Dota 2.",
+          "1 vs 25 (4 группы) с рулеткой": "1 vs 25 (4 groups) with a roulette",
+          "1 vs 25 (4 группы) с рулеткой.": "1 vs 25 (4 groups) with a roulette.",
           "БЫСТРЫЕ ШОУ-БЛОКИ": "QUICK SHOW BLOCKS",
-          "Быстрые шоу-блоки. Дисциплина: Wrestlemania 2x2.": "Quick show blocks. Discipline: Wrestlemania 2x2.",
-          "Царь горы": "King of the Hill",
-          "Быстрые шоу-блоки. Дисциплина: MK1.": "Quick show blocks. Discipline: MK1.",
-          "DRIFT SHOW кто наберет больше всего очков": "DRIFT SHOW - who scores the most points",
-          "Быстрые шоу-блоки. Дисциплина: NFSU2.": "Quick show blocks. Discipline: NFSU2.",
+          "По разам": "Round by round",
+          "Быстрые шоу-блоки. По разам.": "Quick show blocks. Round by round.",
+          "СБОРКА КОМПЬЮТЕРНОГО КЛУБА (ЭТАП 2)": "PC CLUB BUILD (STAGE 2)",
+          "Сборка 5 ПК на скорость финал": "Speed build of 5 PCs final",
+          "Сборка 5 ПК на скорость финал.": "Speed build of 5 PCs final.",
+          "БИТВА КОРПОРАЦИЙ": "CORPORATE BATTLE",
+          "100 представителей бизнеса": "100 business representatives",
+          "100 представителей бизнеса.": "100 business representatives.",
+          "RED BULL DRIFT SHOW": "RED BULL DRIFT SHOW",
+          "Быстрые шоу-блоки. RED BULL DRIFT SHOW.": "Quick show blocks. RED BULL DRIFT SHOW.",
           "АУКЦИОН": "AUCTION",
           "Реализация подарков от брендов": "Brand gift auction",
-          "Реализация подарков от брендов. Дисциплина: Sulpak / Technodom зона.": "Brand gift auction. Discipline: Sulpak / Technodom zone.",
+          "Реализация подарков от брендов.": "Brand gift auction.",
           "ПАРТНЁРСКИЙ БЛОК (НО В ФОРМАТЕ ШОУ)": "PARTNER BLOCK (SHOW FORMAT)",
           "Благодарственные слова за мероприятие": "Acknowledgements for the event",
-          "Благодарственные слова за мероприятие. Дисциплина: Зона 1.": "Acknowledgements for the event. Discipline: Zone 1.",
-          "РОЗЫГРЫШ ПРИЗОВ": "PRIZE DRAW",
-          "Лучший ПК, Лучший клуб (по фото),": "Best PC, Best Club (by photo),",
-          "Лучший ПК, Лучший клуб (по фото). Дисциплина: Зона 1.": "Best PC, Best Club (by photo). Discipline: Zone 1.",
-          "ФИНАЛ НАГРАЖДЕНИЕ": "FINAL AWARD CEREMONY",
+          "Благодарственные слова за мероприятие.": "Acknowledgements for the event.",
+          "ФИНАЛ награждение и розыгрыш подарков": "FINAL award ceremony and prize draw",
           "Номинации мероприятия GAMEHUB": "GAMEHUB event nominations",
-          "Номинации мероприятия GAMEHUB. Дисциплина: Зона 1.": "GAMEHUB event nominations. Discipline: Zone 1.",
+          "Номинации мероприятия GAMEHUB.": "GAMEHUB event nominations.",
         }[v] ?? v)
       : v;
   const [modal, setModal] = useState<{ ev: Ev; color: string } | null>(null);
@@ -337,7 +340,7 @@ export function ProgramSection() {
       seen.add(key);
       return true;
     }).slice(0, 15);
-  }, []);
+  }, [isEn]);
   const firstPart = events.slice(0, 8);
   const secondPart = events.slice(8);
   return (

@@ -17,28 +17,7 @@ import { submitRequest } from "../services/submitRequest";
 const formFieldClass =
   "w-full bg-[#0a0a10] border border-[rgba(255,255,255,0.1)] rounded px-4 py-3 text-white placeholder:text-[rgba(255,255,255,0.35)] text-sm outline-none transition-colors focus:border-[var(--c-cyan,#00E5FF)] focus:ring-1 focus:ring-[rgba(0,229,255,0.25)]";
 
-const STORAGE_KEY = "gamehub_sponsor_submitted";
-const COOLDOWN_MS = 30 * 60 * 1000;
-
-function getStoredSubmission(): { submittedAt: number } | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const data = JSON.parse(raw) as { submittedAt: number };
-    return typeof data?.submittedAt === "number" ? data : null;
-  } catch {
-    return null;
-  }
-}
-
-function isInCooldown(): boolean {
-  const stored = getStoredSubmission();
-  if (!stored) return false;
-  return Date.now() - stored.submittedAt < COOLDOWN_MS;
-}
-
-export function SponsorApplicationModal({
+export function StreamerApplicationModal({
   open,
   onOpenChange,
 }: {
@@ -50,35 +29,16 @@ export function SponsorApplicationModal({
   const { language } = useLanguage();
   const isEn = language === "en";
   const [submitted, setSubmitted] = React.useState(false);
-  const [phoneValue, setPhoneValue] = React.useState("");
-  const formRef = React.useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitError, setSubmitError] = React.useState<string | null>(null);
-  const inCooldown = isInCooldown();
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   React.useEffect(() => {
     if (open) {
-      setPhoneValue("");
+      setSubmitted(false);
       setSubmitError(null);
-      if (!inCooldown) setSubmitted(false);
     }
   }, [open]);
-
-  const formatPhone = (raw: string): string => {
-    const digits = raw.replace(/\D/g, "").slice(0, 11);
-    if (digits.length === 0) return "";
-    let i = 0;
-    if (digits[0] === "8") i = 1;
-    else if (digits[0] === "7") i = 1;
-    const rest = digits.slice(i);
-    if (rest.length <= 3) return `+7 (${rest}`;
-    if (rest.length <= 6) return `+7 (${rest.slice(0, 3)}) ${rest.slice(3)}`;
-    return `+7 (${rest.slice(0, 3)}) ${rest.slice(3, 6)}-${rest.slice(6, 8)}-${rest.slice(8, 10)}`;
-  };
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneValue(formatPhone(e.target.value));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,24 +47,39 @@ export function SponsorApplicationModal({
     setIsSubmitting(true);
     setSubmitError(null);
     const formData = new FormData(formRef.current);
+    const youtube = String(formData.get("youtube") ?? "").trim();
+    const twitch = String(formData.get("twitch") ?? "").trim();
+    const instagram = String(formData.get("instagram") ?? "").trim();
+    const tiktok = String(formData.get("tiktok") ?? "").trim();
+
+    if (!youtube && !twitch && !instagram && !tiktok) {
+      setSubmitError(
+        isEn
+          ? "Please provide at least one social link (YouTube, Twitch, Instagram, or TikTok)."
+          : "Укажите хотя бы одну ссылку на соцсеть (YouTube, Twitch, Instagram или TikTok).",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     const payload = {
-      name: String(formData.get("name") ?? ""),
-      company: String(formData.get("company") ?? ""),
+      fullName: String(formData.get("fullName") ?? ""),
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
+      youtube,
+      twitch,
+      instagram,
+      tiktok,
     };
 
     try {
       await submitRequest({
-        title: "Заявка от генерального спонсора",
-        source: "site/sponsor-application-modal",
+        title: "Заявка на участие стримера",
+        source: "site/streamer-application-modal",
         payload,
       });
       setSubmitted(true);
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ submittedAt: Date.now() }));
-      } catch {}
-      setTimeout(() => onOpenChange(false), 1500);
+      setTimeout(() => onOpenChange(false), 1400);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Не удалось отправить заявку");
     } finally {
@@ -119,9 +94,8 @@ export function SponsorApplicationModal({
           "border-[rgba(255,255,255,0.08)] bg-[#050508] text-white p-0 gap-0 overflow-hidden",
           "[&>button]:z-20 [&>button]:text-white [&>button]:opacity-90 [&>button:hover]:opacity-100 [&>button]:right-6 [&>button]:top-6",
           "max-h-[90dvh] w-[calc(100%-2rem)] sm:max-w-[480px] md:max-w-[520px]",
-          "rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.6)] overflow-y-auto"
+          "rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.6)] overflow-y-auto",
         )}
-        style={{ fontFamily: "'Barlow', sans-serif", letterSpacing: "0.03em" }}
       >
         <div className="absolute inset-0 bg-dots opacity-10 pointer-events-none rounded-lg" />
         <div className="relative z-10 p-6 pt-12 pr-12 sm:p-8 sm:pt-12 sm:pr-14">
@@ -130,27 +104,27 @@ export function SponsorApplicationModal({
               className="text-[var(--c-cyan,#00E5FF)] font-bold text-[0.58rem] tracking-[0.42em] uppercase"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
-              {isEn ? "Partnership" : "Партнёрство"}
+              {isEn ? "Application" : "Заявка на участие"}
             </div>
             <DialogTitle
               className="gh-title text-white text-xl sm:text-2xl leading-tight uppercase tracking-tight"
               style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900 }}
             >
-              {isEn ? "General Sponsor Opportunities" : "Генеральный спонсор — возможности"}
+              {isEn ? "Become a GAMEHUB Streamer" : "Стать стримером GAMEHUB"}
             </DialogTitle>
             <DialogDescription className="text-[rgba(255,255,255,0.4)] text-sm">
               {isEn
-                ? "Become a GAMEHUB partner. Leave a request and we will discuss terms and opportunity packages."
-                : "Станьте партнёром GAMEHUB. Оставьте заявку — обсудим условия и пакет возможностей."}
+                ? "Leave your contacts and channel links. We will get in touch."
+                : "Оставьте контакты и ссылки на каналы. Мы свяжемся с вами."}
             </DialogDescription>
           </DialogHeader>
 
-          {(submitted || inCooldown) ? (
+          {submitted ? (
             <div className="space-y-6">
               <div className="py-8 text-center text-white">
                 {isEn
-                  ? "Thanks! Request sent. We will contact you shortly."
-                  : "Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время."}
+                  ? "Thanks! Request sent."
+                  : "Спасибо! Ваша заявка отправлена."}
               </div>
               <div className="flex justify-center">
                 <button type="button" onClick={() => onOpenChange(false)} className="btn-primary">
@@ -160,25 +134,46 @@ export function SponsorApplicationModal({
             </div>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-              <Input name="name" required placeholder={isEn ? "Name" : "Имя"} className={formFieldClass} />
-              <Input name="company" required placeholder={isEn ? "Company / Brand" : "Компания / бренд"} className={formFieldClass} />
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Email"
-                  className={formFieldClass}
-                />
-                <Input
-                  name="phone"
-                  type="tel"
-                  placeholder="+7 (777) 000-00-00"
-                  value={phoneValue}
-                  onChange={handlePhoneChange}
-                  className={formFieldClass}
-                />
-              </div>
+              <Input
+                name="fullName"
+                required
+                placeholder={isEn ? "Full Name" : "ФИО"}
+                className={formFieldClass}
+              />
+              <Input
+                name="email"
+                required
+                type="email"
+                placeholder="Email"
+                className={formFieldClass}
+              />
+              <Input
+                name="phone"
+                required
+                type="tel"
+                placeholder={isEn ? "Phone" : "Телефон"}
+                className={formFieldClass}
+              />
+              <Input
+                name="youtube"
+                placeholder={isEn ? "Link to YouTube" : "Ссылка на YouTube"}
+                className={formFieldClass}
+              />
+              <Input
+                name="twitch"
+                placeholder={isEn ? "Link to Twitch" : "Ссылка на Twitch"}
+                className={formFieldClass}
+              />
+              <Input
+                name="instagram"
+                placeholder={isEn ? "Link to Instagram" : "Ссылка на Instagram"}
+                className={formFieldClass}
+              />
+              <Input
+                name="tiktok"
+                placeholder={isEn ? "Link to TikTok" : "Ссылка на TikTok"}
+                className={formFieldClass}
+              />
               {submitError && <p className="text-sm text-red-400">{submitError}</p>}
               <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
                 <button type="button" onClick={() => onOpenChange(false)} className="btn-outline">

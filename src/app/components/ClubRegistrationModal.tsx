@@ -12,6 +12,7 @@ import {
 import { Input } from "@/app/components/ui/input";
 import { cn } from "@/app/components/ui/utils";
 import { useLanguage } from "../context/LanguageContext";
+import { submitRequest } from "../services/submitRequest";
 
 const formFieldClass =
   "w-full bg-[#0a0a10] border border-[rgba(255,255,255,0.1)] rounded px-4 py-3 text-white placeholder:text-[rgba(255,255,255,0.35)] text-sm outline-none transition-colors focus:border-[var(--c-cyan,#00E5FF)] focus:ring-1 focus:ring-[rgba(0,229,255,0.25)]";
@@ -51,11 +52,14 @@ export function ClubRegistrationModal({
   const [submitted, setSubmitted] = React.useState(false);
   const [phoneValue, setPhoneValue] = React.useState("");
   const formRef = React.useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
   const inCooldown = isInCooldown();
 
   React.useEffect(() => {
     if (open) {
       setPhoneValue("");
+      setSubmitError(null);
       if (!inCooldown) setSubmitted(false);
     }
   }, [open]);
@@ -76,13 +80,35 @@ export function ClubRegistrationModal({
     setPhoneValue(formatPhone(e.target.value));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!formRef.current || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    const formData = new FormData(formRef.current);
+    const payload = {
+      name: String(formData.get("name") ?? ""),
+      club: String(formData.get("club") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+    };
+
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ submittedAt: Date.now() }));
-    } catch {}
-    setTimeout(() => onOpenChange(false), 1500);
+      await submitRequest({
+        title: "Заявка на регистрацию клуба",
+        source: "site/club-registration-modal",
+        payload,
+      });
+      setSubmitted(true);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ submittedAt: Date.now() }));
+      } catch {}
+      setTimeout(() => onOpenChange(false), 1500);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Не удалось отправить заявку");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -143,12 +169,13 @@ export function ClubRegistrationModal({
                 onChange={handlePhoneChange}
                 className={formFieldClass}
               />
+              {submitError && <p className="text-sm text-red-400">{submitError}</p>}
               <DialogFooter className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
                 <button type="button" onClick={() => onOpenChange(false)} className="btn-outline">
                   {isEn ? "Cancel" : "Отмена"}
                 </button>
-                <button type="submit" className="btn-primary">
-                  {isEn ? "Submit Request" : "Отправить заявку"}
+                <button type="submit" className="btn-primary" disabled={isSubmitting}>
+                  {isSubmitting ? (isEn ? "Sending..." : "Отправка...") : (isEn ? "Submit Request" : "Отправить заявку")}
                 </button>
               </DialogFooter>
             </form>

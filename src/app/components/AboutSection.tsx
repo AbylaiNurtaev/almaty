@@ -5,9 +5,9 @@ const IMG = "https://images.unsplash.com/photo-1515295527612-cb8132ecb496?crop=e
 export function AboutSection() {
   const { t } = useLanguage();
   const facts = [
-    { val: "7K+", label: t.about.facts.visitors },
-    { val: "40+", label: t.about.facts.brands },
-    { val: "9+", label: t.about.facts.streamers },
+    { val: "2500", label: t.about.facts.visitors },
+    { val: "10+", label: t.about.facts.brands },
+    { val: "10+", label: t.about.facts.streamers },
   ];
   return (
     <section
@@ -109,18 +109,7 @@ export function AboutSection() {
                     letterSpacing: "0.03em",
                   }}
                 >
-                  7,000+
-                </div>
-                <div
-                  style={{
-                    fontFamily: "'Barlow',sans-serif",
-                    fontSize: "0.72rem",
-                    letterSpacing: "0.03em",
-                    color: "rgba(255,255,255,0.32)",
-                    marginTop: "4px",
-                  }}
-                >
-                  {t.about.visitorsTwoDays}
+                  2,500+
                 </div>
               </div>
             </div>

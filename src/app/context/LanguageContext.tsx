@@ -100,8 +100,8 @@ const translations: Record<Language, TranslationTree> = {
       p3: "Живые турниры, шоу-матчи, выставки брендов, вирусные челленджи на сцене и автограф-сессии — всё в одном месте.",
       facts: {
         visitors: "Посетителей",
-        brands: "Брендов",
-        streamers: "Стримеров",
+        brands: "бренд",
+        streamers: "инфлюенсеров",
       },
     },
     footer: {

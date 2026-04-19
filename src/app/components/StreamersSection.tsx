@@ -4,6 +4,7 @@ import TwitchIcon from "../../assets/icons/twitch.png";
 import TikTokIcon from "../../assets/icons/tiktok.png";
 import InstagramIcon from "../../assets/icons/Instagram.webp";
 import gerasimovImg from "../../assets/gerasimov.png";
+import { StreamerApplicationModal } from "./StreamerApplicationModal";
 
 const PORTRAITS = [
   "https://images.unsplash.com/photo-1634651754953-1565eca58d5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYW1lciUyMHN0cmVhbWVyJTIwY29udGVudCUyMGNyZWF0b3IlMjBicm9hZGNhc3RpbmclMjBsaXZlJTIwbmVvbiUyMGRhcmt8ZW58MXx8fHwxNzcyODA1NDU5fDA&ixlib=rb-4.1.0&q=80&w=800",
@@ -71,6 +72,7 @@ export function StreamersSection() {
   const [selectedId, setSelectedId] = useState(0);
   const [isVideoVisible, setIsVideoVisible] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isStreamerModalOpen, setIsStreamerModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const previewVideoRef = useRef<HTMLVideoElement | null>(null);
   const selected = STREAMERS[selectedId];
@@ -112,18 +114,29 @@ export function StreamersSection() {
   const renderStreamerCard = (s: typeof STREAMERS[0], index: number, isSelected: boolean) => {
     if (s.name !== "Daniil Gerasimov") {
       return (
-        <div
+        <button
+          type="button"
           key={s.name}
           className="streamer-grid-filler flex flex-col items-center justify-center relative overflow-hidden"
           style={{
             border: "1px dashed rgba(255,255,255,0.08)",
             background: "rgba(255,255,255,0.02)",
             minHeight: "200px",
+            cursor: "pointer",
           }}
+          onClick={() => setIsStreamerModalOpen(true)}
         >
           <div className="absolute inset-0 bg-dots opacity-20 pointer-events-none" />
-          <span className="gh-title relative z-10" style={{ fontSize: "1.5rem", color: "rgba(255,255,255,0.2)" }}>
-            {isEn ? "more" : "ещё"}
+          <span
+            className="relative z-10 mt-0.5"
+            style={{
+              fontFamily: "'Barlow Condensed',sans-serif",
+              fontSize: "1.8rem",
+              letterSpacing: "0.24em",
+              color: "rgba(255,255,255,0.26)",
+            }}
+          >
+            +
           </span>
           <span
             className="relative z-10 mt-1"
@@ -137,7 +150,7 @@ export function StreamersSection() {
           >
             {isEn ? "soon" : "скоро"}
           </span>
-        </div>
+        </button>
       );
     }
 
@@ -438,21 +451,41 @@ export function StreamersSection() {
                     >
                       {selected.followers}
                     </span>
-                    {PLAT_COLOR[selected.platform] && (
-                      <span
-                        className="tag-angled"
-                        style={{
-                          background: `${PLAT_COLOR[selected.platform]}22`,
-                          color: PLAT_COLOR[selected.platform],
-                          border: `1px solid ${PLAT_COLOR[selected.platform]}55`,
-                          fontSize: "0.5rem",
-                          letterSpacing: "0.16em",
-                          marginLeft: "2px",
-                        }}
-                      >
-                        {selected.platform}
-                      </span>
-                    )}
+                    {PLAT_COLOR[selected.platform] &&
+                      (selected.name === "Daniil Gerasimov" && selected.platform === "YouTube" ? (
+                        <a
+                          href="https://www.youtube.com/c/DaniilGerasimov"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="tag-angled"
+                          style={{
+                            background: `${PLAT_COLOR[selected.platform]}22`,
+                            color: "#FFFFFF",
+                            border: `1px solid ${PLAT_COLOR[selected.platform]}55`,
+                            fontSize: "0.5rem",
+                            letterSpacing: "0.16em",
+                            marginLeft: "2px",
+                            cursor: "pointer",
+                            textDecoration: "none",
+                          }}
+                        >
+                          {selected.platform}
+                        </a>
+                      ) : (
+                        <span
+                          className="tag-angled"
+                          style={{
+                            background: `${PLAT_COLOR[selected.platform]}22`,
+                            color: PLAT_COLOR[selected.platform],
+                            border: `1px solid ${PLAT_COLOR[selected.platform]}55`,
+                            fontSize: "0.5rem",
+                            letterSpacing: "0.16em",
+                            marginLeft: "2px",
+                          }}
+                        >
+                          {selected.platform}
+                        </span>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -463,17 +496,28 @@ export function StreamersSection() {
           <div className="grid grid-cols-2 grid-rows-3 gap-3 order-3 min-w-0">
             {RIGHT_INDICES.map((i) => renderStreamerCard(STREAMERS[i], i, selectedId === i))}
             {/* Ячейка «ещё» */}
-            <div
+            <button
+              type="button"
               className="streamer-grid-filler flex flex-col items-center justify-center relative overflow-hidden"
               style={{
                 border: "1px dashed rgba(255,255,255,0.08)",
                 background: "rgba(255,255,255,0.02)",
                 minHeight: "200px",
+                cursor: "pointer",
               }}
+              onClick={() => setIsStreamerModalOpen(true)}
             >
               <div className="absolute inset-0 bg-dots opacity-20 pointer-events-none" />
-              <span className="gh-title relative z-10" style={{ fontSize: "1.5rem", color: "rgba(255,255,255,0.2)" }}>
-                {isEn ? "more" : "ещё"}
+              <span
+                className="relative z-10 mt-0.5"
+                style={{
+                  fontFamily: "'Barlow Condensed',sans-serif",
+                  fontSize: "1.8rem",
+                  letterSpacing: "0.24em",
+                  color: "rgba(255,255,255,0.26)",
+                }}
+              >
+                +
               </span>
               <span
                 className="relative z-10 mt-1"
@@ -487,7 +531,7 @@ export function StreamersSection() {
               >
                 {isEn ? "soon" : "скоро"}
               </span>
-            </div>
+            </button>
             {/* Две заглушки */}
             {[1, 2].map((n) => (
               <div
@@ -510,6 +554,7 @@ export function StreamersSection() {
           </div>
         </div>
       </div>
+      <StreamerApplicationModal open={isStreamerModalOpen} onOpenChange={setIsStreamerModalOpen} />
     </section>
   );
 }

@@ -42,36 +42,29 @@ export function Navbar() {
 
   const desktopLinks = useMemo(
     () =>
-      links.map((l, i) => {
+      links.map((l) => {
         const id = l.href.slice(1);
         const active = activeId === id;
-        const isLast = i === links.length - 1;
         return (
-          <React.Fragment key={l.label}>
-            <a
-              href={l.href}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollTo(l.href);
-              }}
-              className="uppercase transition-colors duration-200 hover:text-white"
-              style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                fontSize: "0.78rem",
-                color: active ? "rgba(232, 244, 234, 1)" : "rgba(232, 244, 234, 0.65)",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {l.label}
-            </a>
-            {!isLast && (
-              <span style={{ color: "rgba(232, 244, 234, 0.65)", userSelect: "none" }} aria-hidden="true">
-                /
-              </span>
-            )}
-          </React.Fragment>
+          <a
+            key={l.label}
+            href={l.href}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo(l.href);
+            }}
+            className="uppercase transition-colors duration-200 hover:text-white"
+            style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              fontSize: "0.78rem",
+              color: active ? "rgba(232, 244, 234, 1)" : "rgba(232, 244, 234, 0.65)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {l.label}
+          </a>
         );
       }),
     [activeId, links]
@@ -132,7 +125,7 @@ export function Navbar() {
             </a>
           </div>
 
-          <nav className="hidden md:flex items-center gap-3 absolute left-1/2 -translate-x-1/2" aria-label="Site navigation">
+          <nav className="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2" aria-label="Site navigation">
             {desktopLinks}
           </nav>
 
