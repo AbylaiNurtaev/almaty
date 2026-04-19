@@ -4,6 +4,44 @@ import { useEffect, useState } from "react";
 import { PARTNER_CATEGORIES } from "@/app/data/partnersCategories";
 import { useLanguage } from "../context/LanguageContext";
 import { SponsorApplicationModal } from "./SponsorApplicationModal";
+
+const BRAND_LOGOS = import.meta.glob("@/assets/brands/*.{png,webp,jpg,jpeg,svg}", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+
+function normalizeKey(v: string): string {
+  return v
+    .toLowerCase()
+    .trim()
+    .replace(/[^\p{L}\p{N}]+/gu, "");
+}
+
+const BRAND_LOGO_BY_KEY: Record<string, string> = Object.fromEntries(
+  Object.entries(BRAND_LOGOS).map(([path, url]) => {
+    const base = path.split("/").pop() ?? path;
+    const name = base.replace(/\.[^.]+$/, "");
+    return [normalizeKey(name), url];
+  }),
+);
+
+function getBrandLogoUrl(brandName: string): string | null {
+  const key = normalizeKey(brandName);
+  if (!key) return null;
+  if (BRAND_LOGO_BY_KEY[key]) return BRAND_LOGO_BY_KEY[key];
+
+  // Fuzzy match: allow "zone" to match "zone51", "dell" to match "dellalienware", etc.
+  let best: { score: number; url: string } | null = null;
+  for (const [fileKey, url] of Object.entries(BRAND_LOGO_BY_KEY)) {
+    if (!fileKey) continue;
+    if (key.includes(fileKey) || fileKey.includes(key)) {
+      const score = Math.min(key.length, fileKey.length);
+      if (!best || score > best.score) best = { score, url };
+    }
+  }
+  return best?.url ?? null;
+}
+
 const BRAND_GLOW_COLORS = [
   "#00D4F5",
   "#F97316",
@@ -82,6 +120,7 @@ export function BrandsSection() {
   const displayedBrands = activeCategory?.brands.slice(0, 9) ?? [];
   const selectedBrandKey = selectedBrand?.toLowerCase() ?? "";
   const isSpecialSectionBackground = selectedBrandKey === "smarthybrid" || selectedBrandKey === "smartshell";
+  const selectedBrandLogo = selectedBrand ? getBrandLogoUrl(selectedBrand) : null;
 
   return (
     <section
@@ -125,7 +164,16 @@ export function BrandsSection() {
         <div className="brands-showcase-grid">
           <div className="brands-left-pane">
             <div className="brands-product-visual">
-              <div className="brands-product-placeholder">{selectedBrand ?? (isEn ? "Brand" : "Бренд")}</div>
+              {selectedBrandLogo ? (
+                <img
+                  src={selectedBrandLogo}
+                  alt={selectedBrand ?? ""}
+                  className="brands-product-logo"
+                  loading="eager"
+                />
+              ) : (
+                <div className="brands-product-placeholder">{selectedBrand ?? (isEn ? "Brand" : "Бренд")}</div>
+              )}
             </div>
 
             <div className="brands-tab-content">{tr(MOCK_BRAND_TEXT.description)}</div>
