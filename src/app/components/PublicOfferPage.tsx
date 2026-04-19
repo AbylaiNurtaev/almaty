@@ -56,8 +56,8 @@ export function PublicOfferPage() {
           }}
         >
           {isEn
-            ? "GAMEHUB Festival 2026 · May 7 · Baluan Sholak Arena, Almaty"
-            : "Фестиваль GAMEHUB 2026 · 7 мая · Арена Балуан Шолак, Алматы"}
+            ? "GAMEHUB Festival 2026 · May 7 · Baluan Sholak Sports Palace, Almaty"
+            : "Фестиваль GAMEHUB 2026 · 7 мая · Дворец спорта Балуан Шолак, Алматы"}
         </p>
 
         <div

@@ -61,7 +61,7 @@ const translations: Record<Language, TranslationTree> = {
       tickerItems: [
         "GAMEHUB 2026",
         "7 мая",
-        "Арена Балуан Шолак",
+        "Дворец спорта Балуан Шолак",
         "CS2",
         "PUBG",
         "Dota 2",
@@ -74,7 +74,7 @@ const translations: Record<Language, TranslationTree> = {
       ],
     },
     hero: {
-      meta: "7 мая 2026 · Арена Балуан Шолак · Алматы",
+      meta: "7 мая 2026 · Дворец спорта Балуан Шолак · Алматы",
       description:
         "Турниры, выставки брендов, шоу-матчи, франшизы и вирусные челленджи на сцене — два незабываемых дня, определяющих игровую сцену Казахстана.",
       days: "Дней",
@@ -96,7 +96,7 @@ const translations: Record<Language, TranslationTree> = {
       visitorsTwoDays: "Посетителей за 2 дня",
       title: "Что такое",
       p1: "GAMEHUB — это крупнейший фестиваль игровой и компьютерной клубной индустрии в Казахстане — встреча всей игровой экосистемы под одной крышей.",
-      p2: "Мероприятие объединяет геймеров, стримеров, владельцев компьютерных клубов и мировые игровые бренды на два незабываемых дня в Арене Балуан Шолак.",
+      p2: "Мероприятие объединяет геймеров, стримеров, владельцев компьютерных клубов и мировые игровые бренды на два незабываемых дня в Дворце спорта Балуан Шолак.",
       p3: "Живые турниры, шоу-матчи, выставки брендов, вирусные челленджи на сцене и автограф-сессии — всё в одном месте.",
       facts: {
         visitors: "Посетителей",
@@ -106,7 +106,7 @@ const translations: Record<Language, TranslationTree> = {
     },
     footer: {
       date: "7 мая 2026",
-      venue: "Арена Балуан Шолак",
+      venue: "Дворец спорта Балуан Шолак",
       legal: "2026 Фестиваль GAMEHUB. Все права защищены. Алматы, Казахстан.",
       offer: "Публичная оферта",
     },
@@ -129,7 +129,7 @@ const translations: Record<Language, TranslationTree> = {
       tickerItems: [
         "GAMEHUB 2026",
         "May 7",
-        "Baluan Sholak Arena",
+        "Baluan Sholak Sports Palace",
         "CS2",
         "PUBG",
         "Dota 2",
@@ -142,7 +142,7 @@ const translations: Record<Language, TranslationTree> = {
       ],
     },
     hero: {
-      meta: "May 7, 2026 · Baluan Sholak Arena · Almaty",
+      meta: "May 7, 2026 · Baluan Sholak Sports Palace · Almaty",
       description:
         "Tournaments, brand showcases, showmatches, franchises, and viral stage challenges - two unforgettable days shaping Kazakhstan's gaming scene.",
       days: "Days",
@@ -164,7 +164,7 @@ const translations: Record<Language, TranslationTree> = {
       visitorsTwoDays: "Visitors over 2 days",
       title: "What is",
       p1: "GAMEHUB is Kazakhstan's largest festival for gaming and computer club culture - the entire gaming ecosystem under one roof.",
-      p2: "The event unites gamers, streamers, club owners, and global gaming brands for two unforgettable days at Baluan Sholak Arena.",
+      p2: "The event unites gamers, streamers, club owners, and global gaming brands for two unforgettable days at Baluan Sholak Sports Palace.",
       p3: "Live tournaments, showmatches, brand exhibitions, viral stage challenges, and autograph sessions - all in one place.",
       facts: {
         visitors: "Visitors",
@@ -174,7 +174,7 @@ const translations: Record<Language, TranslationTree> = {
     },
     footer: {
       date: "May 7, 2026",
-      venue: "Baluan Sholak Arena",
+      venue: "Baluan Sholak Sports Palace",
       legal: "2026 GAMEHUB Festival. All rights reserved. Almaty, Kazakhstan.",
       offer: "Public Offer",
     },

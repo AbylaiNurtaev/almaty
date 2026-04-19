@@ -5,7 +5,7 @@ Use a cinematic dark gaming theme with neon accents, glowing UI elements, and st
 Improve the hero section:
 - large cinematic background of an esports arena
 - bold typography for the title GAMEHUB
-- event details: April 11–12, Baluan Sholak Arena, Almaty
+- event details: April 11–12, Baluan Sholak Sports Palace, Almaty
 - large statistics (7000+ visitors, 40+ brands, 2 days festival)
 - strong call-to-action buttons for Free Ticket, VIP Ticket, Register Club
 - add a countdown timer to the event

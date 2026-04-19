@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Mic, Swords, Trophy, Gift, Award, Gamepad2, Zap, Clock, X } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import redbullImg from "@/assets/redbull.png";
 
 type Ev = {
   time: string;
@@ -196,6 +197,7 @@ function DayCard({
         {events.map((ev, i) => {
           const Icon = ev.Icon;
           const isHot = true;
+          const isRedbullBreak = /redbull/i.test(ev.title);
           const isLast = i === events.length - 1;
           return (
             <button
@@ -222,8 +224,20 @@ function DayCard({
                 )}
               </div>
               {/* Content */}
-              <div className={`flex-1 min-w-0 pb-3.5 max-md:pb-3 ${isLast ? "" : "border-b"}`} style={{ borderColor: "rgba(255,255,255,0.04)" }}>
-                <div className="grid grid-cols-[86px_minmax(0,1fr)] max-md:grid-cols-[74px_minmax(0,1fr)] items-baseline gap-x-3">
+              <div
+                className={`flex-1 min-w-0 pb-3.5 max-md:pb-3 relative overflow-hidden ${isLast ? "" : "border-b"}`}
+                style={{ borderColor: "rgba(255,255,255,0.04)" }}
+              >
+                {isRedbullBreak && (
+                  <img
+                    src={redbullImg}
+                    alt=""
+                    aria-hidden="true"
+                    className="pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 opacity-30 max-md:opacity-25"
+                    style={{ height: "76px", width: "auto" }}
+                  />
+                )}
+                <div className="relative z-10 grid grid-cols-[86px_minmax(0,1fr)] max-md:grid-cols-[74px_minmax(0,1fr)] items-baseline gap-x-3">
                   <span
                     style={{
                       fontFamily: "'Barlow Condensed',sans-serif",
