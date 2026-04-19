@@ -6,6 +6,7 @@ import cs1 from "../../assets/cs1.webp";
 import pubg1 from "../../assets/pubg1.webp";
 import dota2 from "../../assets/dota2.jpg";
 import pubgVideo from "../../assets/PUBG.mp4";
+import dotaVideo from "../../assets/games/dota.mp4";
 import wrestlemaniaLogo from "../../assets/games/wrestlemania-logo.png";
 import wrestlemaniaGameplay from "../../assets/games/wrestlemania-gameplay.jpg";
 import nfsCarbonLogo from "../../assets/games/nfs-carbon-logo.png";
@@ -25,7 +26,8 @@ const IMGS = {
 
 const GAME_VIDEOS: Partial<Record<keyof typeof IMGS, string>> = {
   cs2: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/cs.mp4",
-  dota: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/dota.mp4",
+  // Re-encoded locally for broad device compatibility (original remote mp4 is H.264 level 5.2).
+  dota: dotaVideo,
   nfs: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/nfs.mp4",
   wrestlemania: "https://event-amaz-bucket.s3.eu-north-1.amazonaws.com/wrestl.mp4",
 };

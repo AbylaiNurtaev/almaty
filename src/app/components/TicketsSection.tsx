@@ -669,7 +669,8 @@ export function TicketsSection() {
               <div
                 className="gh-title mb-1.5 md:mb-2 shrink-0 leading-none max-md:pr-1 text-left w-full"
                 style={{
-                  fontSize: "clamp(1.55rem, 7.5vw, 2.2rem)",
+                  // Keep the price headline size consistent with "Для посетителей"
+                  fontSize: "clamp(2rem, 11vw, 3.2rem)",
                   color: block.color,
                   letterSpacing: "0.03em",
                 }}
