@@ -17,14 +17,12 @@ import colizeumImg from "@/assets/clubs/COLIZEUM.png";
 import cybershokeImg from "@/assets/clubs/CYBERSHOKE.jpg";
 import cyberxImg from "@/assets/clubs/CYBERX.jpg";
 import topgameImg from "@/assets/clubs/topgame.webp";
-import trueGamersImg from "@/assets/clubs/TrueGamers.png";
 
 const CLUB_IMAGES: Record<string, string> = {
   "COLIZEUM": colizeumImg,
   "CYBERX": cyberxImg,
   "CYBERSHOKE": cybershokeImg,
   "TOPGAME": topgameImg,
-  "TrueGamers": trueGamersImg,
 };
 
 const CLUBS = [
@@ -32,7 +30,7 @@ const CLUBS = [
   { name: "CYBERX",       locs: "30+", region: "Nationwide" },
   { name: "TOPGAME",      locs: "15+", region: "Kazakhstan" },
   { name: "CYBERSHOKE",   locs: "12+", region: "Almaty" },
-  { name: "TrueGamers",   locs: "10+", region: "Almaty" },
+  { name: "Selection",    locs: "10+", region: "Almaty" },
 ];
 
 const formFieldClass =

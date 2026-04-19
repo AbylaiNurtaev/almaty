@@ -4,7 +4,7 @@ export type Language = "ru" | "en";
 
 type TranslationTree = {
   navbar: {
-    links: { home: string; guests: string; activities: string; expo: string; map: string };
+    links: { home: string; guests: string; activities: string; expo: string; tickets: string };
     tickets: string;
     openMenu: string;
     closeMenu: string;
@@ -50,7 +50,7 @@ const translations: Record<Language, TranslationTree> = {
         guests: "Гости",
         activities: "Развлечения",
         expo: "Выставка",
-        map: "Карта",
+        tickets: "Билеты",
       },
       tickets: "Получить билеты",
       openMenu: "Открыть меню",
@@ -118,7 +118,7 @@ const translations: Record<Language, TranslationTree> = {
         guests: "Guests",
         activities: "Activities",
         expo: "Expo",
-        map: "Map",
+        tickets: "Tickets",
       },
       tickets: "Get Tickets",
       openMenu: "Open menu",

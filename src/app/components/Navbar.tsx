@@ -12,7 +12,7 @@ export function Navbar() {
       { label: t.navbar.links.guests, href: "#streamers" },
       { label: t.navbar.links.activities, href: "#games" },
       { label: t.navbar.links.expo, href: "#brands" },
-      { label: t.navbar.links.map, href: "#map" },
+      { label: t.navbar.links.tickets, href: "#tickets" },
     ],
     [t],
   );

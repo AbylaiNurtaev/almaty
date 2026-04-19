@@ -234,7 +234,7 @@ function DayCard({
                     alt=""
                     aria-hidden="true"
                     className="pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 opacity-30 max-md:opacity-25"
-                    style={{ height: "76px", width: "auto" }}
+                    style={{ height: "61px", width: "auto" }}
                   />
                 )}
                 <div className="relative z-10 grid grid-cols-[86px_minmax(0,1fr)] max-md:grid-cols-[74px_minmax(0,1fr)] items-baseline gap-x-3">
