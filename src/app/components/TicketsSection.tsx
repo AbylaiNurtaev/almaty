@@ -133,7 +133,7 @@ const B2B: B2BDef[] = [
     navTitle: "Для клубов",
     navShort: "Клубы",
     label: "B2B · клубы",
-    display: "500 000 ТГ",
+    display: "300 000 ТГ",
     priceSub: "Количество: 100",
     desc: "Даёт доступ:",
     perks: [
@@ -321,6 +321,7 @@ export function TicketsSection() {
           "SmartShell": "SmartShell",
           "B2B · клубы": "B2B · Clubs",
           "B2B · SmartShell": "B2B · SmartShell",
+          "300 000 ТГ": "300,000 KZT",
           "500 000 ТГ": "500,000 KZT",
           "5 000 000 ТГ": "5,000,000 KZT",
           "Бесплатно": "Free",
@@ -342,7 +343,6 @@ export function TicketsSection() {
           "Участие в закрытом мероприятии": "Participation in private event",
           "Билет 1+1": "1+1 ticket",
           "Возможность докупить +1 человек за 50 000 тг": "Add +1 person for 50,000 KZT",
-          "Осталось": "Time left",
           "Для франшиз": "For Franchises",
           "Франшиза": "Franchise",
           "B2B · франшиза": "B2B · Franchise",
@@ -631,7 +631,6 @@ export function TicketsSection() {
 
   const b2bBody = (block: B2BDef) => {
     const Icon = block.Icon;
-    const clubsCountdownLabel = isEn ? "26d 03h 42m 15s" : "26д 03ч 42м 15с";
     return (
       <>
         {!block.featured && (
@@ -728,47 +727,6 @@ export function TicketsSection() {
                       </li>
                     ))}
                   </ul>
-                  <div className="shrink-0 w-full md:w-[290px] mt-3 md:mt-0">
-                    <div
-                      className="rounded-sm px-3 py-2.5"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, rgba(0,212,245,0.14), rgba(0,212,245,0.06) 40%, rgba(255,255,255,0.03) 100%)",
-                        border: "1px solid rgba(0,212,245,0.38)",
-                        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.05), 0 10px 26px rgba(0,212,245,0.12)",
-                      }}
-                    >
-                      <div
-                        className="inline-flex items-center rounded px-2 py-1"
-                        style={{
-                          background: "rgba(4,8,18,0.58)",
-                          border: "1px solid rgba(0,212,245,0.25)",
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontFamily: "'Barlow',sans-serif",
-                            fontSize: "0.74rem",
-                            color: "rgba(255,255,255,0.7)",
-                            marginRight: "8px",
-                          }}
-                        >
-                          {tr("Осталось")}:
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "'Barlow Condensed',sans-serif",
-                            fontSize: "0.86rem",
-                            fontWeight: 700,
-                            letterSpacing: "0.08em",
-                            color: "#A9F3FF",
-                          }}
-                        >
-                          {clubsCountdownLabel}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 <ul className="space-y-2 md:space-y-2.5 mt-2.5">
                   {block.perks.slice(4).map((p) => (
